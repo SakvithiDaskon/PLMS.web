@@ -1,0 +1,81 @@
+@import "tailwindcss";
+@import "katex/dist/katex.min.css";
+
+/* PLMS Prussian Blue (#003153) & White Theme */
+@layer base {
+  :root {
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --primary-blue: #003153;
+    --primary-blue-hover: #00223d;
+    --primary-blue-light: #e6f0f7;
+    --primary-blue-border: #b0d1e8;
+  }
+  
+  body {
+    font-family: var(--font-sans);
+    background-color: #f4f8fb; /* Soft Light Slate/Blue Page Background */
+    color: #003153;           /* #003153 Primary Dark Text */
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+}
+
+/* Custom Prussian Blue (#003153) Utilities */
+.bg-brand-blue {
+  background-color: #003153 !important;
+}
+
+.bg-brand-blue-hover:hover {
+  background-color: #00223d !important;
+}
+
+.bg-brand-blue-light {
+  background-color: #e6f0f7 !important;
+}
+
+.text-brand-blue {
+  color: #003153 !important;
+}
+
+.border-brand-blue {
+  border-color: #003153 !important;
+}
+
+.border-brand-blue-light {
+  border-color: #c0d9ec !important;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #e6f0f7;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #003153;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00223d;
+}
+
+/* KaTeX custom tuning */
+.katex-display {
+  margin: 0.5em 0 !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.5rem 0;
+}
+
+.katex {
+  font-size: 1.1em;
+}
+
+.katex-html {
+  color: #003153;
+}
