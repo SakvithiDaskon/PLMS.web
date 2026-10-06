@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import logo from '../assets/logo.png';
 import {
-  GraduationCap,
   LogOut,
   User,
   ShieldCheck,
@@ -55,15 +55,16 @@ export const Navbar = ({ toggleSidebar, isSidebarOpen }) => {
           )}
 
           <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="w-9 h-9 rounded-xl bg-white text-[#003153] flex items-center justify-center font-bold shadow">
-              <GraduationCap className="w-5 h-5" />
+            {/* Custom Logo Image from src/assets/logo.png */}
+            <div className="h-10 bg-white/10 p-1 rounded-xl flex items-center justify-center border border-white/20">
+              <img src={logo} alt="PLMS Parakum Bandara" className="h-8 w-auto object-contain rounded" />
             </div>
             <div>
               <span className="text-xl font-extrabold text-white tracking-tight">
                 PLMS
               </span>
               <span className="hidden sm:inline-block text-[10px] font-bold text-blue-100 uppercase tracking-widest ml-1.5 px-2 py-0.5 rounded bg-[#00223d] border border-[#004575]">
-                Private LMS
+                Grade 6 - 11
               </span>
             </div>
           </Link>
@@ -105,7 +106,6 @@ export const Navbar = ({ toggleSidebar, isSidebarOpen }) => {
                     <UserCheck className="w-4 h-4 text-[#003153]" /> Student View
                   </button>
 
-                  {/* Parent View option - Looks normal, does nothing on click */}
                   <button
                     onClick={() => {
                       setShowRoleMenu(false);
