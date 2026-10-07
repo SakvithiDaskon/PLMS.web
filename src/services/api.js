@@ -13,11 +13,11 @@ const STORAGE_KEYS = {
 
 // Initial Seed Data - Grade 6 to 11
 const initialUsers = [
-  { id: 'std-1', name: 'Kasun Perera', email: 'student@plms.com', role: 'student', phone: '+94 77 123 4567', grade: 'Grade 11 (O/L Mathematics)', indexNo: 'OL-2026-889', parentId: 'prn-1' },
-  { id: 'std-2', name: 'Nipuni Silva', email: 'nipuni@plms.com', role: 'student', phone: '+94 71 987 6543', grade: 'Grade 10 Science', indexNo: 'OL-2027-902', parentId: null },
-  { id: 'std-3', name: 'Dilshan Fernando', email: 'dilshan@plms.com', role: 'student', phone: '+94 76 555 4321', grade: 'Grade 9 Mathematics', indexNo: 'OL-2028-104', parentId: null },
-  { id: 'prn-1', name: 'Sunil Perera', email: 'parent@plms.com', role: 'parent', phone: '+94 70 333 2211', occupation: 'Civil Engineer', linkedStudentIds: ['std-1'] },
-  { id: 'adm-1', name: 'Sir Parakum Bandara (Admin)', email: 'admin@plms.com', role: 'admin', phone: '+94 77 000 1122', designation: 'Head Educator & Admin' }
+  { id: 'std-1', name: 'Kasun Perera', email: 'student@plms.com', password: 'password123', role: 'student', phone: '+94 77 123 4567', grade: 'Grade 11 (O/L Mathematics)', studentId: 'STU-2026-889', indexNo: 'STU-2026-889', parentId: 'prn-1' },
+  { id: 'std-2', name: 'Nipuni Silva', email: 'nipuni@plms.com', password: 'password123', role: 'student', phone: '+94 71 987 6543', grade: 'Grade 10 Science', studentId: 'STU-2027-902', indexNo: 'STU-2027-902', parentId: null },
+  { id: 'std-3', name: 'Dilshan Fernando', email: 'dilshan@plms.com', password: 'password123', role: 'student', phone: '+94 76 555 4321', grade: 'Grade 9 Mathematics', studentId: 'STU-2028-104', indexNo: 'STU-2028-104', parentId: null },
+  { id: 'prn-1', name: 'Sunil Perera', email: 'parent@plms.com', password: 'password123', role: 'parent', phone: '+94 70 333 2211', occupation: 'Civil Engineer', linkedStudentIds: ['std-1'] },
+  { id: 'adm-1', name: 'Sir Parakum Bandara (Admin)', email: 'admin@plms.com', password: 'password123', role: 'admin', phone: '+94 77 000 1122', designation: 'Head Educator & Admin' }
 ];
 
 const initialZoomLinks = [
@@ -123,31 +123,36 @@ export const apiService = {
     const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
     
     if (user) {
+      if (user.password && user.password !== password) {
+        return { success: false, message: 'Invalid password. Please check your credentials.' };
+      }
+      if (role && user.role !== role) {
+        return { success: false, message: `This account is registered as a ${user.role}, not ${role}.` };
+      }
       return { success: true, user, token: 'mock-jwt-token-' + user.id };
     }
 
-    const mockUser = {
-      id: role === 'admin' ? 'adm-1' : role === 'parent' ? 'prn-1' : 'std-1',
-      name: role === 'admin' ? 'Sir Parakum Bandara (Admin)' : role === 'parent' ? 'Sunil Perera' : 'Kasun Perera',
-      email: email,
-      role: role || 'student',
-      phone: '+94 77 123 4567',
-      grade: 'Grade 11 (O/L Mathematics)'
-    };
-    return { success: true, user: mockUser, token: 'mock-jwt-token-demo' };
+    return { success: false, message: 'No account found with this email. Please register first.' };
   },
 
   async registerStudent(formData) {
     await delay();
     const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
+    const existing = users.find(u => u.email.toLowerCase() === formData.email.toLowerCase());
+    if (existing) {
+      return { success: false, message: 'An account with this email address already exists. Please log in.' };
+    }
+    const newStudentId = 'STU-' + Math.floor(1000 + Math.random() * 9000);
     const newUser = {
       id: 'std-' + Date.now(),
       name: formData.name,
       email: formData.email,
+      password: formData.password,
       role: 'student',
       phone: formData.phone || '',
-      grade: formData.grade || 'Grade 11 (O/L)',
-      indexNo: 'OL-' + Math.floor(1000 + Math.random() * 9000),
+      grade: formData.grade || 'Grade 11 (O/L Mathematics)',
+      studentId: newStudentId,
+      indexNo: newStudentId,
       parentId: null
     };
     users.push(newUser);
@@ -273,6 +278,7 @@ export const apiService = {
   async addStudent(studentData) {
     await delay();
     const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
+    const newStudentId = 'STU-' + Math.floor(1000 + Math.random() * 9000);
     const newStudent = {
       id: 'std-' + Date.now(),
       role: 'student',
@@ -280,7 +286,8 @@ export const apiService = {
       email: studentData.email,
       phone: studentData.phone,
       grade: studentData.grade || 'Grade 11 (O/L)',
-      indexNo: 'OL-' + Math.floor(1000 + Math.random() * 9000),
+      studentId: newStudentId,
+      indexNo: newStudentId,
       parentId: null
     };
     users.push(newStudent);

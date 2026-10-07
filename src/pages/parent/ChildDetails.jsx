@@ -43,7 +43,7 @@ export const ChildDetails = () => {
           <div>
             <h2 className="text-lg font-bold text-white">{child?.name}</h2>
             <p className="text-xs text-amber-300 font-semibold">{child?.grade}</p>
-            <p className="text-[11px] text-slate-400">Index Number: <span className="font-mono text-slate-200">{child?.indexNo}</span></p>
+            <p className="text-[11px] text-slate-400">Student ID: <span className="font-mono text-slate-200">{child?.studentId || child?.indexNo}</span></p>
           </div>
         </div>
 

@@ -48,7 +48,7 @@ export const StudentDashboard = () => {
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white">Welcome back, {user?.name}!</h1>
             <p className="text-xs sm:text-sm text-blue-100">
-              Grade: <span className="font-extrabold text-white">{user?.grade || 'Grade 13 (A/L Combined Maths)'}</span> | Index: <span className="font-mono font-bold text-white">{user?.indexNo || 'AL-2026-889'}</span>
+              Grade: <span className="font-extrabold text-white">{user?.grade || 'Grade 11 (O/L Mathematics)'}</span> | Student ID: <span className="font-mono font-bold text-white">{user?.studentId || user?.indexNo || 'STU-2026-889'}</span>
             </p>
           </div>
 
