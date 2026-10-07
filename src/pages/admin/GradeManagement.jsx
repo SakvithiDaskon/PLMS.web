@@ -36,7 +36,7 @@ export const GradeManagement = () => {
     const student = students.find((s) => s.id === formData.studentId);
     await apiService.assignGrade({
       ...formData,
-      studentName: student?.name || 'Kasun Perera'
+      studentName: student?.name || 'Student'
     });
     setShowModal(false);
     setSuccessMsg('Grade record assigned successfully!');

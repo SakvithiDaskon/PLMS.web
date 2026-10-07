@@ -7,10 +7,8 @@ import {
   CheckCircle2,
   Clock,
   XCircle,
-  FileText,
   Building,
-  Image,
-  AlertCircle
+  Image
 } from 'lucide-react';
 
 export const Payments = () => {
@@ -41,8 +39,8 @@ export const Payments = () => {
     e.preventDefault();
     setUploading(true);
     await apiService.uploadPaymentSlip({
-      studentId: user?.id || 'std-1',
-      studentName: user?.name || 'Kasun Perera',
+      studentId: user?.id || (user?.studentId ? 'std-' + user.studentId : 'std-0001'),
+      studentName: user?.name || 'Student',
       ...formData
     });
     setUploading(false);
