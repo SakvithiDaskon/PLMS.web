@@ -57,6 +57,10 @@ export const Home = () => {
               <span>How to Register</span>
             </Link>
           </div>
+          <h2 className="text-xl sm:text-2xl font-bold">New to PLMS? Learn How to Register</h2>
+          <p className="text-xs sm:text-sm text-blue-100 max-w-xl">
+            Get step-by-step instructions on how students register for classes and how parents link their child's account to monitor academic progress.
+          </p>
         </div>
       </section>
 

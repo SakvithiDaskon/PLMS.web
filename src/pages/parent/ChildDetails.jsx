@@ -65,7 +65,7 @@ export const ChildDetails = () => {
 
           <div className="p-4 rounded-xl bg-slate-950 border border-slate-800/80 space-y-1">
             <span className="text-[10px] text-slate-400 font-semibold uppercase">Instructor</span>
-            <p className="text-xs font-medium text-indigo-400">Sir Daskon (PLMS)</p>
+            <p className="text-xs font-medium text-indigo-400">Sir Parakum Bandara (PLMS)</p>
           </div>
         </div>
       </div>

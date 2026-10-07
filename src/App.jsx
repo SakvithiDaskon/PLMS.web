@@ -61,6 +61,7 @@ export const AppContent = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/how-to-register" element={<HowToRegister />} />
 
             {/* Student Protected Routes */}
             <Route element={<ProtectedRoute allowedRoles={['student', 'admin']} />}>

@@ -80,7 +80,7 @@ export const AuthProvider = ({ children }) => {
     if (newRole === 'admin') {
       mockUser = {
         id: 'adm-1',
-        name: 'Sir Daskon (Admin)',
+        name: 'Sir Parakum Bandara (Admin)',
         email: 'admin@plms.com',
         role: 'admin',
         phone: '+94 77 000 1122',

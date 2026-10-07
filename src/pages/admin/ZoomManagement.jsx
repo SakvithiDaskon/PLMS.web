@@ -11,7 +11,7 @@ export const ZoomManagement = () => {
   const [formData, setFormData] = useState({
     title: '',
     subject: 'Combined Mathematics',
-    teacher: 'Sir Daskon',
+    teacher: 'Sir Parakum Bandara',
     date: '2026-10-12',
     time: '18:00 - 20:30',
     link: 'https://zoom.us/j/9876543210',
