@@ -81,3 +81,54 @@ UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE user_id = @authenticated_u
 --   phone: phone_number,
 --   grade: grade
 -- }
+
+
+-- ============================================================
+-- ADDED TODAY - STUDENT DASHBOARD DATA QUERIES
+-- ============================================================
+
+-- ===== ADDED TODAY: Retrieve Student Profile Dynamically by Authenticated user_id =====
+SELECT 
+    sd.id,
+    sd.user_id,
+    sd.full_name AS student_name,
+    sd.phone_number,
+    sd.grade,
+    sd.student_id,
+    u.email
+FROM student_details sd
+INNER JOIN users u ON sd.user_id = u.user_id
+WHERE sd.user_id = @authenticated_user_id;
+
+-- ===== ADDED TODAY: Retrieve Mathematics Topics Filtered by Student's Grade =====
+SELECT 
+    mt.topic_id,
+    mt.grade,
+    mt.subject,
+    mt.topic_name,
+    mt.description,
+    mt.lessons_count,
+    mt.progress_pct
+FROM mathematics_topics mt
+WHERE mt.grade = @student_grade
+ORDER BY mt.topic_id ASC;
+
+-- ===== ADDED TODAY: Retrieve Scheduled Mathematics Classes for Student's Grade & Month =====
+SELECT 
+    cs.class_id,
+    cs.grade,
+    cs.subject,
+    cs.title,
+    cs.topic,
+    cs.teacher,
+    cs.class_date,
+    cs.time_display,
+    cs.class_type,
+    cs.zoom_link,
+    cs.passcode,
+    cs.is_live
+FROM class_schedules cs
+WHERE cs.grade = @student_grade
+  AND MONTH(cs.class_date) = MONTH(CURRENT_DATE())
+  AND YEAR(cs.class_date) = YEAR(CURRENT_DATE())
+ORDER BY cs.class_date ASC;

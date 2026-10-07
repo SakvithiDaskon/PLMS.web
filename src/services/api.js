@@ -8,21 +8,293 @@ const STORAGE_KEYS = {
   TUTORIALS: 'plms_mock_tutorials',
   QUIZZES: 'plms_mock_quizzes',
   GRADES: 'plms_mock_grades',
-  PAYMENTS: 'plms_mock_payments'
+  PAYMENTS: 'plms_mock_payments',
+  TOPICS: 'plms_mock_topics'
 };
 
-// Initial Seed Data - Grade 6 to 11
+// ============================================================
+// UPDATED TODAY - DATABASE SEED DATA (STUDENT DATA & ENROLLMENT)
+// ============================================================
+// ===== ADDED TODAY: Real Student Records with Enrollment & Payment Status =====
 const initialUsers = [
-  { id: 'std-1', name: 'Kasun Perera', email: 'student@plms.com', password: 'password123', role: 'student', phone: '+94 77 123 4567', grade: 'Grade 11 (O/L Mathematics)', studentId: 'STU-2026-889', indexNo: 'STU-2026-889', parentId: 'prn-1' },
-  { id: 'std-2', name: 'Nipuni Silva', email: 'nipuni@plms.com', password: 'password123', role: 'student', phone: '+94 71 987 6543', grade: 'Grade 10 Science', studentId: 'STU-2027-902', indexNo: 'STU-2027-902', parentId: null },
-  { id: 'std-3', name: 'Dilshan Fernando', email: 'dilshan@plms.com', password: 'password123', role: 'student', phone: '+94 76 555 4321', grade: 'Grade 9 Mathematics', studentId: 'STU-2028-104', indexNo: 'STU-2028-104', parentId: null },
+  { id: 'std-1', name: 'Kasun Perera', email: 'student@plms.com', password: 'password123', role: 'student', phone: '+94 77 123 4567', grade: 'Grade 11 (O/L Mathematics)', studentId: 'STU-2026-889', indexNo: 'STU-2026-889', parentId: 'prn-1', enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Paid', nextPaymentDue: '-' },
+  { id: 'std-2', name: 'Nipuni Silva', email: 'nipuni@plms.com', password: 'password123', role: 'student', phone: '+94 71 987 6543', grade: 'Grade 10 Mathematics', studentId: 'STU-2027-902', indexNo: 'STU-2027-902', parentId: null, enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Pending', nextPaymentDue: '2026-10-15' },
+  { id: 'std-3', name: 'Dilshan Fernando', email: 'dilshan@plms.com', password: 'password123', role: 'student', phone: '+94 76 555 4321', grade: 'Grade 9 Mathematics', studentId: 'STU-2028-104', indexNo: 'STU-2028-104', parentId: null, enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Unpaid', nextPaymentDue: '2026-10-10' },
+  { id: 'std-4', name: 'Amali Fernando', email: 'amali@plms.com', password: 'password123', role: 'student', phone: '+94 77 888 9900', grade: 'Grade 11 (O/L Mathematics)', studentId: 'STU-7846', indexNo: 'STU-7846', parentId: null, enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Paid', nextPaymentDue: '-' },
   { id: 'prn-1', name: 'Sunil Perera', email: 'parent@plms.com', password: 'password123', role: 'parent', phone: '+94 70 333 2211', occupation: 'Civil Engineer', linkedStudentIds: ['std-1'] },
   { id: 'adm-1', name: 'Sir Parakum Bandara (Admin)', email: 'admin@plms.com', password: 'password123', role: 'admin', phone: '+94 77 000 1122', designation: 'Head Educator & Admin' }
 ];
 
 const initialZoomLinks = [
-  { id: 'zoom-1', title: 'Grade 11 O/L Mathematics: Algebra & Quadratic Equations', subject: 'Mathematics (Grade 11)', teacher: 'Sir Parakum Bandara', date: '2026-10-08', time: '18:00 - 20:00', link: 'https://zoom.us/j/9876543210', passcode: 'PARAKUM26', isLive: true },
-  { id: 'zoom-2', title: 'Grade 10 Science: Chemical Reactions & Equations', subject: 'Science (Grade 10)', teacher: 'Sir Parakum Bandara', date: '2026-10-10', time: '17:00 - 19:00', link: 'https://zoom.us/j/1234567890', passcode: 'SCIENCE26', isLive: false }
+  {
+    id: 'zoom-1',
+    title: 'Grade 11 O/L Mathematics: Algebra & Quadratic Equations',
+    subject: 'Mathematics',
+    grade: 'Grade 11',
+    topic: 'Quadratic Equations',
+    teacher: 'Sir Parakum Bandara',
+    date: '2026-10-08',
+    time: '18:00 - 20:00',
+    link: 'https://zoom.us/j/9876543210',
+    passcode: 'PARAKUM26',
+    isLive: true,
+    type: 'Live Zoom Class'
+  },
+  {
+    id: 'zoom-2',
+    title: 'Grade 11 Geometry: Circle Theorems Masterclass',
+    subject: 'Mathematics',
+    grade: 'Grade 11',
+    topic: 'Circle Theorems & Geometric Proofs',
+    teacher: 'Sir Parakum Bandara',
+    date: '2026-10-14',
+    time: '18:30 - 20:00',
+    link: 'https://zoom.us/j/9876543210',
+    passcode: 'CIRCLE26',
+    isLive: false,
+    type: 'Live Zoom Class'
+  },
+  {
+    id: 'zoom-3',
+    title: 'Grade 11 Trigonometry Problem Solving Workshop',
+    subject: 'Mathematics',
+    grade: 'Grade 11',
+    topic: 'Trigonometry & Angles of Elevation',
+    teacher: 'Sir Parakum Bandara',
+    date: '2026-10-21',
+    time: '18:00 - 19:30',
+    link: 'https://zoom.us/j/9876543210',
+    passcode: 'TRIGO26',
+    isLive: false,
+    type: 'Interactive Workshop'
+  },
+  {
+    id: 'zoom-4',
+    title: 'Grade 11 O/L Mathematics Past Paper Discussion',
+    subject: 'Mathematics',
+    grade: 'Grade 11',
+    topic: 'Past Paper Assessment & Review',
+    teacher: 'Sir Parakum Bandara',
+    date: '2026-10-28',
+    time: '18:00 - 20:30',
+    link: 'https://zoom.us/j/9876543210',
+    passcode: 'PAPER26',
+    isLive: false,
+    type: 'Live Zoom Class'
+  },
+  {
+    id: 'zoom-5',
+    title: 'Grade 10 Mathematics: Algebraic Fractions & Equations',
+    subject: 'Mathematics',
+    grade: 'Grade 10',
+    topic: 'Algebraic Fractions',
+    teacher: 'Sir Parakum Bandara',
+    date: '2026-10-09',
+    time: '17:00 - 18:30',
+    link: 'https://zoom.us/j/1234567890',
+    passcode: 'MATH10',
+    isLive: false,
+    type: 'Live Zoom Class'
+  },
+  {
+    id: 'zoom-6',
+    title: 'Grade 10 Mathematics: Pythagoras Theorem in Depth',
+    subject: 'Mathematics',
+    grade: 'Grade 10',
+    topic: 'Pythagoras Theorem',
+    teacher: 'Sir Parakum Bandara',
+    date: '2026-10-16',
+    time: '17:00 - 18:30',
+    link: 'https://zoom.us/j/1234567890',
+    passcode: 'PYTH10',
+    isLive: false,
+    type: 'Live Zoom Class'
+  },
+  {
+    id: 'zoom-7',
+    title: 'Grade 9 Mathematics: Linear Equations & Graphs',
+    subject: 'Mathematics',
+    grade: 'Grade 9',
+    topic: 'Linear Equations',
+    teacher: 'Sir Parakum Bandara',
+    date: '2026-10-11',
+    time: '16:00 - 17:30',
+    link: 'https://zoom.us/j/5555555555',
+    passcode: 'MATH9',
+    isLive: false,
+    type: 'Live Zoom Class'
+  }
+];
+
+// ===== UPDATED TODAY: Mathematics Curriculum Seed Data (10 Lessons per Topic) =====
+const initialTopics = [
+  // Grade 11 Topics
+  {
+    id: 'top-1',
+    grade: 'Grade 11',
+    subject: 'Mathematics',
+    name: 'Algebra & Quadratic Equations',
+    description: 'Linear equations, quadratic formula, and algebraic expressions.',
+    lessonsCount: 10,
+    progress: 60
+  },
+  {
+    id: 'top-2',
+    grade: 'Grade 11',
+    subject: 'Mathematics',
+    name: 'Geometry & Circle Theorems',
+    description: 'Circle properties, angles, cyclic quadrilaterals, and theorems.',
+    lessonsCount: 10,
+    progress: 30
+  },
+  {
+    id: 'top-3',
+    grade: 'Grade 11',
+    subject: 'Mathematics',
+    name: 'Trigonometry & Angles of Elevation',
+    description: 'Trigonometric ratios (sin, cos, tan), angles of elevation and depression.',
+    lessonsCount: 10,
+    progress: 15
+  },
+  {
+    id: 'top-4',
+    grade: 'Grade 11',
+    subject: 'Mathematics',
+    name: 'Matrices & Transformations',
+    description: 'Matrix multiplication, inverse calculations, determinants, and coordinate transformations.',
+    lessonsCount: 6,
+    progress: 25
+  },
+  {
+    id: 'top-5',
+    grade: 'Grade 11',
+    subject: 'Mathematics',
+    name: 'Probability & Statistics',
+    description: 'Tree diagrams, independent events, frequency distributions, mean, median, and histograms.',
+    lessonsCount: 9,
+    progress: 50
+  },
+  {
+    id: 'top-6',
+    grade: 'Grade 11',
+    subject: 'Mathematics',
+    name: 'Perimeter, Area & Volumes',
+    description: 'Mensuration formulas for prisms, cylinders, pyramids, cones, and composite solids.',
+    lessonsCount: 7,
+    progress: 15
+  },
+
+  // Grade 10 Topics
+  {
+    id: 'top-7',
+    grade: 'Grade 10',
+    subject: 'Mathematics',
+    name: 'Algebraic Fractions & Formulae',
+    description: 'Simplification of complex fractions, subject change, and simultaneous linear equations.',
+    lessonsCount: 10,
+    progress: 55
+  },
+  {
+    id: 'top-8',
+    grade: 'Grade 10',
+    subject: 'Mathematics',
+    name: 'Pythagoras Theorem & Triangles',
+    description: 'Right-angled triangles, geometric proofs, and congruent triangle problems.',
+    lessonsCount: 8,
+    progress: 70
+  },
+  {
+    id: 'top-9',
+    grade: 'Grade 10',
+    subject: 'Mathematics',
+    name: 'Logarithms & Scientific Indices',
+    description: 'Laws of indices, logarithmic conversions, characteristic, and mantissa application.',
+    lessonsCount: 7,
+    progress: 30
+  },
+  {
+    id: 'top-10',
+    grade: 'Grade 10',
+    subject: 'Mathematics',
+    name: 'Sets & Venn Diagrams',
+    description: 'Universal sets, subsets, intersections, unions, and shaded region problems.',
+    lessonsCount: 6,
+    progress: 85
+  },
+  {
+    id: 'top-11',
+    grade: 'Grade 10',
+    subject: 'Mathematics',
+    name: 'Surface Area & Prisms',
+    description: 'Cross-sectional area calculations, surface areas, and cylinder mensuration.',
+    lessonsCount: 9,
+    progress: 20
+  },
+  {
+    id: 'top-12',
+    grade: 'Grade 10',
+    subject: 'Mathematics',
+    name: 'Linear Graphs & Gradients',
+    description: 'Plotting lines, finding gradient m and intercept c from coordinates and equations.',
+    lessonsCount: 8,
+    progress: 45
+  },
+
+  // Grade 9 Topics
+  {
+    id: 'top-13',
+    grade: 'Grade 9',
+    subject: 'Mathematics',
+    name: 'Linear Equations & Graphs',
+    description: 'Single-variable equations, coordinate axes, and plotting straight lines on Cartesian plane.',
+    lessonsCount: 8,
+    progress: 60
+  },
+  {
+    id: 'top-14',
+    grade: 'Grade 9',
+    subject: 'Mathematics',
+    name: 'Financial Mathematics & Profit',
+    description: 'Calculating percentage profit, loss, discounts, and simple annual interest.',
+    lessonsCount: 6,
+    progress: 75
+  },
+  {
+    id: 'top-15',
+    grade: 'Grade 9',
+    subject: 'Mathematics',
+    name: 'Angles & Parallel Lines',
+    description: 'Parallel line properties, alternate angles, corresponding angles, and triangle theorems.',
+    lessonsCount: 7,
+    progress: 40
+  },
+  {
+    id: 'top-16',
+    grade: 'Grade 9',
+    subject: 'Mathematics',
+    name: 'Fractions & Decimal Operations',
+    description: 'Order of operations, reciprocal multiplication, and rational number conversions.',
+    lessonsCount: 6,
+    progress: 90
+  },
+  {
+    id: 'top-17',
+    grade: 'Grade 9',
+    subject: 'Mathematics',
+    name: 'Perimeter & Area of Plane Figures',
+    description: 'Composite figures, parallelograms, trapeziums, and triangular boundary areas.',
+    lessonsCount: 8,
+    progress: 35
+  },
+  {
+    id: 'top-18',
+    grade: 'Grade 9',
+    subject: 'Mathematics',
+    name: 'Ratio, Rate & Proportion',
+    description: 'Dividing quantities in ratio and calculating speed, distance, and time relationships.',
+    lessonsCount: 5,
+    progress: 50
+  }
 ];
 
 const initialRecordings = [
@@ -83,8 +355,12 @@ const initialGrades = [
   { id: 'grd-2', studentId: 'std-1', studentName: 'Kasun Perera', subject: 'Science (Grade 11)', examName: 'Mid-Term Science Test', score: 82, maxScore: 100, grade: 'A', remarks: 'Good grasp of chemistry concepts.', date: '2026-09-15' }
 ];
 
+// ===== ADDED TODAY: Payment Records Seed Data (Paid, Pending, Unpaid) =====
 const initialPayments = [
-  { id: 'pay-1', studentId: 'std-1', studentName: 'Kasun Perera', month: 'October 2026', amount: 3500, status: 'Approved', slipUrl: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80', submittedAt: '2026-10-01 10:30 AM', notes: 'Bank transfer receipt attached.' }
+  { id: 'pay-1', studentId: 'std-1', studentName: 'Kasun Perera', month: 'October 2026', amount: 3500, status: 'Paid', nextDue: '-', slipUrl: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80', submittedAt: '2026-10-01 10:30 AM', notes: 'Bank transfer receipt attached.' },
+  { id: 'pay-2', studentId: 'std-2', studentName: 'Nipuni Silva', month: 'October 2026', amount: 3500, status: 'Pending', nextDue: '2026-10-15', slipUrl: null, submittedAt: '2026-10-05 02:15 PM', notes: 'Slip verification pending.' },
+  { id: 'pay-3', studentId: 'std-3', studentName: 'Dilshan Fernando', month: 'October 2026', amount: 3500, status: 'Unpaid', nextDue: '2026-10-10', slipUrl: null, submittedAt: null, notes: 'Overdue monthly fee.' },
+  { id: 'pay-4', studentId: 'std-4', studentName: 'Amali Fernando', month: 'October 2026', amount: 3500, status: 'Paid', nextDue: '-', slipUrl: null, submittedAt: '2026-10-01 09:00 AM', notes: 'Monthly fee paid via online portal.' }
 ];
 
 const getStorageItem = (key, defaultVal) => {
@@ -102,14 +378,72 @@ const setStorageItem = (key, val) => {
   } catch (e) {}
 };
 
+// ===== UPDATED TODAY: Mock DB Initialization & Sync for Real Student Records =====
 const initMockDB = () => {
-  if (!localStorage.getItem(STORAGE_KEYS.USERS)) setStorageItem(STORAGE_KEYS.USERS, initialUsers);
-  if (!localStorage.getItem(STORAGE_KEYS.ZOOM)) setStorageItem(STORAGE_KEYS.ZOOM, initialZoomLinks);
+  if (!localStorage.getItem(STORAGE_KEYS.USERS)) {
+    setStorageItem(STORAGE_KEYS.USERS, initialUsers);
+  } else {
+    // Sync missing students (like Amali Fernando) or missing fields into localStorage
+    const storedUsers = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
+    let updated = false;
+    storedUsers.forEach(u => {
+      if (!u.enrollmentStatus) {
+        u.enrollmentStatus = 'Currently Enrolled';
+        updated = true;
+      }
+      if (!u.paymentStatus) {
+        const foundPay = initialPayments.find(p => p.studentId === u.id || p.studentName === u.name);
+        u.paymentStatus = foundPay?.status || 'Paid';
+        u.nextPaymentDue = foundPay?.nextDue || '-';
+        updated = true;
+      }
+    });
+
+    if (!storedUsers.some(u => u.name === 'Amali Fernando' || u.studentId === 'STU-7846')) {
+      const amali = initialUsers.find(u => u.name === 'Amali Fernando');
+      if (amali) {
+        storedUsers.push(amali);
+        updated = true;
+      }
+    }
+
+    if (updated) {
+      setStorageItem(STORAGE_KEYS.USERS, storedUsers);
+    }
+  }
+  
+  // Ensure zoom links have full calendar schedule
+  const storedZoom = getStorageItem(STORAGE_KEYS.ZOOM, null);
+  if (!storedZoom || storedZoom.length < 5) {
+    setStorageItem(STORAGE_KEYS.ZOOM, initialZoomLinks);
+  }
+
+  // Ensure topics are initialized and refreshed
+  const storedTopics = getStorageItem(STORAGE_KEYS.TOPICS, null);
+  if (!storedTopics || storedTopics.length === 0 || storedTopics[0]?.lessonsCount !== 10) {
+    setStorageItem(STORAGE_KEYS.TOPICS, initialTopics);
+  }
+
   if (!localStorage.getItem(STORAGE_KEYS.RECORDINGS)) setStorageItem(STORAGE_KEYS.RECORDINGS, initialRecordings);
   if (!localStorage.getItem(STORAGE_KEYS.TUTORIALS)) setStorageItem(STORAGE_KEYS.TUTORIALS, initialTutorials);
   if (!localStorage.getItem(STORAGE_KEYS.QUIZZES)) setStorageItem(STORAGE_KEYS.QUIZZES, initialQuizzes);
   if (!localStorage.getItem(STORAGE_KEYS.GRADES)) setStorageItem(STORAGE_KEYS.GRADES, initialGrades);
-  if (!localStorage.getItem(STORAGE_KEYS.PAYMENTS)) setStorageItem(STORAGE_KEYS.PAYMENTS, initialPayments);
+
+  if (!localStorage.getItem(STORAGE_KEYS.PAYMENTS)) {
+    setStorageItem(STORAGE_KEYS.PAYMENTS, initialPayments);
+  } else {
+    const storedPayments = getStorageItem(STORAGE_KEYS.PAYMENTS, initialPayments);
+    let updatedPayments = false;
+    initialPayments.forEach(p => {
+      if (!storedPayments.some(sp => sp.studentId === p.studentId || sp.id === p.id)) {
+        storedPayments.push(p);
+        updatedPayments = true;
+      }
+    });
+    if (updatedPayments) {
+      setStorageItem(STORAGE_KEYS.PAYMENTS, storedPayments);
+    }
+  }
 };
 
 initMockDB();
@@ -135,6 +469,7 @@ export const apiService = {
     return { success: false, message: 'No account found with this email. Please register first.' };
   },
 
+  // ===== UPDATED TODAY: Student Registration with Dynamic ID & Payment Status =====
   async registerStudent(formData) {
     await delay();
     const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
@@ -143,9 +478,14 @@ export const apiService = {
       return { success: false, message: 'An account with this email address already exists. Please log in.' };
     }
     const newStudentId = 'STU-' + Math.floor(1000 + Math.random() * 9000);
+    const nameParts = (formData.name || '').trim().split(' ');
+    const firstName = nameParts[0] || '';
+    const lastName = nameParts.slice(1).join(' ') || '';
     const newUser = {
       id: 'std-' + Date.now(),
       name: formData.name,
+      firstName,
+      lastName,
       email: formData.email,
       password: formData.password,
       role: 'student',
@@ -153,10 +493,29 @@ export const apiService = {
       grade: formData.grade || 'Grade 11 (O/L Mathematics)',
       studentId: newStudentId,
       indexNo: newStudentId,
-      parentId: null
+      parentId: null,
+      enrollmentStatus: 'Currently Enrolled',
+      paymentStatus: 'Pending',
+      nextPaymentDue: 'End of Month'
     };
     users.push(newUser);
     setStorageItem(STORAGE_KEYS.USERS, users);
+
+    const payments = getStorageItem(STORAGE_KEYS.PAYMENTS, initialPayments);
+    payments.unshift({
+      id: 'pay-' + Date.now(),
+      studentId: newUser.id,
+      studentName: newUser.name,
+      month: 'October 2026',
+      amount: 3500,
+      status: 'Pending',
+      nextDue: 'End of Month',
+      slipUrl: null,
+      submittedAt: new Date().toLocaleDateString(),
+      notes: 'Initial registration fee verification'
+    });
+    setStorageItem(STORAGE_KEYS.PAYMENTS, payments);
+
     return { success: true, user: newUser };
   },
 
@@ -176,10 +535,116 @@ export const apiService = {
       upcomingLiveSession: zoomLinks[0] || null,
       recentRecordingsCount: recordings.length,
       latestGrade: grades[0] || null,
-      paymentStatus: payments[0]?.status || 'Approved',
+      paymentStatus: payments[0]?.status || 'Paid',
       totalTutorials: 8,
       pendingQuizzes: 1
     };
+  },
+
+  // ===== UPDATED TODAY: Dynamic Student Lookup by Authenticated User ID =====
+  async getStudentById(id) {
+    await delay();
+    if (!id) return null;
+    const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
+    const payments = getStorageItem(STORAGE_KEYS.PAYMENTS, initialPayments);
+    const student = users.find(u => u.id === id || u.studentId === id || (u.email && u.email.toLowerCase() === String(id).toLowerCase()));
+    if (student) {
+      const nameParts = (student.name || '').trim().split(' ');
+      const firstName = student.firstName || nameParts[0] || '';
+      const lastName = student.lastName || nameParts.slice(1).join(' ') || '';
+      const fullName = student.name || `${firstName} ${lastName}`.trim();
+
+      const studentPayment = payments.find(p => p.studentId === student.id || p.studentId === student.studentId || p.studentName === student.name);
+      const paymentStatus = studentPayment?.status || student.paymentStatus || 'Paid';
+      const nextPaymentDue = studentPayment?.nextDue || student.nextPaymentDue || '-';
+
+      return {
+        ...student,
+        firstName,
+        lastName,
+        fullName,
+        enrollmentStatus: student.enrollmentStatus || 'Currently Enrolled',
+        paymentStatus,
+        nextPaymentDue
+      };
+    }
+    return null;
+  },
+
+  // ===== ADDED TODAY: Dynamic Student Payment Status Query (Paid / Pending / Unpaid) =====
+  async getStudentPaymentStatus(studentId) {
+    await delay();
+    if (!studentId) return { status: 'Paid', nextDue: '-', amount: 3500, month: 'October 2026' };
+    const payments = getStorageItem(STORAGE_KEYS.PAYMENTS, initialPayments);
+    const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
+    const user = users.find(u => u.id === studentId || u.studentId === studentId || (u.email && u.email.toLowerCase() === String(studentId).toLowerCase()));
+
+    const studentPayment = payments.find(p => 
+      p.studentId === studentId || 
+      (user && (p.studentName === user.name || p.studentId === user.studentId || p.studentId === user.id))
+    );
+
+    if (studentPayment) {
+      return {
+        status: studentPayment.status,
+        month: studentPayment.month || 'October 2026',
+        amount: studentPayment.amount || 3500,
+        nextDue: studentPayment.nextDue || '-'
+      };
+    }
+
+    if (user?.paymentStatus) {
+      return {
+        status: user.paymentStatus,
+        month: 'October 2026',
+        amount: 3500,
+        nextDue: user.nextPaymentDue || '-'
+      };
+    }
+
+    return {
+      status: 'Paid',
+      month: 'October 2026',
+      amount: 3500,
+      nextDue: '-'
+    };
+  },
+
+  // ===== ADDED TODAY: Dynamic Mathematics Topics Filtered by Student Grade =====
+  async getMathematicsTopics(grade) {
+    await delay();
+    const topics = getStorageItem(STORAGE_KEYS.TOPICS, initialTopics);
+    if (!grade) return [];
+    
+    // Normalize grade search (e.g. "Grade 11 (O/L Mathematics)" -> "11")
+    const match = grade.match(/Grade\s*(\d+)/i) || grade.match(/(\d+)/);
+    const gradeNum = match ? match[1] : null;
+
+    if (gradeNum) {
+      return topics.filter(t => t.grade.includes(gradeNum));
+    }
+
+    return topics.filter(t => t.grade.toLowerCase().includes(grade.toLowerCase()));
+  },
+
+  // ===== ADDED TODAY: Dynamic Student Classes Filtered by Grade for Calendar =====
+  async getStudentClasses(studentId, grade) {
+    await delay();
+    const zoomLinks = getStorageItem(STORAGE_KEYS.ZOOM, initialZoomLinks);
+    if (!grade) return zoomLinks;
+
+    // Filter classes matching student grade
+    const match = grade.match(/Grade\s*(\d+)/i) || grade.match(/(\d+)/);
+    const gradeNum = match ? match[1] : null;
+
+    if (gradeNum) {
+      return zoomLinks.filter(c => {
+        const text = `${c.grade || ''} ${c.subject || ''} ${c.title || ''}`;
+        return text.includes(gradeNum);
+      });
+    }
+
+    return zoomLinks;
   },
 
   async getZoomLinks() {
@@ -202,38 +667,9 @@ export const apiService = {
     return getStorageItem(STORAGE_KEYS.QUIZZES, initialQuizzes);
   },
 
-  async submitQuizAnswers(quizId, answers) {
-    await delay();
-    return { success: true, score: 20, maxScore: 30, percentage: 66.7, feedback: 'Good effort! Practice more quadratic formula derivation.' };
-  },
-
   async getStudentGrades(studentId = 'std-1') {
     await delay();
     return getStorageItem(STORAGE_KEYS.GRADES, initialGrades);
-  },
-
-  async getStudentPayments(studentId = 'std-1') {
-    await delay();
-    return getStorageItem(STORAGE_KEYS.PAYMENTS, initialPayments);
-  },
-
-  async uploadPaymentSlip({ studentId = 'std-1', studentName = 'Kasun Perera', month, amount, slipUrl, notes }) {
-    await delay();
-    const payments = getStorageItem(STORAGE_KEYS.PAYMENTS, initialPayments);
-    const newPayment = {
-      id: 'pay-' + Date.now(),
-      studentId,
-      studentName,
-      month: month || 'October 2026',
-      amount: Number(amount) || 3500,
-      status: 'Pending',
-      slipUrl: slipUrl || 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80',
-      submittedAt: new Date().toLocaleString(),
-      notes: notes || 'Payment slip uploaded'
-    };
-    payments.unshift(newPayment);
-    setStorageItem(STORAGE_KEYS.PAYMENTS, payments);
-    return { success: true, payment: newPayment };
   },
 
   async getParentDashboardData(parentId = 'prn-1') {
