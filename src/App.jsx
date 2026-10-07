@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
@@ -42,18 +42,23 @@ import PaymentManagement from './pages/admin/PaymentManagement';
 
 export const AppContent = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const location = useLocation();
+
+  const isPortalRoute = location.pathname.startsWith('/student') ||
+                        location.pathname.startsWith('/parent') ||
+                        location.pathname.startsWith('/admin');
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
   const closeSidebar = () => setIsSidebarOpen(false);
 
   return (
     <div className="min-h-screen bg-blue-50/60 text-slate-900 flex flex-col font-sans">
-      <Navbar toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
+      <Navbar toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} showSidebarButton={isPortalRoute} />
 
       <div className="flex-1 flex">
-        <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
+        {isPortalRoute && <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />}
 
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 lg:ml-64 max-w-7xl mx-auto w-full transition-all">
+        <main className={`flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full transition-all ${isPortalRoute ? 'lg:ml-64' : ''}`}>
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<Home />} />
@@ -61,7 +66,6 @@ export const AppContent = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/how-to-register" element={<HowToRegister />} />
 
             {/* Student Protected Routes */}
             <Route element={<ProtectedRoute allowedRoles={['student', 'admin']} />}>
