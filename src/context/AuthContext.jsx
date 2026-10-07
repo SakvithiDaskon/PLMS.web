@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        // Purge legacy sample user Kasun Perera / student@plms.com / parent@plms.com
+        // Clear legacy sample user
         if (
           parsed?.email === 'student@plms.com' ||
           parsed?.name === 'Kasun Perera' ||
@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
         return parsed;
       } catch (e) {}
     }
-    // Clean default state: No fake user logged in by default
+    // Default unauthenticated
     return null;
   });
 

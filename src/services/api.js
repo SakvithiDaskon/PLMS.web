@@ -11,9 +11,7 @@ const STORAGE_KEYS = {
   PAYMENTS: 'plms_mock_payments'
 };
 
-// Initial System Accounts: ONLY the System Administrator (Sir Parakum Bandara)
-// Sample test students and test parents have been completely removed.
-// All student accounts are created directly via Registration or Admin Enrolment.
+// Initial users (Admin)
 const initialUsers = [
   {
     id: 'adm-1',
@@ -102,10 +100,7 @@ const setStorageItem = (key, val) => {
   } catch (e) {}
 };
 
-/**
- * Computes the next sequential student ID starting from '0001' to higher order (0001, 0002, 0003, ... 9999, 10000+).
- * Extracts numeric value from existing registered student IDs to guarantee strictly monotonic increments.
- */
+// Generates next student ID (0001, 0002, ...)
 export const getNextStudentId = (users) => {
   const students = users.filter((u) => u.role === 'student');
   if (students.length === 0) {
@@ -129,7 +124,7 @@ export const getNextStudentId = (users) => {
 };
 
 const initMockDB = () => {
-  // Purge any legacy sample data (e.g., student@plms.com / Kasun Perera / Nipuni / Dilshan / parent@plms.com)
+  // Clean legacy sample users
   const storedUsers = localStorage.getItem(STORAGE_KEYS.USERS);
   if (storedUsers) {
     try {
@@ -208,7 +203,7 @@ initMockDB();
 const delay = (ms = 150) => new Promise((res) => setTimeout(res, ms));
 
 export const apiService = {
-  // Authentication & Login (Students authenticate with Student ID, e.g. '0001')
+  // Login by Student ID or Email
   async login({ identifier, email, studentId, password, role }) {
     await delay();
     const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
@@ -248,7 +243,7 @@ export const apiService = {
     return { success: false, message: 'No account found with this credential. Please register first.' };
   },
 
-  // Student Registration: Assigns sequential Student ID (0001, 0002, 0003...)
+  // Student registration
   async registerStudent(formData) {
     await delay();
     const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);

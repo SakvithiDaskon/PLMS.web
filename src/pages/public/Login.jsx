@@ -111,9 +111,9 @@ export const Login = () => {
         </button>
       </div>
 
-      {/* Login Card */}
+      {/* Form Card */}
       <div className="p-6 rounded-2xl bg-white border border-[#c0d9ec] shadow-lg space-y-6">
-        {/* Success Notice (e.g., right after registration) */}
+        {/* Notice */}
         {successNotice && (
           <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-start gap-2.5">
             <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600 mt-0.5" />
@@ -126,7 +126,7 @@ export const Login = () => {
           </div>
         )}
 
-        {/* Error Message */}
+        {/* Error */}
         {errorMsg && (
           <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold flex items-center gap-2">
             <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
@@ -208,7 +208,7 @@ export const Login = () => {
           </button>
         </form>
 
-        {/* Quick Admin Access */}
+        {/* Admin quick access */}
         <div className="pt-4 border-t border-slate-100 space-y-2 text-center">
           <p className="text-[11px] font-bold text-[#003153] uppercase tracking-wider">Educator & Admin Access</p>
           <div className="flex items-center justify-center gap-2">

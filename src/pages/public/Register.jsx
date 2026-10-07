@@ -47,7 +47,7 @@ export const Register = () => {
     }
   };
 
-  // If registration is complete, show the Official Student ID card
+  // Success view
   if (registeredStudent) {
     return (
       <div className="max-w-md mx-auto py-10 space-y-6">
@@ -63,7 +63,7 @@ export const Register = () => {
             </p>
           </div>
 
-          {/* Student ID Card Badge */}
+          {/* Student ID */}
           <div className="p-5 rounded-2xl bg-[#f4f8fb] border-2 border-[#003153]/20 space-y-2">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#003153] text-white text-[11px] font-bold">
               <IdCard className="w-3.5 h-3.5" />
@@ -80,7 +80,7 @@ export const Register = () => {
             </p>
           </div>
 
-          {/* Action Buttons */}
+          {/* Actions */}
           <div className="space-y-3 pt-2">
             <button
               onClick={() =>
@@ -123,7 +123,7 @@ export const Register = () => {
       </div>
 
       <div className="p-6 rounded-2xl bg-white border border-[#c0d9ec] shadow-xl space-y-6">
-        {/* Student ID Notice Banner */}
+        {/* Student ID notice */}
         <div className="p-3.5 rounded-xl bg-[#e6f0f7] border border-[#c0d9ec] flex items-center gap-2.5 text-xs text-[#003153]">
           <IdCard className="w-4 h-4 shrink-0 text-[#003153]" />
           <span>
