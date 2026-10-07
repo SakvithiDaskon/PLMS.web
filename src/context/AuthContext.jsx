@@ -16,8 +16,9 @@ export const AuthProvider = ({ children }) => {
       email: 'student@plms.com',
       role: 'student',
       phone: '+94 77 123 4567',
-      grade: 'Grade 13 (A/L Combined Maths)',
-      indexNo: 'AL-2026-889'
+      grade: 'Grade 11 (O/L Mathematics)',
+      studentId: 'STU-2026-889',
+      indexNo: 'STU-2026-889'
     };
   });
 
@@ -102,8 +103,9 @@ export const AuthProvider = ({ children }) => {
         email: 'student@plms.com',
         role: 'student',
         phone: '+94 77 123 4567',
-        grade: 'Grade 13 (A/L Combined Maths)',
-        indexNo: 'AL-2026-889'
+        grade: 'Grade 11 (O/L Mathematics)',
+        studentId: 'STU-2026-889',
+        indexNo: 'STU-2026-889'
       };
     }
     setUser(mockUser);

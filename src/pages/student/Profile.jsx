@@ -40,8 +40,8 @@ export const Profile = () => {
           </div>
           <div>
             <h2 className="text-lg font-bold text-slate-900">{user?.name}</h2>
-            <p className="text-xs text-blue-700 font-bold">{user?.grade || 'Grade 13 (A/L Combined Maths)'}</p>
-            <p className="text-[11px] text-slate-500">Index Number: <span className="font-mono font-bold text-slate-800">{user?.indexNo || 'AL-2026-889'}</span></p>
+            <p className="text-xs text-blue-700 font-bold">{user?.grade || 'Grade 11 (O/L Mathematics)'}</p>
+            <p className="text-[11px] text-slate-500">Student ID: <span className="font-mono font-bold text-slate-800">{user?.studentId || user?.indexNo || 'STU-2026-889'}</span></p>
           </div>
         </div>
 
