@@ -42,7 +42,7 @@ export const AdminDashboard = () => {
           <div className="space-y-2">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 text-white text-xs font-bold border border-white/30">
               <ShieldCheck className="w-3.5 h-3.5 text-blue-100" />
-              <span>Sir Daskon Admin Portal</span>
+              <span>Sir Parakum Bandara Admin Portal</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white">System Administration Dashboard</h1>
             <p className="text-xs sm:text-sm text-blue-100">
