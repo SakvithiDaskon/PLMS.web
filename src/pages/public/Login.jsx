@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import logoImg from '../../assets/logo.jpeg';
 import {
   GraduationCap,
   Users,
@@ -62,8 +63,8 @@ export const Login = () => {
   return (
     <div className="max-w-md mx-auto py-10 space-y-6">
       <div className="text-center space-y-2">
-        <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[#003153] shadow-md text-white mb-2">
-          <GraduationCap className="w-8 h-8" />
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white shadow-md mb-2 overflow-hidden border border-[#c0d9ec]">
+          <img src={logoImg} alt="PLMS Logo" className="w-full h-full object-cover" />
         </div>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Sign In to PLMS</h1>
         <p className="text-xs sm:text-sm text-slate-600">Enter your credentials to access your portal</p>

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import logo from '../../assets/logo.png';
+import logoImg from '../../assets/logo.jpeg';
+
 import {
   ArrowRight,
   AlertCircle,
@@ -27,7 +28,10 @@ export const Register = () => {
   const [registeredStudent, setRegisteredStudent] = useState(null);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -40,6 +44,7 @@ export const Register = () => {
     }
 
     const res = await register(formData);
+
     if (res.success) {
       setRegisteredStudent(res.user);
     } else {
@@ -112,24 +117,30 @@ export const Register = () => {
 
   return (
     <div className="max-w-xl mx-auto py-8 space-y-6">
+
+      {/* Page Header */}
       <div className="text-center space-y-2">
-        <div className="flex items-center justify-center mb-1">
-          <div className="p-2.5 bg-white rounded-2xl border border-blue-100 shadow-md">
-            <img src={logo} alt="Parakum Bandara Logo" className="h-12 w-auto object-contain" />
-          </div>
+
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white shadow-md mb-1 overflow-hidden border border-slate-700">
+          <img
+            src={logoImg}
+            alt="PLMS Logo"
+            className="w-full h-full object-cover"
+          />
         </div>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Student Registration</h1>
-        <p className="text-xs sm:text-sm text-slate-600">Grade 6 to 11 Mathematics Classes conducted by Sir Parakum Bandara</p>
+
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          Student Registration
+        </h1>
+
+        <p className="text-xs sm:text-sm text-slate-600">
+          Grade 6 to 11 Mathematics Classes conducted by Sir Parakum Bandara
+        </p>
+
       </div>
 
+      {/* Registration Form Card */}
       <div className="p-6 rounded-2xl bg-white border border-[#c0d9ec] shadow-xl space-y-6">
-        {/* Student ID notice */}
-        <div className="p-3.5 rounded-xl bg-[#e6f0f7] border border-[#c0d9ec] flex items-center gap-2.5 text-xs text-[#003153]">
-          <IdCard className="w-4 h-4 shrink-0 text-[#003153]" />
-          <span>
-            <strong>Official Student ID:</strong> Generated sequentially starting from <strong>0001</strong> to higher order. You will use your Student ID to sign in.
-          </span>
-        </div>
 
         {/* Error Message */}
         {errorMsg && (
@@ -140,9 +151,15 @@ export const Register = () => {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
+
+          {/* Name and Email */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Full Name</label>
+              <label className="block text-xs font-bold text-slate-700 mb-1">
+                Full Name
+              </label>
+
               <input
                 type="text"
                 name="name"
@@ -155,7 +172,10 @@ export const Register = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Email Address</label>
+              <label className="block text-xs font-bold text-slate-700 mb-1">
+                Email Address
+              </label>
+
               <input
                 type="email"
                 name="email"
@@ -166,11 +186,17 @@ export const Register = () => {
                 className="w-full px-3.5 py-2.5 rounded-xl bg-[#f4f8fb] border border-[#c0d9ec] text-slate-900 text-xs focus:outline-none focus:border-[#003153]"
               />
             </div>
+
           </div>
 
+          {/* Phone and Grade */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Contact Number (WhatsApp)</label>
+              <label className="block text-xs font-bold text-slate-700 mb-1">
+                Contact Number (WhatsApp)
+              </label>
+
               <input
                 type="tel"
                 name="phone"
@@ -183,26 +209,52 @@ export const Register = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Enrolled Grade</label>
+              <label className="block text-xs font-bold text-slate-700 mb-1">
+                Enrolled Grade
+              </label>
+
               <select
                 name="grade"
                 value={formData.grade}
                 onChange={handleChange}
                 className="w-full px-3.5 py-2.5 rounded-xl bg-[#f4f8fb] border border-[#c0d9ec] text-slate-900 text-xs font-semibold focus:outline-none focus:border-[#003153]"
               >
-                <option value="Grade 11 (O/L Mathematics)">Grade 11 (O/L Mathematics)</option>
-                <option value="Grade 10 Mathematics">Grade 10 Mathematics</option>
-                <option value="Grade 9 Mathematics">Grade 9 Mathematics</option>
-                <option value="Grade 8 Mathematics">Grade 8 Mathematics</option>
-                <option value="Grade 7 Mathematics">Grade 7 Mathematics</option>
-                <option value="Grade 6 Mathematics">Grade 6 Mathematics</option>
+                <option value="Grade 11 (O/L Mathematics)">
+                  Grade 11 (O/L Mathematics)
+                </option>
+
+                <option value="Grade 10 Mathematics">
+                  Grade 10 Mathematics
+                </option>
+
+                <option value="Grade 9 Mathematics">
+                  Grade 9 Mathematics
+                </option>
+
+                <option value="Grade 8 Mathematics">
+                  Grade 8 Mathematics
+                </option>
+
+                <option value="Grade 7 Mathematics">
+                  Grade 7 Mathematics
+                </option>
+
+                <option value="Grade 6 Mathematics">
+                  Grade 6 Mathematics
+                </option>
               </select>
             </div>
+
           </div>
 
+          {/* Password Fields */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Password</label>
+              <label className="block text-xs font-bold text-slate-700 mb-1">
+                Password
+              </label>
+
               <input
                 type="password"
                 name="password"
@@ -216,7 +268,10 @@ export const Register = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Confirm Password</label>
+              <label className="block text-xs font-bold text-slate-700 mb-1">
+                Confirm Password
+              </label>
+
               <input
                 type="password"
                 name="confirmPassword"
@@ -227,8 +282,10 @@ export const Register = () => {
                 className="w-full px-3.5 py-2.5 rounded-xl bg-[#f4f8fb] border border-[#c0d9ec] text-slate-900 text-xs focus:outline-none focus:border-[#003153]"
               />
             </div>
+
           </div>
 
+          {/* Submit Button */}
           <button
             type="submit"
             disabled={loading}
@@ -243,15 +300,21 @@ export const Register = () => {
               </>
             )}
           </button>
+
         </form>
       </div>
 
+      {/* Login Link */}
       <p className="text-center text-xs text-slate-600">
         Already registered?{' '}
-        <Link to="/login" className="font-bold text-[#003153] hover:underline">
-          Sign In with Student ID Here
+        <Link
+          to="/login"
+          className="font-bold text-[#003153] hover:underline"
+        >
+          Sign In Here
         </Link>
       </p>
+
     </div>
   );
 };
