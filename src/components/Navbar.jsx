@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+<<<<<<< HEAD
 import logo from '../assets/logo.png';
+=======
+import logoImg from '../assets/logo.jpeg';
+>>>>>>> 32a007c (Save my latest changes before merging main)
 import {
   LogOut,
   User,
@@ -55,9 +59,14 @@ export const Navbar = ({ toggleSidebar, isSidebarOpen }) => {
           )}
 
           <Link to="/" className="flex items-center gap-2.5 group">
+<<<<<<< HEAD
             {/* Custom Logo Image from src/assets/logo.png */}
             <div className="h-10 bg-white/10 p-1 rounded-xl flex items-center justify-center border border-white/20">
               <img src={logo} alt="PLMS Parakum Bandara" className="h-8 w-auto object-contain rounded" />
+=======
+            <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center font-bold shadow overflow-hidden border border-white/20">
+              <img src={logoImg} alt="PLMS Logo" className="w-full h-full object-cover" />
+>>>>>>> 32a007c (Save my latest changes before merging main)
             </div>
             <div>
               <span className="text-xl font-extrabold text-white tracking-tight">
