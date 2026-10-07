@@ -1,4 +1,4 @@
-// PLMS (Private Learning Management System) API & Data Storage Service
+// PLMS (Private Learning Management System) Mock API Service
 // Configured for Grade 6 to 11 Mathematics & Science conducted by Sir Parakum Bandara
 
 const STORAGE_KEYS = {
@@ -8,25 +8,293 @@ const STORAGE_KEYS = {
   TUTORIALS: 'plms_mock_tutorials',
   QUIZZES: 'plms_mock_quizzes',
   GRADES: 'plms_mock_grades',
-  PAYMENTS: 'plms_mock_payments'
+  PAYMENTS: 'plms_mock_payments',
+  TOPICS: 'plms_mock_topics'
 };
 
-// Initial users (Admin)
+// ============================================================
+// UPDATED TODAY - DATABASE SEED DATA (STUDENT DATA & ENROLLMENT)
+// ============================================================
+// ===== ADDED TODAY: Real Student Records with Enrollment & Payment Status =====
 const initialUsers = [
-  {
-    id: 'adm-1',
-    name: 'Sir Parakum Bandara (Admin)',
-    email: 'admin@plms.com',
-    password: 'password123',
-    role: 'admin',
-    phone: '+94 77 000 1122',
-    designation: 'Head Educator & Admin'
-  }
+  { id: 'std-1', name: 'Kasun Perera', email: 'student@plms.com', password: 'password123', role: 'student', phone: '+94 77 123 4567', grade: 'Grade 11 (O/L Mathematics)', studentId: 'STU-2026-889', indexNo: 'STU-2026-889', parentId: 'prn-1', enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Paid', nextPaymentDue: '-' },
+  { id: 'std-2', name: 'Nipuni Silva', email: 'nipuni@plms.com', password: 'password123', role: 'student', phone: '+94 71 987 6543', grade: 'Grade 10 Mathematics', studentId: 'STU-2027-902', indexNo: 'STU-2027-902', parentId: null, enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Pending', nextPaymentDue: '2026-10-15' },
+  { id: 'std-3', name: 'Dilshan Fernando', email: 'dilshan@plms.com', password: 'password123', role: 'student', phone: '+94 76 555 4321', grade: 'Grade 9 Mathematics', studentId: 'STU-2028-104', indexNo: 'STU-2028-104', parentId: null, enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Unpaid', nextPaymentDue: '2026-10-10' },
+  { id: 'std-4', name: 'Amali Fernando', email: 'amali@plms.com', password: 'password123', role: 'student', phone: '+94 77 888 9900', grade: 'Grade 11 (O/L Mathematics)', studentId: 'STU-7846', indexNo: 'STU-7846', parentId: null, enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Paid', nextPaymentDue: '-' },
+  { id: 'prn-1', name: 'Sunil Perera', email: 'parent@plms.com', password: 'password123', role: 'parent', phone: '+94 70 333 2211', occupation: 'Civil Engineer', linkedStudentIds: ['std-1'] },
+  { id: 'adm-1', name: 'Sir Parakum Bandara (Admin)', email: 'admin@plms.com', password: 'password123', role: 'admin', phone: '+94 77 000 1122', designation: 'Head Educator & Admin' }
 ];
 
 const initialZoomLinks = [
-  { id: 'zoom-1', title: 'Grade 11 O/L Mathematics: Algebra & Quadratic Equations', subject: 'Mathematics (Grade 11)', teacher: 'Sir Parakum Bandara', date: '2026-10-08', time: '18:00 - 20:00', link: 'https://zoom.us/j/9876543210', passcode: 'PARAKUM26', isLive: true },
-  { id: 'zoom-2', title: 'Grade 10 Science: Chemical Reactions & Equations', subject: 'Science (Grade 10)', teacher: 'Sir Parakum Bandara', date: '2026-10-10', time: '17:00 - 19:00', link: 'https://zoom.us/j/1234567890', passcode: 'SCIENCE26', isLive: false }
+  {
+    id: 'zoom-1',
+    title: 'Grade 11 O/L Mathematics: Algebra & Quadratic Equations',
+    subject: 'Mathematics',
+    grade: 'Grade 11',
+    topic: 'Quadratic Equations',
+    teacher: 'Sir Parakum Bandara',
+    date: '2026-10-08',
+    time: '18:00 - 20:00',
+    link: 'https://zoom.us/j/9876543210',
+    passcode: 'PARAKUM26',
+    isLive: true,
+    type: 'Live Zoom Class'
+  },
+  {
+    id: 'zoom-2',
+    title: 'Grade 11 Geometry: Circle Theorems Masterclass',
+    subject: 'Mathematics',
+    grade: 'Grade 11',
+    topic: 'Circle Theorems & Geometric Proofs',
+    teacher: 'Sir Parakum Bandara',
+    date: '2026-10-14',
+    time: '18:30 - 20:00',
+    link: 'https://zoom.us/j/9876543210',
+    passcode: 'CIRCLE26',
+    isLive: false,
+    type: 'Live Zoom Class'
+  },
+  {
+    id: 'zoom-3',
+    title: 'Grade 11 Trigonometry Problem Solving Workshop',
+    subject: 'Mathematics',
+    grade: 'Grade 11',
+    topic: 'Trigonometry & Angles of Elevation',
+    teacher: 'Sir Parakum Bandara',
+    date: '2026-10-21',
+    time: '18:00 - 19:30',
+    link: 'https://zoom.us/j/9876543210',
+    passcode: 'TRIGO26',
+    isLive: false,
+    type: 'Interactive Workshop'
+  },
+  {
+    id: 'zoom-4',
+    title: 'Grade 11 O/L Mathematics Past Paper Discussion',
+    subject: 'Mathematics',
+    grade: 'Grade 11',
+    topic: 'Past Paper Assessment & Review',
+    teacher: 'Sir Parakum Bandara',
+    date: '2026-10-28',
+    time: '18:00 - 20:30',
+    link: 'https://zoom.us/j/9876543210',
+    passcode: 'PAPER26',
+    isLive: false,
+    type: 'Live Zoom Class'
+  },
+  {
+    id: 'zoom-5',
+    title: 'Grade 10 Mathematics: Algebraic Fractions & Equations',
+    subject: 'Mathematics',
+    grade: 'Grade 10',
+    topic: 'Algebraic Fractions',
+    teacher: 'Sir Parakum Bandara',
+    date: '2026-10-09',
+    time: '17:00 - 18:30',
+    link: 'https://zoom.us/j/1234567890',
+    passcode: 'MATH10',
+    isLive: false,
+    type: 'Live Zoom Class'
+  },
+  {
+    id: 'zoom-6',
+    title: 'Grade 10 Mathematics: Pythagoras Theorem in Depth',
+    subject: 'Mathematics',
+    grade: 'Grade 10',
+    topic: 'Pythagoras Theorem',
+    teacher: 'Sir Parakum Bandara',
+    date: '2026-10-16',
+    time: '17:00 - 18:30',
+    link: 'https://zoom.us/j/1234567890',
+    passcode: 'PYTH10',
+    isLive: false,
+    type: 'Live Zoom Class'
+  },
+  {
+    id: 'zoom-7',
+    title: 'Grade 9 Mathematics: Linear Equations & Graphs',
+    subject: 'Mathematics',
+    grade: 'Grade 9',
+    topic: 'Linear Equations',
+    teacher: 'Sir Parakum Bandara',
+    date: '2026-10-11',
+    time: '16:00 - 17:30',
+    link: 'https://zoom.us/j/5555555555',
+    passcode: 'MATH9',
+    isLive: false,
+    type: 'Live Zoom Class'
+  }
+];
+
+// ===== UPDATED TODAY: Mathematics Curriculum Seed Data (10 Lessons per Topic) =====
+const initialTopics = [
+  // Grade 11 Topics
+  {
+    id: 'top-1',
+    grade: 'Grade 11',
+    subject: 'Mathematics',
+    name: 'Algebra & Quadratic Equations',
+    description: 'Linear equations, quadratic formula, and algebraic expressions.',
+    lessonsCount: 10,
+    progress: 60
+  },
+  {
+    id: 'top-2',
+    grade: 'Grade 11',
+    subject: 'Mathematics',
+    name: 'Geometry & Circle Theorems',
+    description: 'Circle properties, angles, cyclic quadrilaterals, and theorems.',
+    lessonsCount: 10,
+    progress: 30
+  },
+  {
+    id: 'top-3',
+    grade: 'Grade 11',
+    subject: 'Mathematics',
+    name: 'Trigonometry & Angles of Elevation',
+    description: 'Trigonometric ratios (sin, cos, tan), angles of elevation and depression.',
+    lessonsCount: 10,
+    progress: 15
+  },
+  {
+    id: 'top-4',
+    grade: 'Grade 11',
+    subject: 'Mathematics',
+    name: 'Matrices & Transformations',
+    description: 'Matrix multiplication, inverse calculations, determinants, and coordinate transformations.',
+    lessonsCount: 6,
+    progress: 25
+  },
+  {
+    id: 'top-5',
+    grade: 'Grade 11',
+    subject: 'Mathematics',
+    name: 'Probability & Statistics',
+    description: 'Tree diagrams, independent events, frequency distributions, mean, median, and histograms.',
+    lessonsCount: 9,
+    progress: 50
+  },
+  {
+    id: 'top-6',
+    grade: 'Grade 11',
+    subject: 'Mathematics',
+    name: 'Perimeter, Area & Volumes',
+    description: 'Mensuration formulas for prisms, cylinders, pyramids, cones, and composite solids.',
+    lessonsCount: 7,
+    progress: 15
+  },
+
+  // Grade 10 Topics
+  {
+    id: 'top-7',
+    grade: 'Grade 10',
+    subject: 'Mathematics',
+    name: 'Algebraic Fractions & Formulae',
+    description: 'Simplification of complex fractions, subject change, and simultaneous linear equations.',
+    lessonsCount: 10,
+    progress: 55
+  },
+  {
+    id: 'top-8',
+    grade: 'Grade 10',
+    subject: 'Mathematics',
+    name: 'Pythagoras Theorem & Triangles',
+    description: 'Right-angled triangles, geometric proofs, and congruent triangle problems.',
+    lessonsCount: 8,
+    progress: 70
+  },
+  {
+    id: 'top-9',
+    grade: 'Grade 10',
+    subject: 'Mathematics',
+    name: 'Logarithms & Scientific Indices',
+    description: 'Laws of indices, logarithmic conversions, characteristic, and mantissa application.',
+    lessonsCount: 7,
+    progress: 30
+  },
+  {
+    id: 'top-10',
+    grade: 'Grade 10',
+    subject: 'Mathematics',
+    name: 'Sets & Venn Diagrams',
+    description: 'Universal sets, subsets, intersections, unions, and shaded region problems.',
+    lessonsCount: 6,
+    progress: 85
+  },
+  {
+    id: 'top-11',
+    grade: 'Grade 10',
+    subject: 'Mathematics',
+    name: 'Surface Area & Prisms',
+    description: 'Cross-sectional area calculations, surface areas, and cylinder mensuration.',
+    lessonsCount: 9,
+    progress: 20
+  },
+  {
+    id: 'top-12',
+    grade: 'Grade 10',
+    subject: 'Mathematics',
+    name: 'Linear Graphs & Gradients',
+    description: 'Plotting lines, finding gradient m and intercept c from coordinates and equations.',
+    lessonsCount: 8,
+    progress: 45
+  },
+
+  // Grade 9 Topics
+  {
+    id: 'top-13',
+    grade: 'Grade 9',
+    subject: 'Mathematics',
+    name: 'Linear Equations & Graphs',
+    description: 'Single-variable equations, coordinate axes, and plotting straight lines on Cartesian plane.',
+    lessonsCount: 8,
+    progress: 60
+  },
+  {
+    id: 'top-14',
+    grade: 'Grade 9',
+    subject: 'Mathematics',
+    name: 'Financial Mathematics & Profit',
+    description: 'Calculating percentage profit, loss, discounts, and simple annual interest.',
+    lessonsCount: 6,
+    progress: 75
+  },
+  {
+    id: 'top-15',
+    grade: 'Grade 9',
+    subject: 'Mathematics',
+    name: 'Angles & Parallel Lines',
+    description: 'Parallel line properties, alternate angles, corresponding angles, and triangle theorems.',
+    lessonsCount: 7,
+    progress: 40
+  },
+  {
+    id: 'top-16',
+    grade: 'Grade 9',
+    subject: 'Mathematics',
+    name: 'Fractions & Decimal Operations',
+    description: 'Order of operations, reciprocal multiplication, and rational number conversions.',
+    lessonsCount: 6,
+    progress: 90
+  },
+  {
+    id: 'top-17',
+    grade: 'Grade 9',
+    subject: 'Mathematics',
+    name: 'Perimeter & Area of Plane Figures',
+    description: 'Composite figures, parallelograms, trapeziums, and triangular boundary areas.',
+    lessonsCount: 8,
+    progress: 35
+  },
+  {
+    id: 'top-18',
+    grade: 'Grade 9',
+    subject: 'Mathematics',
+    name: 'Ratio, Rate & Proportion',
+    description: 'Dividing quantities in ratio and calculating speed, distance, and time relationships.',
+    lessonsCount: 5,
+    progress: 50
+  }
 ];
 
 const initialRecordings = [
@@ -61,8 +329,8 @@ const initialQuizzes = [
     title: 'Grade 11 Test: Algebra & Quadratic Formulas',
     subject: 'Mathematics (Grade 11)',
     durationMinutes: 30,
-    totalQuestions: 2,
-    totalMarks: 20,
+    totalQuestions: 3,
+    totalMarks: 30,
     questions: [
       {
         id: 'q1',
@@ -82,8 +350,18 @@ const initialQuizzes = [
   }
 ];
 
-const initialGrades = [];
-const initialPayments = [];
+const initialGrades = [
+  { id: 'grd-1', studentId: 'std-1', studentName: 'Kasun Perera', subject: 'Mathematics (Grade 11)', examName: 'Monthly Assessment - September', score: 88, maxScore: 100, grade: 'A', remarks: 'Excellent performance in Algebra test. Sir Parakum Bandara.', date: '2026-09-30' },
+  { id: 'grd-2', studentId: 'std-1', studentName: 'Kasun Perera', subject: 'Science (Grade 11)', examName: 'Mid-Term Science Test', score: 82, maxScore: 100, grade: 'A', remarks: 'Good grasp of chemistry concepts.', date: '2026-09-15' }
+];
+
+// ===== ADDED TODAY: Payment Records Seed Data (Paid, Pending, Unpaid) =====
+const initialPayments = [
+  { id: 'pay-1', studentId: 'std-1', studentName: 'Kasun Perera', month: 'October 2026', amount: 3500, status: 'Paid', nextDue: '-', slipUrl: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80', submittedAt: '2026-10-01 10:30 AM', notes: 'Bank transfer receipt attached.' },
+  { id: 'pay-2', studentId: 'std-2', studentName: 'Nipuni Silva', month: 'October 2026', amount: 3500, status: 'Pending', nextDue: '2026-10-15', slipUrl: null, submittedAt: '2026-10-05 02:15 PM', notes: 'Slip verification pending.' },
+  { id: 'pay-3', studentId: 'std-3', studentName: 'Dilshan Fernando', month: 'October 2026', amount: 3500, status: 'Unpaid', nextDue: '2026-10-10', slipUrl: null, submittedAt: null, notes: 'Overdue monthly fee.' },
+  { id: 'pay-4', studentId: 'std-4', studentName: 'Amali Fernando', month: 'October 2026', amount: 3500, status: 'Paid', nextDue: '-', slipUrl: null, submittedAt: '2026-10-01 09:00 AM', notes: 'Monthly fee paid via online portal.' }
+];
 
 const getStorageItem = (key, defaultVal) => {
   try {
@@ -100,130 +378,84 @@ const setStorageItem = (key, val) => {
   } catch (e) {}
 };
 
-// Generates next student ID (0001, 0002, ...)
-export const getNextStudentId = (users) => {
-  const students = users.filter((u) => u.role === 'student');
-  if (students.length === 0) {
-    return '0001';
-  }
-
-  let maxNum = 0;
-  for (const s of students) {
-    const rawId = s.studentId || s.indexNo || '';
-    const match = rawId.match(/\d+/);
-    if (match) {
-      const num = parseInt(match[0], 10);
-      if (!isNaN(num) && num > maxNum) {
-        maxNum = num;
-      }
-    }
-  }
-
-  const nextNum = maxNum + 1;
-  return String(nextNum).padStart(4, '0');
-};
-
+// ===== UPDATED TODAY: Mock DB Initialization & Sync for Real Student Records =====
 const initMockDB = () => {
-  // Clean legacy sample users
-  const storedUsers = localStorage.getItem(STORAGE_KEYS.USERS);
-  if (storedUsers) {
-    try {
-      const parsed = JSON.parse(storedUsers);
-      const hasLegacySample = parsed.some(
-        (u) =>
-          u.email === 'student@plms.com' ||
-          u.name === 'Kasun Perera' ||
-          u.email === 'nipuni@plms.com' ||
-          u.email === 'dilshan@plms.com' ||
-          u.email === 'parent@plms.com'
-      );
-      if (hasLegacySample) {
-        const cleaned = parsed.filter(
-          (u) =>
-            u.email !== 'student@plms.com' &&
-            u.email !== 'nipuni@plms.com' &&
-            u.email !== 'dilshan@plms.com' &&
-            u.email !== 'parent@plms.com'
-        );
-        if (!cleaned.some((u) => u.role === 'admin')) {
-          cleaned.push(initialUsers[0]);
-        }
-        setStorageItem(STORAGE_KEYS.USERS, cleaned);
-      }
-    } catch (e) {
-      setStorageItem(STORAGE_KEYS.USERS, initialUsers);
-    }
-  } else {
+  if (!localStorage.getItem(STORAGE_KEYS.USERS)) {
     setStorageItem(STORAGE_KEYS.USERS, initialUsers);
-  }
-
-  // Purge sample grades and payments tied to Kasun Perera (std-1)
-  const storedGrades = localStorage.getItem(STORAGE_KEYS.GRADES);
-  if (storedGrades) {
-    try {
-      const parsed = JSON.parse(storedGrades);
-      if (parsed.some((g) => g.studentId === 'std-1' || g.studentName === 'Kasun Perera')) {
-        const cleanedGrades = parsed.filter(
-          (g) => g.studentId !== 'std-1' && g.studentName !== 'Kasun Perera'
-        );
-        setStorageItem(STORAGE_KEYS.GRADES, cleanedGrades);
-      }
-    } catch (e) {
-      setStorageItem(STORAGE_KEYS.GRADES, initialGrades);
-    }
   } else {
-    setStorageItem(STORAGE_KEYS.GRADES, initialGrades);
-  }
-
-  const storedPayments = localStorage.getItem(STORAGE_KEYS.PAYMENTS);
-  if (storedPayments) {
-    try {
-      const parsed = JSON.parse(storedPayments);
-      if (parsed.some((p) => p.studentId === 'std-1' || p.studentName === 'Kasun Perera')) {
-        const cleanedPayments = parsed.filter(
-          (p) => p.studentId !== 'std-1' && p.studentName !== 'Kasun Perera'
-        );
-        setStorageItem(STORAGE_KEYS.PAYMENTS, cleanedPayments);
+    // Sync missing students (like Amali Fernando) or missing fields into localStorage
+    const storedUsers = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
+    let updated = false;
+    storedUsers.forEach(u => {
+      if (!u.enrollmentStatus) {
+        u.enrollmentStatus = 'Currently Enrolled';
+        updated = true;
       }
-    } catch (e) {
-      setStorageItem(STORAGE_KEYS.PAYMENTS, initialPayments);
+      if (!u.paymentStatus) {
+        const foundPay = initialPayments.find(p => p.studentId === u.id || p.studentName === u.name);
+        u.paymentStatus = foundPay?.status || 'Paid';
+        u.nextPaymentDue = foundPay?.nextDue || '-';
+        updated = true;
+      }
+    });
+
+    if (!storedUsers.some(u => u.name === 'Amali Fernando' || u.studentId === 'STU-7846')) {
+      const amali = initialUsers.find(u => u.name === 'Amali Fernando');
+      if (amali) {
+        storedUsers.push(amali);
+        updated = true;
+      }
     }
-  } else {
-    setStorageItem(STORAGE_KEYS.PAYMENTS, initialPayments);
+
+    if (updated) {
+      setStorageItem(STORAGE_KEYS.USERS, storedUsers);
+    }
+  }
+  
+  // Ensure zoom links have full calendar schedule
+  const storedZoom = getStorageItem(STORAGE_KEYS.ZOOM, null);
+  if (!storedZoom || storedZoom.length < 5) {
+    setStorageItem(STORAGE_KEYS.ZOOM, initialZoomLinks);
   }
 
-  if (!localStorage.getItem(STORAGE_KEYS.ZOOM)) setStorageItem(STORAGE_KEYS.ZOOM, initialZoomLinks);
+  // Ensure topics are initialized and refreshed
+  const storedTopics = getStorageItem(STORAGE_KEYS.TOPICS, null);
+  if (!storedTopics || storedTopics.length === 0 || storedTopics[0]?.lessonsCount !== 10) {
+    setStorageItem(STORAGE_KEYS.TOPICS, initialTopics);
+  }
+
   if (!localStorage.getItem(STORAGE_KEYS.RECORDINGS)) setStorageItem(STORAGE_KEYS.RECORDINGS, initialRecordings);
   if (!localStorage.getItem(STORAGE_KEYS.TUTORIALS)) setStorageItem(STORAGE_KEYS.TUTORIALS, initialTutorials);
   if (!localStorage.getItem(STORAGE_KEYS.QUIZZES)) setStorageItem(STORAGE_KEYS.QUIZZES, initialQuizzes);
+  if (!localStorage.getItem(STORAGE_KEYS.GRADES)) setStorageItem(STORAGE_KEYS.GRADES, initialGrades);
+
+  if (!localStorage.getItem(STORAGE_KEYS.PAYMENTS)) {
+    setStorageItem(STORAGE_KEYS.PAYMENTS, initialPayments);
+  } else {
+    const storedPayments = getStorageItem(STORAGE_KEYS.PAYMENTS, initialPayments);
+    let updatedPayments = false;
+    initialPayments.forEach(p => {
+      if (!storedPayments.some(sp => sp.studentId === p.studentId || sp.id === p.id)) {
+        storedPayments.push(p);
+        updatedPayments = true;
+      }
+    });
+    if (updatedPayments) {
+      setStorageItem(STORAGE_KEYS.PAYMENTS, storedPayments);
+    }
+  }
 };
 
 initMockDB();
 
-const delay = (ms = 150) => new Promise((res) => setTimeout(res, ms));
+const delay = (ms = 200) => new Promise(res => setTimeout(res, ms));
 
 export const apiService = {
-  // Login by Student ID or Email
-  async login({ identifier, email, studentId, password, role }) {
+  async login({ email, password, role }) {
     await delay();
     const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
-    const rawInput = (identifier || studentId || email || '').trim();
-    const inputLower = rawInput.toLowerCase();
-
-    const user = users.find((u) => {
-      if (u.role === 'student') {
-        const sId = (u.studentId || u.indexNo || '').toLowerCase();
-        // Support direct matching, e.g. "0001" or "STU-0001"
-        const cleanRaw = inputLower.replace(/^stu-/i, '');
-        const cleanSId = sId.replace(/^stu-/i, '');
-        if (sId === inputLower || cleanSId === cleanRaw) return true;
-        // Fallback to email matching if student enters email
-        if (u.email && u.email.toLowerCase() === inputLower) return true;
-        return false;
-      }
-      return u.email && u.email.toLowerCase() === inputLower;
-    });
-
+    const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+    
     if (user) {
       if (user.password && user.password !== password) {
         return { success: false, message: 'Invalid password. Please check your credentials.' };
@@ -234,80 +466,269 @@ export const apiService = {
       return { success: true, user, token: 'mock-jwt-token-' + user.id };
     }
 
-    if (role === 'student') {
-      return {
-        success: false,
-        message: `No student account found with Student ID "${rawInput}". Please check your Student ID (e.g. 0001) or register first.`
-      };
-    }
-    return { success: false, message: 'No account found with this credential. Please register first.' };
+    return { success: false, message: 'No account found with this email. Please register first.' };
   },
 
-  // Student registration
+  // ===== UPDATED TODAY: Student Registration with Dynamic ID & Payment Status =====
   async registerStudent(formData) {
     await delay();
     const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
-    const trimmedEmail = formData.email ? formData.email.trim().toLowerCase() : '';
-
-    const existing = users.find((u) => u.email.toLowerCase() === trimmedEmail);
+    const existing = users.find(u => u.email.toLowerCase() === formData.email.toLowerCase());
     if (existing) {
       return { success: false, message: 'An account with this email address already exists. Please log in.' };
     }
-
-    const newStudentId = getNextStudentId(users);
+    const newStudentId = 'STU-' + Math.floor(1000 + Math.random() * 9000);
+    const nameParts = (formData.name || '').trim().split(' ');
+    const firstName = nameParts[0] || '';
+    const lastName = nameParts.slice(1).join(' ') || '';
     const newUser = {
-      id: 'std-' + newStudentId,
-      name: formData.name ? formData.name.trim() : 'Student',
-      email: trimmedEmail,
+      id: 'std-' + Date.now(),
+      name: formData.name,
+      firstName,
+      lastName,
+      email: formData.email,
       password: formData.password,
       role: 'student',
-      phone: formData.phone ? formData.phone.trim() : '',
+      phone: formData.phone || '',
       grade: formData.grade || 'Grade 11 (O/L Mathematics)',
       studentId: newStudentId,
       indexNo: newStudentId,
       parentId: null,
-      enrolledAt: new Date().toISOString()
+      enrollmentStatus: 'Currently Enrolled',
+      paymentStatus: 'Pending',
+      nextPaymentDue: 'End of Month'
     };
-
     users.push(newUser);
     setStorageItem(STORAGE_KEYS.USERS, users);
-    return { success: true, user: newUser, token: 'mock-jwt-token-' + newUser.id };
+
+    const payments = getStorageItem(STORAGE_KEYS.PAYMENTS, initialPayments);
+    payments.unshift({
+      id: 'pay-' + Date.now(),
+      studentId: newUser.id,
+      studentName: newUser.name,
+      month: 'October 2026',
+      amount: 3500,
+      status: 'Pending',
+      nextDue: 'End of Month',
+      slipUrl: null,
+      submittedAt: new Date().toLocaleDateString(),
+      notes: 'Initial registration fee verification'
+    });
+    setStorageItem(STORAGE_KEYS.PAYMENTS, payments);
+
+    return { success: true, user: newUser };
   },
 
   async resetPassword(email) {
     await delay();
-    return { success: true, message: `Password reset instructions sent to ${email}` };
+    return { success: true, message: `Reset link sent to ${email}` };
   },
 
-  // Student Dashboard Data
-  async getStudentDashboardData(studentId) {
+  async getStudentDashboardData(studentId = 'std-1') {
     await delay();
     const zoomLinks = getStorageItem(STORAGE_KEYS.ZOOM, initialZoomLinks);
     const recordings = getStorageItem(STORAGE_KEYS.RECORDINGS, initialRecordings);
-    const payments = getStorageItem(STORAGE_KEYS.PAYMENTS, []);
-    const grades = getStorageItem(STORAGE_KEYS.GRADES, []);
-
-    const userPayments = studentId
-      ? payments.filter((p) => p.studentId === studentId || p.studentId === 'std-' + studentId)
-      : payments;
-    const userGrades = studentId
-      ? grades.filter((g) => g.studentId === studentId || g.studentId === 'std-' + studentId)
-      : grades;
+    const payments = getStorageItem(STORAGE_KEYS.PAYMENTS, initialPayments);
+    const grades = getStorageItem(STORAGE_KEYS.GRADES, initialGrades);
 
     return {
       upcomingLiveSession: zoomLinks[0] || null,
       recentRecordingsCount: recordings.length,
-      latestGrade: userGrades[0] || null,
-      paymentStatus: userPayments[0]?.status || 'No Payments Yet',
+      latestGrade: grades[0] || null,
+      paymentStatus: payments[0]?.status || 'Paid',
       totalTutorials: 8,
       pendingQuizzes: 1
     };
   },
 
-  // Zoom Links
+  // ===== UPDATED TODAY: Dynamic Student Lookup by Authenticated User ID =====
+  async getStudentById(id) {
+    await delay();
+    if (!id) return null;
+    const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
+    const payments = getStorageItem(STORAGE_KEYS.PAYMENTS, initialPayments);
+    const student = users.find(u => u.id === id || u.studentId === id || (u.email && u.email.toLowerCase() === String(id).toLowerCase()));
+    if (student) {
+      const nameParts = (student.name || '').trim().split(' ');
+      const firstName = student.firstName || nameParts[0] || '';
+      const lastName = student.lastName || nameParts.slice(1).join(' ') || '';
+      const fullName = student.name || `${firstName} ${lastName}`.trim();
+
+      const studentPayment = payments.find(p => p.studentId === student.id || p.studentId === student.studentId || p.studentName === student.name);
+      const paymentStatus = studentPayment?.status || student.paymentStatus || 'Paid';
+      const nextPaymentDue = studentPayment?.nextDue || student.nextPaymentDue || '-';
+
+      return {
+        ...student,
+        firstName,
+        lastName,
+        fullName,
+        enrollmentStatus: student.enrollmentStatus || 'Currently Enrolled',
+        paymentStatus,
+        nextPaymentDue
+      };
+    }
+    return null;
+  },
+
+  // ===== ADDED TODAY: Dynamic Student Payment Status Query (Paid / Pending / Unpaid) =====
+  async getStudentPaymentStatus(studentId) {
+    await delay();
+    if (!studentId) return { status: 'Paid', nextDue: '-', amount: 3500, month: 'October 2026' };
+    const payments = getStorageItem(STORAGE_KEYS.PAYMENTS, initialPayments);
+    const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
+    const user = users.find(u => u.id === studentId || u.studentId === studentId || (u.email && u.email.toLowerCase() === String(studentId).toLowerCase()));
+
+    const studentPayment = payments.find(p => 
+      p.studentId === studentId || 
+      (user && (p.studentName === user.name || p.studentId === user.studentId || p.studentId === user.id))
+    );
+
+    if (studentPayment) {
+      return {
+        status: studentPayment.status,
+        month: studentPayment.month || 'October 2026',
+        amount: studentPayment.amount || 3500,
+        nextDue: studentPayment.nextDue || '-'
+      };
+    }
+
+    if (user?.paymentStatus) {
+      return {
+        status: user.paymentStatus,
+        month: 'October 2026',
+        amount: 3500,
+        nextDue: user.nextPaymentDue || '-'
+      };
+    }
+
+    return {
+      status: 'Paid',
+      month: 'October 2026',
+      amount: 3500,
+      nextDue: '-'
+    };
+  },
+
+  // ===== ADDED TODAY: Dynamic Mathematics Topics Filtered by Student Grade =====
+  async getMathematicsTopics(grade) {
+    await delay();
+    const topics = getStorageItem(STORAGE_KEYS.TOPICS, initialTopics);
+    if (!grade) return [];
+    
+    // Normalize grade search (e.g. "Grade 11 (O/L Mathematics)" -> "11")
+    const match = grade.match(/Grade\s*(\d+)/i) || grade.match(/(\d+)/);
+    const gradeNum = match ? match[1] : null;
+
+    if (gradeNum) {
+      return topics.filter(t => t.grade.includes(gradeNum));
+    }
+
+    return topics.filter(t => t.grade.toLowerCase().includes(grade.toLowerCase()));
+  },
+
+  // ===== ADDED TODAY: Dynamic Student Classes Filtered by Grade for Calendar =====
+  async getStudentClasses(studentId, grade) {
+    await delay();
+    const zoomLinks = getStorageItem(STORAGE_KEYS.ZOOM, initialZoomLinks);
+    if (!grade) return zoomLinks;
+
+    // Filter classes matching student grade
+    const match = grade.match(/Grade\s*(\d+)/i) || grade.match(/(\d+)/);
+    const gradeNum = match ? match[1] : null;
+
+    if (gradeNum) {
+      return zoomLinks.filter(c => {
+        const text = `${c.grade || ''} ${c.subject || ''} ${c.title || ''}`;
+        return text.includes(gradeNum);
+      });
+    }
+
+    return zoomLinks;
+  },
+
   async getZoomLinks() {
     await delay();
     return getStorageItem(STORAGE_KEYS.ZOOM, initialZoomLinks);
+  },
+
+  async getClassRecordings() {
+    await delay();
+    return getStorageItem(STORAGE_KEYS.RECORDINGS, initialRecordings);
+  },
+
+  async getTutorials() {
+    await delay();
+    return getStorageItem(STORAGE_KEYS.TUTORIALS, initialTutorials);
+  },
+
+  async getQuizzes() {
+    await delay();
+    return getStorageItem(STORAGE_KEYS.QUIZZES, initialQuizzes);
+  },
+
+  async getStudentGrades(studentId = 'std-1') {
+    await delay();
+    return getStorageItem(STORAGE_KEYS.GRADES, initialGrades);
+  },
+
+  async getParentDashboardData(parentId = 'prn-1') {
+    await delay();
+    const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
+    const child = users[0];
+    const grades = getStorageItem(STORAGE_KEYS.GRADES, initialGrades);
+    const payments = getStorageItem(STORAGE_KEYS.PAYMENTS, initialPayments);
+
+    return {
+      child,
+      attendanceRate: '96%',
+      recentGrades: grades,
+      latestPayment: payments[0] || { month: 'October 2026', status: 'Approved', amount: 3500 },
+      overallGrade: 'A',
+      activeClasses: 2
+    };
+  },
+
+  async getAdminDashboardStats() {
+    await delay();
+    const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
+    const payments = getStorageItem(STORAGE_KEYS.PAYMENTS, initialPayments);
+    const zoomLinks = getStorageItem(STORAGE_KEYS.ZOOM, initialZoomLinks);
+    const recordings = getStorageItem(STORAGE_KEYS.RECORDINGS, initialRecordings);
+
+    return {
+      totalStudents: users.filter(u => u.role === 'student').length,
+      totalParents: users.filter(u => u.role === 'parent').length,
+      pendingPaymentsCount: payments.filter(p => p.status === 'Pending').length,
+      totalClasses: zoomLinks.length,
+      totalRecordings: recordings.length
+    };
+  },
+
+  async getAllStudents() {
+    await delay();
+    const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
+    return users.filter(u => u.role === 'student');
+  },
+
+  async addStudent(studentData) {
+    await delay();
+    const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
+    const newStudentId = 'STU-' + Math.floor(1000 + Math.random() * 9000);
+    const newStudent = {
+      id: 'std-' + Date.now(),
+      role: 'student',
+      name: studentData.name,
+      email: studentData.email,
+      phone: studentData.phone,
+      grade: studentData.grade || 'Grade 11 (O/L)',
+      studentId: newStudentId,
+      indexNo: newStudentId,
+      parentId: null
+    };
+    users.push(newStudent);
+    setStorageItem(STORAGE_KEYS.USERS, users);
+    return { success: true, student: newStudent };
   },
 
   async createZoomLink(data) {
@@ -332,15 +753,9 @@ export const apiService = {
   async deleteZoomLink(id) {
     await delay();
     let links = getStorageItem(STORAGE_KEYS.ZOOM, initialZoomLinks);
-    links = links.filter((l) => l.id !== id);
+    links = links.filter(l => l.id !== id);
     setStorageItem(STORAGE_KEYS.ZOOM, links);
     return { success: true };
-  },
-
-  // Recordings
-  async getClassRecordings() {
-    await delay();
-    return getStorageItem(STORAGE_KEYS.RECORDINGS, initialRecordings);
   },
 
   async uploadRecording(data) {
@@ -365,74 +780,14 @@ export const apiService = {
   async deleteRecording(id) {
     await delay();
     let recordings = getStorageItem(STORAGE_KEYS.RECORDINGS, initialRecordings);
-    recordings = recordings.filter((r) => r.id !== id);
+    recordings = recordings.filter(r => r.id !== id);
     setStorageItem(STORAGE_KEYS.RECORDINGS, recordings);
     return { success: true };
   },
 
-  // Tutorials
-  async getTutorials() {
-    await delay();
-    return getStorageItem(STORAGE_KEYS.TUTORIALS, initialTutorials);
-  },
-
-  async createTutorial(data) {
-    await delay();
-    const tutorials = getStorageItem(STORAGE_KEYS.TUTORIALS, initialTutorials);
-    const newTut = {
-      id: 'tut-' + Date.now(),
-      ...data,
-      pdfUrl: '#download-tutorial-pdf'
-    };
-    tutorials.unshift(newTut);
-    setStorageItem(STORAGE_KEYS.TUTORIALS, tutorials);
-    return { success: true, tutorial: newTut };
-  },
-
-  // Quizzes
-  async getQuizzes() {
-    await delay();
-    return getStorageItem(STORAGE_KEYS.QUIZZES, initialQuizzes);
-  },
-
-  async createQuiz(data) {
-    await delay();
-    const quizzes = getStorageItem(STORAGE_KEYS.QUIZZES, initialQuizzes);
-    quizzes.unshift(data);
-    setStorageItem(STORAGE_KEYS.QUIZZES, quizzes);
-    return { success: true, quiz: data };
-  },
-
-  async deleteQuiz(id) {
-    await delay();
-    let quizzes = getStorageItem(STORAGE_KEYS.QUIZZES, initialQuizzes);
-    quizzes = quizzes.filter((q) => q.id !== id);
-    setStorageItem(STORAGE_KEYS.QUIZZES, quizzes);
-    return { success: true };
-  },
-
-  async submitQuizAnswers(quizId, answers) {
-    await delay();
-    return {
-      success: true,
-      score: 20,
-      maxScore: 20,
-      percentage: 100,
-      feedback: 'Excellent work! Keep practicing O/L Mathematics questions.'
-    };
-  },
-
-  // Student Grades
-  async getStudentGrades(studentId) {
-    await delay();
-    const grades = getStorageItem(STORAGE_KEYS.GRADES, []);
-    if (!studentId) return grades;
-    return grades.filter((g) => g.studentId === studentId || g.studentId === 'std-' + studentId);
-  },
-
   async assignGrade(gradeData) {
     await delay();
-    const grades = getStorageItem(STORAGE_KEYS.GRADES, []);
+    const grades = getStorageItem(STORAGE_KEYS.GRADES, initialGrades);
     const newGrade = {
       id: 'grd-' + Date.now(),
       studentId: gradeData.studentId,
@@ -442,236 +797,11 @@ export const apiService = {
       score: Number(gradeData.score),
       maxScore: Number(gradeData.maxScore) || 100,
       grade: gradeData.grade || 'A',
-      remarks: gradeData.remarks || 'Good progress. Sir Parakum Bandara',
+      remarks: gradeData.remarks || 'Excellent progress. Sir Parakum Bandara',
       date: new Date().toISOString().split('T')[0]
     };
     grades.unshift(newGrade);
     setStorageItem(STORAGE_KEYS.GRADES, grades);
     return { success: true, grade: newGrade };
-  },
-
-  // Payments
-  async getStudentPayments(studentId) {
-    await delay();
-    const payments = getStorageItem(STORAGE_KEYS.PAYMENTS, []);
-    if (!studentId) return payments;
-    return payments.filter((p) => p.studentId === studentId || p.studentId === 'std-' + studentId);
-  },
-
-  async getAllPayments() {
-    await delay();
-    return getStorageItem(STORAGE_KEYS.PAYMENTS, []);
-  },
-
-  async uploadPaymentSlip({ studentId, studentName, month, amount, slipUrl, notes }) {
-    await delay();
-    const payments = getStorageItem(STORAGE_KEYS.PAYMENTS, []);
-    const newPayment = {
-      id: 'pay-' + Date.now(),
-      studentId: studentId || 'std-0001',
-      studentName: studentName || 'Student',
-      month: month || 'October 2026',
-      amount: Number(amount) || 3500,
-      status: 'Pending',
-      slipUrl: slipUrl || 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80',
-      submittedAt: new Date().toLocaleString(),
-      notes: notes || 'Bank deposit / slip upload'
-    };
-    payments.unshift(newPayment);
-    setStorageItem(STORAGE_KEYS.PAYMENTS, payments);
-    return { success: true, payment: newPayment };
-  },
-
-  async approvePayment(id) {
-    await delay();
-    const payments = getStorageItem(STORAGE_KEYS.PAYMENTS, []);
-    const payment = payments.find((p) => p.id === id);
-    if (payment) {
-      payment.status = 'Approved';
-      setStorageItem(STORAGE_KEYS.PAYMENTS, payments);
-      return { success: true };
-    }
-    return { success: false, message: 'Payment record not found' };
-  },
-
-  async rejectPayment(id, reason) {
-    await delay();
-    const payments = getStorageItem(STORAGE_KEYS.PAYMENTS, []);
-    const payment = payments.find((p) => p.id === id);
-    if (payment) {
-      payment.status = 'Rejected';
-      payment.rejectReason = reason;
-      setStorageItem(STORAGE_KEYS.PAYMENTS, payments);
-      return { success: true };
-    }
-    return { success: false, message: 'Payment record not found' };
-  },
-
-  // Admin Dashboard Stats
-  async getAdminDashboardStats() {
-    await delay();
-    const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
-    const payments = getStorageItem(STORAGE_KEYS.PAYMENTS, []);
-    const zoomLinks = getStorageItem(STORAGE_KEYS.ZOOM, initialZoomLinks);
-    const recordings = getStorageItem(STORAGE_KEYS.RECORDINGS, initialRecordings);
-
-    return {
-      totalStudents: users.filter((u) => u.role === 'student').length,
-      totalParents: users.filter((u) => u.role === 'parent').length,
-      pendingPaymentsCount: payments.filter((p) => p.status === 'Pending').length,
-      totalClasses: zoomLinks.length,
-      totalRecordings: recordings.length
-    };
-  },
-
-  // Student Management
-  async getAllStudents() {
-    await delay();
-    const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
-    return users.filter((u) => u.role === 'student');
-  },
-
-  async addStudent(studentData) {
-    await delay();
-    const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
-    const trimmedEmail = studentData.email ? studentData.email.trim().toLowerCase() : '';
-
-    const existing = users.find((u) => u.email.toLowerCase() === trimmedEmail);
-    if (existing) {
-      return { success: false, message: 'A student with this email address already exists.' };
-    }
-
-    const newStudentId = getNextStudentId(users);
-    const newStudent = {
-      id: 'std-' + newStudentId,
-      role: 'student',
-      name: studentData.name ? studentData.name.trim() : 'Student',
-      email: trimmedEmail,
-      password: studentData.password || 'password123',
-      phone: studentData.phone ? studentData.phone.trim() : '',
-      grade: studentData.grade || 'Grade 11 (O/L Mathematics)',
-      studentId: newStudentId,
-      indexNo: newStudentId,
-      parentId: null,
-      enrolledAt: new Date().toISOString()
-    };
-    users.push(newStudent);
-    setStorageItem(STORAGE_KEYS.USERS, users);
-    return { success: true, student: newStudent };
-  },
-
-  // Parent Management
-  async getAllParents() {
-    await delay();
-    const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
-    return users.filter((u) => u.role === 'parent');
-  },
-
-  async addParent(parentData) {
-    await delay();
-    const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
-    const trimmedEmail = parentData.email ? parentData.email.trim().toLowerCase() : '';
-
-    const existing = users.find((u) => u.email.toLowerCase() === trimmedEmail);
-    if (existing) {
-      return { success: false, message: 'A parent account with this email already exists.' };
-    }
-
-    const newParent = {
-      id: 'prn-' + Date.now(),
-      role: 'parent',
-      name: parentData.name ? parentData.name.trim() : 'Parent',
-      email: trimmedEmail,
-      password: 'password123',
-      phone: parentData.phone ? parentData.phone.trim() : '',
-      occupation: parentData.occupation || '',
-      linkedStudentIds: []
-    };
-    users.push(newParent);
-    setStorageItem(STORAGE_KEYS.USERS, users);
-    return { success: true, parent: newParent };
-  },
-
-  async linkParentToStudent(parentId, studentId) {
-    await delay();
-    const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
-    const parent = users.find((u) => u.id === parentId);
-    const student = users.find((u) => u.id === studentId || u.studentId === studentId);
-    if (parent && student) {
-      if (!parent.linkedStudentIds) parent.linkedStudentIds = [];
-      if (!parent.linkedStudentIds.includes(student.id)) {
-        parent.linkedStudentIds.push(student.id);
-      }
-      student.parentId = parent.id;
-      setStorageItem(STORAGE_KEYS.USERS, users);
-      return { success: true };
-    }
-    return { success: false, message: 'Parent or Student not found' };
-  },
-
-  // Parent View: Child Details & Progress
-  async getChildDetails(studentId) {
-    await delay();
-    const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
-    const student = users.find((u) => u.id === studentId || u.studentId === studentId || u.role === 'student');
-    return student || null;
-  },
-
-  async getChildPayments(studentId) {
-    await delay();
-    const payments = getStorageItem(STORAGE_KEYS.PAYMENTS, []);
-    if (!studentId) return payments;
-    return payments.filter((p) => p.studentId === studentId || p.studentId === 'std-' + studentId);
-  },
-
-  async getChildProgress(studentId) {
-    await delay();
-    const grades = getStorageItem(STORAGE_KEYS.GRADES, []);
-    const zoomLinks = getStorageItem(STORAGE_KEYS.ZOOM, initialZoomLinks);
-    const userGrades = studentId
-      ? grades.filter((g) => g.studentId === studentId || g.studentId === 'std-' + studentId)
-      : grades;
-    return {
-      attendanceRate: '96%',
-      classesAttended: zoomLinks.length,
-      averageScore: userGrades.length
-        ? Math.round(userGrades.reduce((a, b) => a + (b.score || 0), 0) / userGrades.length)
-        : 85,
-      completedTutorials: 6,
-      completedQuizzes: 2
-    };
-  },
-
-  async getChildGrades(studentId) {
-    await delay();
-    const grades = getStorageItem(STORAGE_KEYS.GRADES, []);
-    if (!studentId) return grades;
-    return grades.filter((g) => g.studentId === studentId || g.studentId === 'std-' + studentId);
-  },
-
-  async getParentDashboardData(parentId) {
-    await delay();
-    const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
-    const parents = users.filter((u) => u.role === 'parent');
-    const currentParent = parents.find((p) => p.id === parentId) || parents[0];
-    const students = users.filter((u) => u.role === 'student');
-    const child =
-      currentParent?.linkedStudentIds?.length > 0
-        ? students.find((s) => s.id === currentParent.linkedStudentIds[0]) || students[0]
-        : students[0] || null;
-
-    const grades = getStorageItem(STORAGE_KEYS.GRADES, []);
-    const payments = getStorageItem(STORAGE_KEYS.PAYMENTS, []);
-
-    return {
-      child,
-      attendanceRate: '96%',
-      recentGrades: grades,
-      latestPayment: payments[0] || { month: 'October 2026', status: 'Pending', amount: 3500 },
-      overallGrade: 'A',
-      activeClasses: 2
-    };
   }
 };
-
-export default apiService;

@@ -16,11 +16,6 @@ import HowToRegister from './pages/public/HowToRegister';
 import StudentDashboard from './pages/student/StudentDashboard';
 import Profile from './pages/student/Profile';
 import ZoomLinks from './pages/student/ZoomLinks';
-import ClassRecordings from './pages/student/ClassRecordings';
-import Tutorials from './pages/student/Tutorials';
-import Quizzes from './pages/student/Quizzes';
-import Grades from './pages/student/Grades';
-import Payments from './pages/student/Payments';
 
 // Parent Pages
 import ParentDashboard from './pages/parent/ParentDashboard';
@@ -67,16 +62,14 @@ export const AppContent = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/reset-password" element={<ResetPassword />} />
 
-            {/* Student Protected Routes */}
+            {/* ============================================================ */}
+            {/* UPDATED TODAY - STUDENT PROTECTED ROUTES                      */}
+            {/* Streamlined routes for Student Portal (Dashboard, Profile, Zoom) */}
+            {/* ============================================================ */}
             <Route element={<ProtectedRoute allowedRoles={['student', 'admin']} />}>
               <Route path="/student" element={<StudentDashboard />} />
               <Route path="/student/profile" element={<Profile />} />
               <Route path="/student/zoom" element={<ZoomLinks />} />
-              <Route path="/student/recordings" element={<ClassRecordings />} />
-              <Route path="/student/tutorials" element={<Tutorials />} />
-              <Route path="/student/quizzes" element={<Quizzes />} />
-              <Route path="/student/grades" element={<Grades />} />
-              <Route path="/student/payments" element={<Payments />} />
             </Route>
 
             {/* Parent Protected Routes */}
