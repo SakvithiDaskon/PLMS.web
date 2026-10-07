@@ -40,20 +40,29 @@ export const Sidebar = ({ isOpen, onClose }) => {
     { label: 'Payments & Slips', path: '/student/payments', icon: CreditCard }
   ];
 
-  // Admin Navigation Items (Zoom Schedules is NOW ACTIVE)
+  // Parent Navigation Items
+  const parentNav = [
+    { label: 'Parent Dashboard', path: '/parent', icon: LayoutDashboard },
+    { label: 'Child Details', path: '/parent/child-details', icon: User },
+    { label: 'Academic Progress', path: '/parent/child-progress', icon: BookOpen },
+    { label: 'Grades & Results', path: '/parent/child-grades', icon: Award },
+    { label: 'Payments & Fee Slips', path: '/parent/child-payments', icon: CreditCard }
+  ];
+
+  // Admin Navigation Items
   const adminNav = [
     { label: 'Admin Dashboard', path: '/admin', icon: LayoutDashboard, active: true },
     { label: 'Student Mgmt', path: '/admin/students', icon: Users, active: true },
-    { label: 'Parent Mgmt', path: '#', icon: UserPlus, active: false },
+    { label: 'Parent Mgmt', path: '/admin/parents', icon: UserPlus, active: true },
     { label: 'Zoom Schedules', path: '/admin/zoom', icon: Radio, active: true, badge: 'Live' },
     { label: 'Recording Uploads', path: '/admin/recordings', icon: PlaySquare, active: true },
-    { label: 'Tutorial Creator', path: '#', icon: BookOpen, active: false },
-    { label: 'Quiz Builder', path: '#', icon: FilePlus, active: false },
+    { label: 'Tutorial Creator', path: '/admin/tutorials', icon: BookOpen, active: true },
+    { label: 'Quiz Builder', path: '/admin/quizzes', icon: FilePlus, active: true },
     { label: 'Grade Mgmt', path: '/admin/grades', icon: Award, active: true },
-    { label: 'Payment Verification', path: '#', icon: CheckSquare, active: false }
+    { label: 'Payment Verification', path: '/admin/payments', icon: CheckSquare, active: true }
   ];
 
-  const navItems = role === 'admin' ? adminNav : studentNav;
+  const navItems = role === 'admin' ? adminNav : (role === 'parent' ? parentNav : studentNav);
 
   return (
     <>

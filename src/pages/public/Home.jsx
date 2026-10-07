@@ -28,21 +28,17 @@ export const Home = () => {
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
-            Excel in Grade 6 to 11 Mathematics with{' '}
+            Transform Your Mathematics Journey: Grade 6 to 11 with{' '}
             <span className="text-blue-200">
               Sir Parakum Bandara
             </span>
           </h1>
 
           <p className="text-blue-50 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-            The dedicated private learning portal for Grade 6 to 11 (O/L)
-            Mathematics students. Join live Zoom lectures, review recorded
-            video modules, practice geometry and algebra step-by-step, and
-            track your term marks.
+            The dedicated private learning portal for Grade 6 to 11 Mathematics students. Join live Zoom lectures, review recorded video modules, practice geometry and algebra step-by-step, and track your term marks.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-
             <Link
               to="/login"
               className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-[#003153] bg-white hover:bg-[#e6f0f7] shadow-lg transition-all hover:scale-105"
@@ -53,33 +49,38 @@ export const Home = () => {
 
             <Link
               to="/register"
-              className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-white bg-[#00223d] hover:bg-[#00192e] border border-[#004575] transition-all"
+              className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-white bg-[#00223d] hover:bg-[#00192e] border border-[#004575] transition-all hover:scale-105"
             >
               <GraduationCap className="w-4 h-4 text-blue-200" />
               <span>Student Registration</span>
             </Link>
-
-            <Link
-              to="/how-to-register"
-              className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-blue-100 bg-white/10 hover:bg-white/20 border border-white/30 transition-all"
-            >
-              <HelpCircle className="w-4 h-4 text-blue-200" />
-              <span>How to Register</span>
-            </Link>
-
           </div>
 
-          <h2 className="text-xl sm:text-2xl font-bold">
-            New to PLMS? Learn How to Register
-          </h2>
-
-          <p className="text-xs sm:text-sm text-blue-100 max-w-xl mx-auto">
-            Get step-by-step instructions on how students register for classes
-            and how parents link their child's account to monitor academic
-            progress.
-          </p>
-
         </div>
+      </section>
+
+      {/* Registration Guidance Banner (Between Hero & User Portals) */}
+      <section className="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-[#003153] to-[#00223d] text-white shadow-lg border border-[#004575] flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="space-y-2 text-center md:text-left">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-blue-200 text-xs font-bold border border-white/10">
+            <HelpCircle className="w-3.5 h-3.5" />
+            <span>Registration Assistance</span>
+          </div>
+          <h2 className="text-xl sm:text-2xl font-bold">New to PLMS? Learn How to Register</h2>
+          <p className="text-xs sm:text-sm text-blue-100 max-w-xl">
+            Get step-by-step instructions on how students register for classes and how parents link their child's account to monitor academic progress.
+          </p>
+        </div>
+
+        <Link
+          to="/how-to-register"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-[#003153] bg-white hover:bg-[#e6f0f7] shadow-lg transition-all hover:scale-105 whitespace-nowrap shrink-0"
+        >
+          <span>How to Register</span>
+          <ArrowRight className="w-4 h-4" />
+        </Link>
       </section>
 
       {/* User Portals Section */}
