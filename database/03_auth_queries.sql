@@ -21,8 +21,13 @@ VALUES ('newstudent@example.com', '$2a$12$hashedPasswordGoesHere...', 1, TRUE);
 -- Get the newly inserted user_id
 SET @new_user_id = LAST_INSERT_ID();
 
--- Step 1.2.2: Insert Registration Details into STUDENT_DETAILS table
--- Generates student ID (e.g., 'STU-2026-9912')
+-- Step 1.2.2: Compute the next sequential Student ID starting from '0001' to higher order
+-- If table is empty, assigns '0001'. For 2nd registration, assigns '0002', etc.
+SELECT LPAD(COALESCE(MAX(CAST(student_id AS UNSIGNED)), 0) + 1, 4, '0')
+INTO @next_student_id
+FROM student_details;
+
+-- Step 1.2.3: Insert Registration Details into STUDENT_DETAILS table
 INSERT INTO student_details (
     user_id,
     full_name,
@@ -35,7 +40,7 @@ VALUES (
     'Nuwan Pradeep',
     '+94 77 987 6543',
     'Grade 11 (O/L Mathematics)',
-    'STU-2026-9912'
+    @next_student_id
 );
 
 -- Commit transaction ensuring both records are created together
@@ -46,9 +51,8 @@ COMMIT;
 -- 2. LOGIN WORKFLOW (When a user submits the Sign In form)
 -- =============================================================================
 
--- Query: Retrieve user credentials along with their specific profile details
--- This query automatically joins the correct details based on user role.
-
+-- Query A: Student Login by STUDENT ID (e.g. '0001')
+-- Students enter their unique sequential Student ID and password
 SELECT 
     u.user_id,
     u.email,
@@ -59,11 +63,27 @@ SELECT
     sd.full_name AS student_name,
     sd.grade,
     sd.phone_number
+FROM student_details sd
+INNER JOIN users u ON sd.user_id = u.user_id
+INNER JOIN roles r ON u.role_id = r.role_id
+WHERE sd.student_id = '0001'
+  AND r.role_name = 'student'
+  AND u.is_active = TRUE;
+
+-- Query B: Administrator Login by Email
+SELECT 
+    u.user_id,
+    u.email,
+    u.password_hash,
+    u.is_active,
+    r.role_name,
+    ad.full_name AS admin_name,
+    ad.designation
 FROM users u
 INNER JOIN roles r ON u.role_id = r.role_id
-LEFT JOIN student_details sd ON u.user_id = sd.user_id
-WHERE u.email = 'student@plms.com'
-  AND r.role_name = 'student'
+INNER JOIN admin_details ad ON u.user_id = ad.user_id
+WHERE u.email = 'admin@plms.com'
+  AND r.role_name = 'admin'
   AND u.is_active = TRUE;
 
 -- Application Verification logic:
@@ -74,7 +94,7 @@ UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE user_id = @authenticated_u
 -- 3. Return user profile JSON to React frontend:
 -- {
 --   id: 'std-' + student_id,
---   studentId: student_id,
+--   studentId: student_id,       -- e.g. '0001'
 --   name: student_name,
 --   email: email,
 --   role: 'student',

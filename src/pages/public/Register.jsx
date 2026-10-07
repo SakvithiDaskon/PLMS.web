@@ -3,9 +3,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import logo from '../../assets/logo.png';
 import {
-  UserPlus,
   ArrowRight,
-  AlertCircle
+  AlertCircle,
+  IdCard,
+  CheckCircle2,
+  LogIn
 } from 'lucide-react';
 
 export const Register = () => {
@@ -22,6 +24,7 @@ export const Register = () => {
   });
 
   const [errorMsg, setErrorMsg] = useState('');
+  const [registeredStudent, setRegisteredStudent] = useState(null);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -38,11 +41,74 @@ export const Register = () => {
 
     const res = await register(formData);
     if (res.success) {
-      navigate('/student');
+      setRegisteredStudent(res.user);
     } else {
       setErrorMsg(res.message || 'Registration failed');
     }
   };
+
+  // If registration is complete, show the Official Student ID card
+  if (registeredStudent) {
+    return (
+      <div className="max-w-md mx-auto py-10 space-y-6">
+        <div className="p-8 rounded-2xl bg-white border border-[#c0d9ec] shadow-xl text-center space-y-6">
+          <div className="w-16 h-16 mx-auto rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center shadow-sm">
+            <CheckCircle2 className="w-9 h-9" />
+          </div>
+
+          <div className="space-y-1">
+            <h1 className="text-2xl font-extrabold text-slate-900">Registration Complete!</h1>
+            <p className="text-xs text-slate-600">
+              Welcome to Sir Parakum Bandara's PLMS classes, <strong>{registeredStudent.name}</strong>.
+            </p>
+          </div>
+
+          {/* Student ID Card Badge */}
+          <div className="p-5 rounded-2xl bg-[#f4f8fb] border-2 border-[#003153]/20 space-y-2">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#003153] text-white text-[11px] font-bold">
+              <IdCard className="w-3.5 h-3.5" />
+              <span>Official Student ID</span>
+            </div>
+
+            <div className="text-4xl font-extrabold font-mono text-[#003153] tracking-wider py-1">
+              {registeredStudent.studentId}
+            </div>
+
+            <p className="text-xs text-slate-600 font-medium">
+              Please take note of your <strong>Student ID: {registeredStudent.studentId}</strong>.
+              You will enter this ID instead of an email address on the Sign In page.
+            </p>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="space-y-3 pt-2">
+            <button
+              onClick={() =>
+                navigate('/login', {
+                  state: {
+                    studentId: registeredStudent.studentId,
+                    message: `Registration successful! Your Student ID is ${registeredStudent.studentId}.`
+                  }
+                })
+              }
+              className="w-full py-3.5 rounded-xl font-extrabold text-xs text-white bg-[#003153] hover:bg-[#00223d] shadow-md transition-all flex items-center justify-center gap-2"
+            >
+              <LogIn className="w-4 h-4" />
+              <span>Go to Sign In (Enter Student ID)</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+
+            <button
+              onClick={() => navigate('/student')}
+              className="w-full py-2.5 rounded-xl font-bold text-xs text-[#003153] hover:bg-[#e6f0f7] transition-all"
+            >
+              Continue directly to Dashboard
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-xl mx-auto py-8 space-y-6">
@@ -57,6 +123,19 @@ export const Register = () => {
       </div>
 
       <div className="p-6 rounded-2xl bg-white border border-[#c0d9ec] shadow-xl space-y-6">
+<<<<<<< Updated upstream
+=======
+
+        {/* Student ID Notice Banner */}
+        <div className="p-3.5 rounded-xl bg-[#e6f0f7] border border-[#c0d9ec] flex items-center gap-2.5 text-xs text-[#003153]">
+          <IdCard className="w-4 h-4 shrink-0 text-[#003153]" />
+          <span>
+            <strong>Official Student ID:</strong> Generated sequentially starting from <strong>0001</strong> to higher order. You will use your Student ID to sign in.
+          </span>
+        </div>
+
+        {/* Error Message */}
+>>>>>>> Stashed changes
         {errorMsg && (
           <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold flex items-center gap-2">
             <AlertCircle className="w-4 h-4 text-rose-600" />
@@ -74,7 +153,7 @@ export const Register = () => {
                 required
                 value={formData.name}
                 onChange={handleChange}
-                placeholder="e.g. Kasun Perera"
+                placeholder="Enter your full name"
                 className="w-full px-3.5 py-2.5 rounded-xl bg-[#f4f8fb] border border-[#c0d9ec] text-slate-900 text-xs focus:outline-none focus:border-[#003153]"
               />
             </div>
@@ -173,8 +252,16 @@ export const Register = () => {
 
       <p className="text-center text-xs text-slate-600">
         Already registered?{' '}
+<<<<<<< Updated upstream
         <Link to="/login" className="font-bold text-[#003153] hover:underline">
           Sign In Here
+=======
+        <Link
+          to="/login"
+          className="font-bold text-[#003153] hover:underline"
+        >
+          Sign In with Student ID Here
+>>>>>>> Stashed changes
         </Link>
       </p>
     </div>

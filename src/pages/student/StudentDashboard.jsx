@@ -47,8 +47,10 @@ export const StudentDashboard = () => {
               <span>Student Portal</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white">Welcome back, {user?.name}!</h1>
-            <p className="text-xs sm:text-sm text-blue-100">
-              Grade: <span className="font-extrabold text-white">{user?.grade || 'Grade 11 (O/L Mathematics)'}</span> | Student ID: <span className="font-mono font-bold text-white">{user?.studentId || user?.indexNo || 'STU-2026-889'}</span>
+            <p className="text-xs sm:text-sm text-blue-100 flex items-center flex-wrap gap-2">
+              <span>Grade: <strong className="text-white">{user?.grade || 'Grade 11 (O/L Mathematics)'}</strong></span>
+              <span>•</span>
+              <span>Student ID: <span className="font-mono font-extrabold text-white bg-white/20 px-2.5 py-0.5 rounded-lg border border-white/30">{user?.studentId || user?.indexNo || '0001'}</span></span>
             </p>
           </div>
 

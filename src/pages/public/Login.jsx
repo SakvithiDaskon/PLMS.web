@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import {
   GraduationCap,
@@ -8,40 +8,54 @@ import {
   Lock,
   Mail,
   ArrowRight,
-  AlertCircle
+  AlertCircle,
+  IdCard,
+  CheckCircle2
 } from 'lucide-react';
 
 export const Login = () => {
   const { login, loading } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [selectedRole, setSelectedRole] = useState('student');
-  const [email, setEmail] = useState('student@plms.com');
-  const [password, setPassword] = useState('password123');
+  const [identifier, setIdentifier] = useState(location.state?.studentId || '');
+  const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+  const [successNotice, setSuccessNotice] = useState(location.state?.message || '');
 
   const handleRoleTabChange = (role) => {
-    if (role === 'parent') {
-      // Looks completely normal, silently prevents switching role
-      return;
-    }
     setSelectedRole(role);
+    setErrorMsg('');
     if (role === 'admin') {
-      setEmail('admin@plms.com');
+      setIdentifier('admin@plms.com');
+      setPassword('password123');
+    } else if (role === 'student') {
+      setIdentifier(location.state?.studentId || '');
+      setPassword('');
     } else {
-      setEmail('student@plms.com');
+      setIdentifier('');
+      setPassword('');
     }
+  };
+
+  const handleQuickAdmin = () => {
+    setSelectedRole('admin');
+    setIdentifier('admin@plms.com');
+    setPassword('password123');
+    setErrorMsg('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg('');
-    const res = await login(email, password, selectedRole);
+    const res = await login(identifier, password, selectedRole);
     if (res.success) {
       if (res.user.role === 'admin') navigate('/admin');
+      else if (res.user.role === 'parent') navigate('/parent');
       else navigate('/student');
     } else {
-      setErrorMsg(res.message || 'Login failed. Please check credentials.');
+      setErrorMsg(res.message || 'Login failed. Please check your credentials.');
     }
   };
 
@@ -52,10 +66,10 @@ export const Login = () => {
           <GraduationCap className="w-8 h-8" />
         </div>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Sign In to PLMS</h1>
-        <p className="text-xs sm:text-sm text-slate-600">Select your role to access your portal</p>
+        <p className="text-xs sm:text-sm text-slate-600">Enter your credentials to access your portal</p>
       </div>
 
-      {/* Role Switcher Tabs - All 3 tabs look completely normal */}
+      {/* Role Switcher Tabs */}
       <div className="grid grid-cols-3 gap-1.5 p-1.5 rounded-xl bg-[#e6f0f7] border border-[#c0d9ec]">
         <button
           type="button"
@@ -99,6 +113,20 @@ export const Login = () => {
 
       {/* Login Card */}
       <div className="p-6 rounded-2xl bg-white border border-[#c0d9ec] shadow-lg space-y-6">
+        {/* Success Notice (e.g., right after registration) */}
+        {successNotice && (
+          <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-start gap-2.5">
+            <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600 mt-0.5" />
+            <div>
+              <p>{successNotice}</p>
+              <p className="text-[11px] font-normal text-emerald-700 mt-0.5">
+                Your Student ID has been filled in below. Enter your password to continue.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Error Message */}
         {errorMsg && (
           <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold flex items-center gap-2">
             <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
@@ -108,18 +136,40 @@ export const Login = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1.5">Email Address</label>
+            <label className="block text-xs font-bold text-slate-700 mb-1.5">
+              {selectedRole === 'student' ? 'Student ID' : selectedRole === 'admin' ? 'Admin Email' : 'Student ID or Parent Email'}
+            </label>
             <div className="relative">
-              <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              {selectedRole === 'student' ? (
+                <IdCard className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              ) : selectedRole === 'admin' ? (
+                <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              ) : (
+                <Users className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              )}
               <input
-                type="email"
+                type="text"
                 required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="name@plms.com"
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#f4f8fb] border border-[#c0d9ec] text-slate-900 text-xs placeholder:text-slate-400 focus:outline-none focus:border-[#003153] focus:bg-white"
+                value={identifier}
+                onChange={(e) => {
+                  setIdentifier(e.target.value);
+                  if (successNotice) setSuccessNotice('');
+                }}
+                placeholder={
+                  selectedRole === 'student'
+                    ? 'Enter Student ID (e.g. 0001)'
+                    : selectedRole === 'admin'
+                    ? 'admin@plms.com'
+                    : 'Enter Student ID (e.g. 0001) or Email'
+                }
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#f4f8fb] border border-[#c0d9ec] text-slate-900 text-xs placeholder:text-slate-400 focus:outline-none focus:border-[#003153] focus:bg-white font-mono"
               />
             </div>
+            {selectedRole === 'student' && (
+              <p className="text-[11px] text-slate-500 mt-1">
+                Enter your 4-digit Student ID (e.g., <strong className="text-[#003153]">0001</strong>, <strong className="text-[#003153]">0002</strong>) received during registration.
+              </p>
+            )}
           </div>
 
           <div>
@@ -158,21 +208,16 @@ export const Login = () => {
           </button>
         </form>
 
-        {/* Quick Demo Fill Buttons */}
+        {/* Quick Admin Access */}
         <div className="pt-4 border-t border-slate-100 space-y-2 text-center">
-          <p className="text-[11px] font-bold text-[#003153] uppercase tracking-wider">Quick Fill</p>
+          <p className="text-[11px] font-bold text-[#003153] uppercase tracking-wider">Educator & Admin Access</p>
           <div className="flex items-center justify-center gap-2">
             <button
-              onClick={() => handleRoleTabChange('student')}
-              className="px-3 py-1.5 text-[11px] font-bold rounded-lg bg-[#e6f0f7] text-[#003153] border border-[#b0d1e8] hover:bg-blue-100"
+              type="button"
+              onClick={handleQuickAdmin}
+              className="px-3 py-1.5 text-[11px] font-bold rounded-lg bg-[#e6f0f7] text-[#003153] border border-[#b0d1e8] hover:bg-blue-100 transition-colors"
             >
-              Demo Student
-            </button>
-            <button
-              onClick={() => handleRoleTabChange('admin')}
-              className="px-3 py-1.5 text-[11px] font-bold rounded-lg bg-[#e6f0f7] text-[#003153] border border-[#b0d1e8] hover:bg-blue-100"
-            >
-              Demo Admin
+              Fill Sir / Admin Credentials
             </button>
           </div>
         </div>
@@ -181,7 +226,7 @@ export const Login = () => {
       <p className="text-center text-xs text-slate-600">
         New Student?{' '}
         <Link to="/register" className="font-bold text-[#003153] hover:underline">
-          Create Student Account
+          Create Student Account (ID starts from 0001)
         </Link>
       </p>
     </div>

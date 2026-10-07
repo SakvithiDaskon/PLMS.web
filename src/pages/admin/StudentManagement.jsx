@@ -7,7 +7,7 @@ export const StudentManagement = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', grade: 'Grade 13 (A/L Combined Maths)' });
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', grade: 'Grade 11 (O/L Mathematics)' });
   const [successMsg, setSuccessMsg] = useState('');
 
   const fetchStudents = async () => {
@@ -24,7 +24,7 @@ export const StudentManagement = () => {
     e.preventDefault();
     await apiService.addStudent(formData);
     setShowAddModal(false);
-    setFormData({ name: '', email: '', phone: '', grade: 'Grade 13 (A/L Combined Maths)' });
+    setFormData({ name: '', email: '', phone: '', grade: 'Grade 11 (O/L Mathematics)' });
     setSuccessMsg('New student registered successfully!');
     fetchStudents();
     setTimeout(() => setSuccessMsg(''), 3000);
@@ -104,7 +104,7 @@ export const StudentManagement = () => {
             <tbody className="divide-y divide-slate-800/60">
               {filtered.map((std) => (
                 <tr key={std.id} className="hover:bg-slate-800/40 transition-colors">
-                  <td className="py-3.5 px-4 font-mono text-indigo-400 font-semibold">{std.studentId || std.indexNo || 'STU-2026-889'}</td>
+                  <td className="py-3.5 px-4 font-mono text-indigo-400 font-semibold">{std.studentId || std.indexNo || '0001'}</td>
                   <td className="py-3.5 px-4 font-semibold text-white">{std.name}</td>
                   <td className="py-3.5 px-4 text-slate-400">{std.email}</td>
                   <td className="py-3.5 px-4">{std.phone || '+94 77 123 4567'}</td>
@@ -146,7 +146,7 @@ export const StudentManagement = () => {
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="Kasun Perera"
+                  placeholder="Student Full Name"
                   className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:outline-none focus:border-indigo-500"
                 />
               </div>
@@ -158,7 +158,7 @@ export const StudentManagement = () => {
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  placeholder="student@plms.com"
+                  placeholder="student@domain.com"
                   className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:outline-none focus:border-indigo-500"
                 />
               </div>
@@ -182,9 +182,12 @@ export const StudentManagement = () => {
                   onChange={(e) => setFormData({ ...formData, grade: e.target.value })}
                   className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:outline-none focus:border-indigo-500"
                 >
-                  <option value="Grade 13 (A/L Combined Maths)">Grade 13 (A/L Combined Maths)</option>
-                  <option value="Grade 13 (A/L Physics)">Grade 13 (A/L Physics)</option>
-                  <option value="Grade 12 (A/L Combined Maths)">Grade 12 (A/L Combined Maths)</option>
+                  <option value="Grade 11 (O/L Mathematics)">Grade 11 (O/L Mathematics)</option>
+                  <option value="Grade 10 Mathematics">Grade 10 Mathematics</option>
+                  <option value="Grade 9 Mathematics">Grade 9 Mathematics</option>
+                  <option value="Grade 8 Mathematics">Grade 8 Mathematics</option>
+                  <option value="Grade 7 Mathematics">Grade 7 Mathematics</option>
+                  <option value="Grade 6 Mathematics">Grade 6 Mathematics</option>
                 </select>
               </div>
 

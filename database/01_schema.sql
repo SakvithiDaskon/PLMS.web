@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS student_details (
     full_name VARCHAR(150) NOT NULL,          -- Full name from registration
     phone_number VARCHAR(20) NOT NULL,        -- Contact number (WhatsApp)
     grade VARCHAR(50) NOT NULL,               -- e.g. 'Grade 11 (O/L Mathematics)'
-    student_id VARCHAR(30) UNIQUE NOT NULL,   -- Unique Student ID (e.g. 'STU-2026-889')
+    student_id VARCHAR(30) UNIQUE NOT NULL,   -- Sequential Student ID starting from '0001' to higher order (e.g. '0001', '0002')
     parent_id INT NULL,                       -- Optional link to parent profile
     enrolled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_students_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE

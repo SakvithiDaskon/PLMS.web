@@ -7,22 +7,33 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
     const saved = localStorage.getItem('plms_auth_user');
     if (saved) {
-      try { return JSON.parse(saved); } catch (e) {}
+      try {
+        const parsed = JSON.parse(saved);
+        // Purge legacy sample user Kasun Perera / student@plms.com / parent@plms.com
+        if (
+          parsed?.email === 'student@plms.com' ||
+          parsed?.name === 'Kasun Perera' ||
+          parsed?.email === 'nipuni@plms.com' ||
+          parsed?.email === 'dilshan@plms.com' ||
+          parsed?.email === 'parent@plms.com'
+        ) {
+          localStorage.removeItem('plms_auth_user');
+          localStorage.removeItem('plms_auth_token');
+          return null;
+        }
+        return parsed;
+      } catch (e) {}
     }
-    // Default demo user (Student)
-    return {
-      id: 'std-1',
-      name: 'Kasun Perera',
-      email: 'student@plms.com',
-      role: 'student',
-      phone: '+94 77 123 4567',
-      grade: 'Grade 11 (O/L Mathematics)',
-      studentId: 'STU-2026-889',
-      indexNo: 'STU-2026-889'
-    };
+    // Clean default state: No fake user logged in by default
+    return null;
   });
 
-  const [token, setToken] = useState(() => localStorage.getItem('plms_auth_token') || 'demo-token-123');
+  const [token, setToken] = useState(() => {
+    const savedUser = localStorage.getItem('plms_auth_user');
+    if (!savedUser) return null;
+    return localStorage.getItem('plms_auth_token') || null;
+  });
+
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -41,16 +52,16 @@ export const AuthProvider = ({ children }) => {
     }
   }, [token]);
 
-  const login = async (email, password, role = 'student') => {
+  const login = async (identifier, password, role = 'student') => {
     setLoading(true);
     try {
-      const res = await apiService.login({ email, password, role });
+      const res = await apiService.login({ identifier, password, role });
       if (res.success) {
         setUser(res.user);
         setToken(res.token);
         return { success: true, user: res.user };
       }
-      return { success: false, message: 'Invalid credentials' };
+      return { success: false, message: res.message || 'Invalid credentials' };
     } catch (err) {
       return { success: false, message: err.message };
     } finally {
@@ -58,16 +69,18 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (formData) => {
+  const register = async (formData, shouldAutoLogin = false) => {
     setLoading(true);
     try {
       const res = await apiService.registerStudent(formData);
       if (res.success) {
-        setUser(res.user);
-        setToken('mock-jwt-register-token');
+        if (shouldAutoLogin) {
+          setUser(res.user);
+          setToken(res.token || 'plms-token-' + res.user.id);
+        }
         return { success: true, user: res.user };
       }
-      return { success: false, message: 'Registration failed' };
+      return { success: false, message: res.message || 'Registration failed' };
     } catch (err) {
       return { success: false, message: err.message };
     } finally {
@@ -75,10 +88,9 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const switchRole = (newRole) => {
-    let mockUser;
+  const switchRole = async (newRole) => {
     if (newRole === 'admin') {
-      mockUser = {
+      const adminUser = {
         id: 'adm-1',
         name: 'Sir Parakum Bandara (Admin)',
         email: 'admin@plms.com',
@@ -86,35 +98,28 @@ export const AuthProvider = ({ children }) => {
         phone: '+94 77 000 1122',
         designation: 'Head Educator & Admin'
       };
+      setUser(adminUser);
+      setToken('demo-token-admin');
+    } else if (newRole === 'student') {
+      const students = await apiService.getAllStudents();
+      if (students.length > 0) {
+        setUser(students[0]);
+        setToken('plms-token-' + students[0].id);
+      }
     } else if (newRole === 'parent') {
-      mockUser = {
-        id: 'prn-1',
-        name: 'Sunil Perera',
-        email: 'parent@plms.com',
-        role: 'parent',
-        phone: '+94 70 333 2211',
-        occupation: 'Civil Engineer',
-        linkedStudentIds: ['std-1']
-      };
-    } else {
-      mockUser = {
-        id: 'std-1',
-        name: 'Kasun Perera',
-        email: 'student@plms.com',
-        role: 'student',
-        phone: '+94 77 123 4567',
-        grade: 'Grade 11 (O/L Mathematics)',
-        studentId: 'STU-2026-889',
-        indexNo: 'STU-2026-889'
-      };
+      const parents = await apiService.getAllParents();
+      if (parents.length > 0) {
+        setUser(parents[0]);
+        setToken('plms-token-' + parents[0].id);
+      }
     }
-    setUser(mockUser);
-    setToken(`demo-token-${newRole}`);
   };
 
   const logout = () => {
     setUser(null);
     setToken(null);
+    localStorage.removeItem('plms_auth_user');
+    localStorage.removeItem('plms_auth_token');
   };
 
   return (
@@ -142,3 +147,5 @@ export const useAuth = () => {
   }
   return context;
 };
+
+export default AuthContext;
