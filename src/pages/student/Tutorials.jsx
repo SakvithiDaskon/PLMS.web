@@ -116,7 +116,7 @@ export const Tutorials = () => {
                 The reduction formula allows solving higher-order trigonometric integrals by expressing \(\int \sin^n(x) dx\) in terms of lower power integrals.
               </p>
               <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800">
-                <p className="font-semibold text-slate-200 mb-1">Practice Tip from Sir Daskon:</p>
+                <p className="font-semibold text-slate-200 mb-1">Practice Tip from Sir Parakum Bandara:</p>
                 <p className="text-slate-400">
                   Always verify boundary conditions when evaluating definite integrals from \(0\) to \(\pi/2\).
                 </p>

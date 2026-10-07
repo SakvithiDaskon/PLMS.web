@@ -20,7 +20,7 @@ export const Register = () => {
     name: '',
     email: '',
     phone: '',
-    grade: 'Grade 13 (A/L Combined Maths)',
+    grade: 'Grade 11 Mathematics (O/L)',
     password: '',
     confirmPassword: ''
   });
@@ -55,7 +55,7 @@ export const Register = () => {
           <UserPlus className="w-6 h-6" />
         </div>
         <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">Student Registration</h1>
-        <p className="text-xs sm:text-sm text-slate-400">Join Sir Daskon's PLMS Private Learning Platform</p>
+        <p className="text-xs sm:text-sm text-slate-400">Join Sir Parakum Bandara's PLMS Private Learning Platform</p>
       </div>
 
       <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-xl space-y-6">
@@ -117,10 +117,12 @@ export const Register = () => {
                 onChange={handleChange}
                 className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:outline-none focus:border-indigo-500"
               >
-                <option value="Grade 13 (A/L Combined Maths)">Grade 13 (A/L Combined Maths)</option>
-                <option value="Grade 13 (A/L Physics)">Grade 13 (A/L Physics)</option>
-                <option value="Grade 12 (A/L Combined Maths)">Grade 12 (A/L Combined Maths)</option>
-                <option value="Grade 12 (A/L Physics)">Grade 12 (A/L Physics)</option>
+                <option value="Grade 6 Mathematics">Grade 6 Mathematics</option>
+                <option value="Grade 7 Mathematics">Grade 7 Mathematics</option>
+                <option value="Grade 8 Mathematics">Grade 8 Mathematics</option>
+                <option value="Grade 9 Mathematics">Grade 9 Mathematics</option>
+                <option value="Grade 10 Mathematics (O/L)">Grade 10 Mathematics (O/L)</option>
+                <option value="Grade 11 Mathematics (O/L)">Grade 11 Mathematics (O/L)</option>
               </select>
             </div>
           </div>

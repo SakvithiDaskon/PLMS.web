@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import MathRenderer from '../../components/MathRenderer';
 import {
   GraduationCap,
   Sparkles,
   ArrowRight,
-  Calculator,
   CheckCircle2,
   Users,
-  ShieldCheck
+  ShieldCheck,
+  HelpCircle,
+  BookOpen
 } from 'lucide-react';
 
 export const Home = () => {
@@ -23,11 +23,11 @@ export const Home = () => {
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
-            Master Advanced Mathematics & Physics with PLMS
+            Build Strong Mathematical Foundations for Grade 6 to 11
           </h1>
 
           <p className="text-blue-50 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-            The complete educational suite tailored for Sri Lankan A/L & O/L students, parents, and Sir Daskon. Experience live Zoom lectures, recorded modules, instant payment approvals, and dynamic KaTeX math rendering.
+            The complete educational suite tailored for Sri Lankan Grade 6 to 11 students, parents, and Sir Parakum Bandara. Experience live Zoom lectures, recorded modules, and instant payment approvals.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
@@ -49,38 +49,34 @@ export const Home = () => {
         </div>
       </section>
 
-      {/* Feature Section: KaTeX Engine (White Card) */}
-      <section className="p-8 rounded-2xl bg-white border border-[#c0d9ec] shadow-sm space-y-6 text-slate-900">
-        <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-[#e6f0f7] text-[#003153] border border-[#b0d1e8] font-bold">
-            <Calculator className="w-6 h-6" />
+      {/* How to Register Button / Callout Banner (Placed between top explain box and roles) */}
+      <section className="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-[#003153] to-[#00223d] text-white shadow-lg border border-[#004575] flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="space-y-2 text-center md:text-left">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-blue-200 text-xs font-bold border border-white/10">
+            <HelpCircle className="w-3.5 h-3.5" />
+            <span>Registration Assistance</span>
           </div>
-          <div>
-            <h2 className="text-xl font-bold text-slate-900">Native KaTeX Mathematical Formula Engine</h2>
-            <p className="text-slate-600 text-xs sm:text-sm">High-speed LaTeX equation rendering for Combined Maths & Physics proofs.</p>
-          </div>
+          <h2 className="text-xl sm:text-2xl font-bold">New to PLMS? Learn How to Register</h2>
+          <p className="text-xs sm:text-sm text-blue-100 max-w-xl">
+            Get step-by-step instructions on how students register for classes and how parents link their child's account to monitor academic progress.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-5 rounded-xl bg-[#f4f8fb] border border-[#c0d9ec] space-y-3">
-            <span className="text-xs font-bold text-[#003153] uppercase tracking-wider">Definite Integrals</span>
-            <MathRenderer math="\int_{a}^{b} f(x) dx = F(b) - F(a)" />
-            <p className="text-slate-600 text-xs">Used in Pure Mathematics for calculating enclosed region areas under curves.</p>
-          </div>
-
-          <div className="p-5 rounded-xl bg-[#f4f8fb] border border-[#c0d9ec] space-y-3">
-            <span className="text-xs font-bold text-[#003153] uppercase tracking-wider">Rotational Physics</span>
-            <MathRenderer math="E = \frac{1}{2} I \omega^2 + \frac{1}{2} m v^2" />
-            <p className="text-slate-600 text-xs">Rotational kinetic energy equation for rigid rotating bodies.</p>
-          </div>
-        </div>
+        <Link
+          to="/how-to-register"
+          className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-[#003153] bg-white hover:bg-[#e6f0f7] shadow-lg transition-all hover:scale-105 whitespace-nowrap"
+        >
+          <BookOpen className="w-4 h-4 text-[#003153]" />
+          <span>How to Register</span>
+          <ArrowRight className="w-4 h-4" />
+        </Link>
       </section>
 
       {/* Roles Cards */}
       <section className="space-y-6">
         <div className="text-center max-w-xl mx-auto space-y-2">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">Three System Roles</h2>
-          <p className="text-slate-600 text-xs sm:text-sm">Clean Prussian Blue (#003153) portal interface for Students, Parents, and Admins.</p>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">System Roles & Portal Access</h2>
+          <p className="text-slate-600 text-xs sm:text-sm">Dedicated portals designed for Students, Parents, and Sir Parakum Bandara Admin.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

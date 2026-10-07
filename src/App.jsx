@@ -10,6 +10,7 @@ import Home from './pages/public/Home';
 import Login from './pages/public/Login';
 import Register from './pages/public/Register';
 import ResetPassword from './pages/public/ResetPassword';
+import HowToRegister from './pages/public/HowToRegister';
 
 // Student Pages
 import StudentDashboard from './pages/student/StudentDashboard';
@@ -59,6 +60,7 @@ export const AppContent = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/how-to-register" element={<HowToRegister />} />
 
             {/* Student Protected Routes */}
             <Route element={<ProtectedRoute allowedRoles={['student', 'admin']} />}>

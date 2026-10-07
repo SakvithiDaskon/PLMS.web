@@ -14,16 +14,16 @@ const STORAGE_KEYS = {
 
 // Initial Mock Seed Data
 const initialUsers = [
-  { id: 'std-1', name: 'Kasun Perera', email: 'student@plms.com', role: 'student', phone: '+94 77 123 4567', grade: 'Grade 13 (A/L Combined Maths)', indexNo: 'AL-2026-889', parentId: 'prn-1' },
-  { id: 'std-2', name: 'Nipuni Silva', email: 'nipuni@plms.com', role: 'student', phone: '+94 71 987 6543', grade: 'Grade 13 (A/L Physics)', indexNo: 'AL-2026-902', parentId: null },
-  { id: 'std-3', name: 'Dilshan Fernando', email: 'dilshan@plms.com', role: 'student', phone: '+94 76 555 4321', grade: 'Grade 12 (A/L Combined Maths)', indexNo: 'AL-2027-104', parentId: null },
+  { id: 'std-1', name: 'Kasun Perera', email: 'student@plms.com', role: 'student', phone: '+94 77 123 4567', grade: 'Grade 11 Mathematics (O/L)', indexNo: 'OL-2026-889', parentId: 'prn-1' },
+  { id: 'std-2', name: 'Nipuni Silva', email: 'nipuni@plms.com', role: 'student', phone: '+94 71 987 6543', grade: 'Grade 10 Mathematics (O/L)', indexNo: 'OL-2026-902', parentId: null },
+  { id: 'std-3', name: 'Dilshan Fernando', email: 'dilshan@plms.com', role: 'student', phone: '+94 76 555 4321', grade: 'Grade 9 Mathematics', indexNo: 'OL-2027-104', parentId: null },
   { id: 'prn-1', name: 'Sunil Perera', email: 'parent@plms.com', role: 'parent', phone: '+94 70 333 2211', occupation: 'Civil Engineer', linkedStudentIds: ['std-1'] },
-  { id: 'adm-1', name: 'Sir Daskon (Admin)', email: 'admin@plms.com', role: 'admin', phone: '+94 77 000 1122', designation: 'Head Educator & Admin' }
+  { id: 'adm-1', name: 'Sir Parakum Bandara (Admin)', email: 'admin@plms.com', role: 'admin', phone: '+94 77 000 1122', designation: 'Head Educator & Admin' }
 ];
 
 const initialZoomLinks = [
-  { id: 'zoom-1', title: 'Combined Maths: Integration & Calculus Masterclass', subject: 'Combined Mathematics', teacher: 'Sir Daskon', date: '2026-10-08', time: '18:00 - 20:30', link: 'https://zoom.us/j/9876543210', passcode: 'INTEGRAL26', isLive: true },
-  { id: 'zoom-2', title: 'Physics: Rotational Dynamics Problem Solving', subject: 'Physics', teacher: 'Sir Daskon', date: '2026-10-10', time: '17:00 - 19:30', link: 'https://zoom.us/j/1234567890', passcode: 'ROTATION26', isLive: false }
+  { id: 'zoom-1', title: 'Grade 11 O/L Mathematics: Geometry & Algebra Masterclass', subject: 'Mathematics', teacher: 'Sir Parakum Bandara', date: '2026-10-08', time: '18:00 - 20:30', link: 'https://zoom.us/j/9876543210', passcode: 'MATHS2026', isLive: true },
+  { id: 'zoom-2', title: 'Grade 10 Mathematics: Quadratic Equations & Graphs', subject: 'Mathematics', teacher: 'Sir Parakum Bandara', date: '2026-10-10', time: '17:00 - 19:30', link: 'https://zoom.us/j/1234567890', passcode: 'MATHS2026', isLive: false }
 ];
 
 const initialRecordings = [
@@ -175,7 +175,7 @@ export const apiService = {
     // Default mock user fallback based on requested role
     const mockUser = {
       id: role === 'admin' ? 'adm-1' : role === 'parent' ? 'prn-1' : 'std-1',
-      name: role === 'admin' ? 'Sir Daskon (Admin)' : role === 'parent' ? 'Sunil Perera' : 'Kasun Perera',
+      name: role === 'admin' ? 'Sir Parakum Bandara (Admin)' : role === 'parent' ? 'Sunil Perera' : 'Kasun Perera',
       email: email,
       role: role || 'student',
       phone: '+94 77 123 4567'
@@ -428,7 +428,7 @@ export const apiService = {
       id: 'zoom-' + Date.now(),
       title: data.title,
       subject: data.subject,
-      teacher: data.teacher || 'Sir Daskon',
+      teacher: data.teacher || 'Sir Parakum Bandara',
       date: data.date,
       time: data.time,
       link: data.link,
