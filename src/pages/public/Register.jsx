@@ -123,9 +123,6 @@ export const Register = () => {
       </div>
 
       <div className="p-6 rounded-2xl bg-white border border-[#c0d9ec] shadow-xl space-y-6">
-<<<<<<< Updated upstream
-=======
-
         {/* Student ID Notice Banner */}
         <div className="p-3.5 rounded-xl bg-[#e6f0f7] border border-[#c0d9ec] flex items-center gap-2.5 text-xs text-[#003153]">
           <IdCard className="w-4 h-4 shrink-0 text-[#003153]" />
@@ -135,7 +132,6 @@ export const Register = () => {
         </div>
 
         {/* Error Message */}
->>>>>>> Stashed changes
         {errorMsg && (
           <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold flex items-center gap-2">
             <AlertCircle className="w-4 h-4 text-rose-600" />
@@ -252,16 +248,8 @@ export const Register = () => {
 
       <p className="text-center text-xs text-slate-600">
         Already registered?{' '}
-<<<<<<< Updated upstream
         <Link to="/login" className="font-bold text-[#003153] hover:underline">
-          Sign In Here
-=======
-        <Link
-          to="/login"
-          className="font-bold text-[#003153] hover:underline"
-        >
           Sign In with Student ID Here
->>>>>>> Stashed changes
         </Link>
       </p>
     </div>
