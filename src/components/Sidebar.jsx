@@ -46,17 +46,12 @@ export const Sidebar = ({ isOpen, onClose }) => {
     { label: 'Payments & Fee Slips', path: '/parent/child-payments', icon: CreditCard }
   ];
 
-  // Admin Navigation Items
+  // Streamlined Admin Navigation Items
   const adminNav = [
-    { label: 'Admin Dashboard', path: '/admin', icon: LayoutDashboard, active: true },
-    { label: 'Student Mgmt', path: '/admin/students', icon: Users, active: true },
-    { label: 'Parent Mgmt', path: '/admin/parents', icon: UserPlus, active: true },
-    { label: 'Zoom Schedules', path: '/admin/zoom', icon: Radio, active: true, badge: 'Live' },
-    { label: 'Recording Uploads', path: '/admin/recordings', icon: PlaySquare, active: true },
-    { label: 'Tutorial Creator', path: '/admin/tutorials', icon: BookOpen, active: true },
-    { label: 'Quiz Builder', path: '/admin/quizzes', icon: FilePlus, active: true },
-    { label: 'Grade Mgmt', path: '/admin/grades', icon: Award, active: true },
-    { label: 'Payment Verification', path: '/admin/payments', icon: CheckSquare, active: true }
+    { label: 'Admin Dashboard', path: '/admin', icon: LayoutDashboard },
+    { label: 'Zoom Schedules', path: '/admin/zoom', icon: Radio, badge: 'Live' },
+    { label: 'Student Management', path: '/admin/students', icon: Users },
+    { label: 'Grade Manager', path: '/admin/grades', icon: Award }
   ];
 
   const navItems = role === 'admin' ? adminNav : (role === 'parent' ? parentNav : studentNav);

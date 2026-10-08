@@ -27,13 +27,9 @@ import ChildPayments from './pages/parent/ChildPayments';
 // Admin Pages
 import AdminDashboard from './pages/admin/AdminDashboard';
 import StudentManagement from './pages/admin/StudentManagement';
-import ParentManagement from './pages/admin/ParentManagement';
 import ZoomManagement from './pages/admin/ZoomManagement';
-import RecordingManagement from './pages/admin/RecordingManagement';
-import TutorialManagement from './pages/admin/TutorialManagement';
-import QuizManagement from './pages/admin/QuizManagement';
 import GradeManagement from './pages/admin/GradeManagement';
-import PaymentManagement from './pages/admin/PaymentManagement';
+import GradeView from './pages/admin/GradeView';
 
 export const AppContent = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -84,14 +80,10 @@ export const AppContent = () => {
             {/* Admin Protected Routes */}
             <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
               <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/admin/students" element={<StudentManagement />} />
-              <Route path="/admin/parents" element={<ParentManagement />} />
               <Route path="/admin/zoom" element={<ZoomManagement />} />
-              <Route path="/admin/recordings" element={<RecordingManagement />} />
-              <Route path="/admin/tutorials" element={<TutorialManagement />} />
-              <Route path="/admin/quizzes" element={<QuizManagement />} />
+              <Route path="/admin/students" element={<StudentManagement />} />
               <Route path="/admin/grades" element={<GradeManagement />} />
-              <Route path="/admin/payments" element={<PaymentManagement />} />
+              <Route path="/admin/grade/:gradeId" element={<GradeView />} />
             </Route>
 
             <Route path="*" element={<Home />} />
