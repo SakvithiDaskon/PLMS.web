@@ -16,8 +16,9 @@ export const AuthProvider = ({ children }) => {
       email: 'student@plms.com',
       role: 'student',
       phone: '+94 77 123 4567',
-      grade: 'Grade 13 (A/L Combined Maths)',
-      indexNo: 'AL-2026-889'
+      grade: 'Grade 11 (O/L Mathematics)',
+      studentId: 'STU-2026-889',
+      indexNo: 'STU-2026-889'
     };
   });
 
@@ -74,7 +75,11 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const switchRole = (newRole) => {
+  // ============================================================
+  // UPDATED TODAY - ROLE & STUDENT SWITCHER LOGIC
+  // Allows switching directly to specific student records (Kasun, Nipuni, Dilshan)
+  // ============================================================
+  const switchRole = (newRole, extraId) => {
     let mockUser;
     if (newRole === 'admin') {
       mockUser = {
@@ -96,18 +101,32 @@ export const AuthProvider = ({ children }) => {
         linkedStudentIds: ['std-1']
       };
     } else {
-      mockUser = {
+      const users = JSON.parse(localStorage.getItem('plms_mock_users') || '[]');
+      const targetId = typeof extraId === 'string' ? extraId : 'std-1';
+      const found = users.find(u => u.id === targetId || u.studentId === targetId);
+      mockUser = found || {
         id: 'std-1',
         name: 'Kasun Perera',
         email: 'student@plms.com',
         role: 'student',
         phone: '+94 77 123 4567',
-        grade: 'Grade 13 (A/L Combined Maths)',
-        indexNo: 'AL-2026-889'
+        grade: 'Grade 11 (O/L Mathematics)',
+        studentId: 'STU-2026-889',
+        indexNo: 'STU-2026-889'
       };
     }
     setUser(mockUser);
     setToken(`demo-token-${newRole}`);
+  };
+
+  // ===== ADDED TODAY: Switch Active Student Dynamically =====
+  const switchStudent = (studentId) => {
+    const users = JSON.parse(localStorage.getItem('plms_mock_users') || '[]');
+    const found = users.find(u => u.id === studentId || u.studentId === studentId);
+    if (found) {
+      setUser(found);
+      setToken(`demo-token-student-${found.id}`);
+    }
   };
 
   const logout = () => {
@@ -125,7 +144,8 @@ export const AuthProvider = ({ children }) => {
         login,
         register,
         logout,
-        switchRole
+        switchRole,
+        switchStudent
       }}
     >
       {children}

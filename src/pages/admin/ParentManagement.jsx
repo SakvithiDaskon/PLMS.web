@@ -249,7 +249,7 @@ export const ParentManagement = () => {
                 >
                   {students.map((s) => (
                     <option key={s.id} value={s.id}>
-                      {s.name} ({s.grade}) - {s.indexNo || 'AL-2026'}
+                      {s.name} ({s.grade}) - {s.studentId || s.indexNo || '0001'}
                     </option>
                   ))}
                 </select>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import logoImg from '../assets/logo.jpeg';
 import {
@@ -16,8 +16,15 @@ import {
 export const Navbar = ({ toggleSidebar, isSidebarOpen, showSidebarButton = true }) => {
   const { user, isAuthenticated, logout, switchRole } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [showRoleMenu, setShowRoleMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+
+  // ============================================================
+  // UPDATED TODAY - STUDENT NAVIGATION CONDITIONAL
+  // Hide the Student View / Role switcher button on student pages
+  // ============================================================
+  const isStudentPage = location.pathname.startsWith('/student') || user?.role === 'student';
 
   const handleLogout = () => {
     logout();
@@ -68,8 +75,67 @@ export const Navbar = ({ toggleSidebar, isSidebarOpen, showSidebarButton = true 
 
         {/* Right Action Menu */}
         <div className="flex items-center gap-3">
-          {isAuthenticated && showSidebarButton ? (
-            /* User Profile Menu (Portal Pages Only) */
+          {/* Role Switcher Pill */}
+          {isAuthenticated && (
+            <div className="relative">
+              <button
+                onClick={() => setShowRoleMenu(!showRoleMenu)}
+                className="flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-[#00223d] text-white border border-[#004575] text-xs font-bold shadow-sm transition-all hover:bg-[#00192e]"
+              >
+                <RoleIcon className="w-4 h-4" />
+                <span>{currentRoleInfo.label}</span>
+                <ChevronDown className="w-3 h-3 opacity-90" />
+              </button>
+
+              {showRoleMenu && (
+                <div
+                  className="absolute right-0 mt-2 w-48 rounded-xl bg-white text-slate-900 border border-blue-100 shadow-2xl py-2 z-50"
+                  onMouseLeave={() => setShowRoleMenu(false)}
+                >
+                  <div className="px-3 py-1.5 text-[10px] font-bold text-[#003153] uppercase tracking-wider border-b border-blue-50">
+                    Switch Role
+                  </div>
+
+                  <button
+                    onClick={() => {
+                      switchRole('student');
+                      setShowRoleMenu(false);
+                      navigate('/student');
+                    }}
+                    className={`w-full text-left px-3 py-2 text-xs flex items-center gap-2 hover:bg-[#e6f0f7] font-semibold ${user?.role === 'student' ? 'text-[#003153] bg-[#e6f0f7] font-bold' : 'text-slate-700'
+                      }`}
+                  >
+                    <UserCheck className="w-4 h-4 text-[#003153]" /> Student View
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setShowRoleMenu(false);
+                    }}
+                    className={`w-full text-left px-3 py-2 text-xs flex items-center gap-2 hover:bg-[#e6f0f7] font-semibold ${user?.role === 'parent' ? 'text-[#003153] bg-[#e6f0f7] font-bold' : 'text-slate-700'
+                      }`}
+                  >
+                    <Users className="w-4 h-4 text-[#003153]" /> Parent View
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      switchRole('admin');
+                      setShowRoleMenu(false);
+                      navigate('/admin');
+                    }}
+                    className={`w-full text-left px-3 py-2 text-xs flex items-center gap-2 hover:bg-[#e6f0f7] font-semibold ${user?.role === 'admin' ? 'text-[#003153] bg-[#e6f0f7] font-bold' : 'text-slate-700'
+                      }`}
+                  >
+                    <ShieldCheck className="w-4 h-4 text-[#003153]" /> Sir / Admin View
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* User Account Menu */}
+          {isAuthenticated ? (
             <div className="relative">
               <button
                 onClick={() => setShowProfileMenu(!showProfileMenu)}

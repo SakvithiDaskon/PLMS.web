@@ -159,21 +159,52 @@ export const Login = () => {
           </button>
         </form>
 
-        {/* Quick Demo Fill Buttons */}
+        {/* ============================================================ */}
+        {/* UPDATED TODAY - QUICK FILL DEMO ACCOUNTS (STUDENT PRESETS)   */}
+        {/* Instant login for Grade 11 (Kasun), Grade 10 (Nipuni), Grade 9 (Dilshan) */}
+        {/* ============================================================ */}
         <div className="pt-4 border-t border-slate-100 space-y-2 text-center">
-          <p className="text-[11px] font-bold text-[#003153] uppercase tracking-wider">Quick Fill</p>
-          <div className="flex items-center justify-center gap-2">
+          <p className="text-[11px] font-bold text-[#003153] uppercase tracking-wider">Quick Fill Demo Accounts</p>
+          <div className="flex flex-wrap items-center justify-center gap-1.5">
             <button
-              onClick={() => handleRoleTabChange('student')}
-              className="px-3 py-1.5 text-[11px] font-bold rounded-lg bg-[#e6f0f7] text-[#003153] border border-[#b0d1e8] hover:bg-blue-100"
+              type="button"
+              onClick={() => {
+                setSelectedRole('student');
+                setEmail('student@plms.com');
+                setPassword('password123');
+              }}
+              className="px-2.5 py-1.5 text-[11px] font-bold rounded-lg bg-[#e6f0f7] text-[#003153] border border-[#b0d1e8] hover:bg-blue-100 transition-colors"
             >
-              Demo Student
+              Grade 11 (Kasun)
             </button>
             <button
-              onClick={() => handleRoleTabChange('admin')}
-              className="px-3 py-1.5 text-[11px] font-bold rounded-lg bg-[#e6f0f7] text-[#003153] border border-[#b0d1e8] hover:bg-blue-100"
+              type="button"
+              onClick={() => {
+                setSelectedRole('student');
+                setEmail('nipuni@plms.com');
+                setPassword('password123');
+              }}
+              className="px-2.5 py-1.5 text-[11px] font-bold rounded-lg bg-[#e6f0f7] text-[#003153] border border-[#b0d1e8] hover:bg-blue-100 transition-colors"
             >
-              Demo Admin
+              Grade 10 (Nipuni)
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setSelectedRole('student');
+                setEmail('dilshan@plms.com');
+                setPassword('password123');
+              }}
+              className="px-2.5 py-1.5 text-[11px] font-bold rounded-lg bg-[#e6f0f7] text-[#003153] border border-[#b0d1e8] hover:bg-blue-100 transition-colors"
+            >
+              Grade 9 (Dilshan)
+            </button>
+            <button
+              type="button"
+              onClick={() => handleRoleTabChange('admin')}
+              className="px-2.5 py-1.5 text-[11px] font-bold rounded-lg bg-slate-100 text-slate-700 border border-slate-300 hover:bg-slate-200 transition-colors"
+            >
+              Admin
             </button>
           </div>
         </div>

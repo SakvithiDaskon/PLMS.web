@@ -7,7 +7,6 @@ import {
   Video,
   PlaySquare,
   BookOpen,
-  FileQuestion,
   Award,
   CreditCard,
   Users,
@@ -28,16 +27,14 @@ export const Sidebar = ({ isOpen, onClose }) => {
 
   const role = user?.role || 'student';
 
-  // Student Navigation Items
+  // ============================================================
+  // UPDATED TODAY - STUDENT NAVIGATION ITEMS
+  // Cleaned up student portal menu items (retained Dashboard, Profile, Zoom Classes)
+  // ============================================================
   const studentNav = [
     { label: 'Dashboard', path: '/student', icon: LayoutDashboard },
     { label: 'My Profile', path: '/student/profile', icon: User },
-    { label: 'Zoom Classes', path: '/student/zoom', icon: Video, badge: 'Live' },
-    { label: 'Class Recordings', path: '/student/recordings', icon: PlaySquare },
-    { label: 'Tutorial Modules', path: '/student/tutorials', icon: BookOpen },
-    { label: 'Quizzes & Tests', path: '/student/quizzes', icon: FileQuestion },
-    { label: 'Grades & Results', path: '/student/grades', icon: Award },
-    { label: 'Payments & Slips', path: '/student/payments', icon: CreditCard }
+    { label: 'Zoom Classes', path: '/student/zoom', icon: Video, badge: 'Live' }
   ];
 
   // Parent Navigation Items
