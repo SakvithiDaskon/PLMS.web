@@ -18,6 +18,8 @@ import bannerIllustration from '../../assets/banner_illustration.png';
 // Student Dashboard Component
 export const StudentDashboard = () => {
   const { user } = useAuth();
+
+  // Dashboard state
   const [student, setStudent] = useState(null);
   const [topics, setTopics] = useState([]);
   const [classes, setClasses] = useState([]);
@@ -28,7 +30,8 @@ export const StudentDashboard = () => {
   useEffect(() => {
     let isMounted = true;
 
-    // ===== ADDED TODAY: Fetch Logged-in Student Data, Grade Topics & Payment Status =====
+    // Load student dashboard data from database
+    // Loads student info, Mathematics topics, scheduled classes, and payment status
     const loadDashboardData = async () => {
       try {
         setLoading(true);
@@ -39,7 +42,7 @@ export const StudentDashboard = () => {
           return;
         }
 
-        // 1. Fetch real student record dynamically from database using authenticated user ID
+        // 1. Get student data from database
         const studentRecord = await apiService.getStudentById(user.id);
         const activeStudent = studentRecord || user;
 
@@ -47,14 +50,14 @@ export const StudentDashboard = () => {
           setStudent(activeStudent);
         }
 
-        // 2. Fetch mathematics topics dynamically filtered by student's grade
+        // 2. Load Mathematics topics for the student's grade
         const studentGrade = activeStudent?.grade || '';
         const gradeTopics = await apiService.getMathematicsTopics(studentGrade);
 
-        // 3. Fetch scheduled classes dynamically for this student & grade
+        // 3. Load scheduled classes for calendar
         const studentClasses = await apiService.getStudentClasses(activeStudent?.id, studentGrade);
 
-        // 4. Fetch real payment info dynamically for this student from database
+        // 4. Load payment status from database
         const paymentRecord = await apiService.getStudentPaymentStatus(activeStudent?.id || user.id);
 
         if (isMounted) {
@@ -81,6 +84,7 @@ export const StudentDashboard = () => {
     };
   }, [user]);
 
+  // Loading state
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center h-64 space-y-3">
@@ -90,6 +94,7 @@ export const StudentDashboard = () => {
     );
   }
 
+  // Error state
   if (error) {
     return (
       <div className="p-6 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-center space-y-3">
@@ -107,7 +112,7 @@ export const StudentDashboard = () => {
     );
   }
 
-  // ===== ADDED TODAY: Dynamic Student Information & Derived Values =====
+  // Profile data formatting
   const studentFirstName = student?.firstName;
   const studentLastName = student?.lastName;
   const displayName = studentFirstName
@@ -121,12 +126,12 @@ export const StudentDashboard = () => {
   const gradeMatch = (displayGrade || '').match(/Grade\s*(\d+)/i);
   const cleanGrade = gradeMatch ? `Grade ${gradeMatch[1]}` : displayGrade;
 
-  // ===== ADDED TODAY: Payment Status & Dynamic Status Colors (Green/Yellow/Red) =====
+  // Payment status
   const paymentStatus = paymentInfo?.status || student?.paymentStatus || 'Paid';
   const isPaid = /paid|approved|success/i.test(paymentStatus);
   const isPending = /pending/i.test(paymentStatus);
 
-  // ===== ADDED TODAY: Dynamic Lesson Counts & Progress Calculations =====
+  // Unit topics progress calculation
   const totalLessons = topics.reduce((acc, t) => acc + (Number(t.lessonsCount) || 0), 0) || 30;
   const completedLessons = topics.reduce(
     (acc, t) => acc + Math.round(((Number(t.progress) || 0) / 100) * (Number(t.lessonsCount) || 0)),
@@ -177,7 +182,7 @@ export const StudentDashboard = () => {
 
         {/* Banner Content (Text & Dynamic Student Credentials on Left, Payment Status Card on Right) */}
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6 px-6 sm:px-10 py-6 sm:py-7 w-full">
-          {/* Left: Greeting & Student ID */}
+          {/* Greeting and student info */}
           <div className="space-y-2 max-w-xl">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-white/95 text-xs font-semibold border border-white/15 shadow-sm">
               <Sparkles className="w-3.5 h-3.5 text-blue-200" />
@@ -195,7 +200,7 @@ export const StudentDashboard = () => {
             </p>
           </div>
 
-          {/* ===== ADDED TODAY: Payment Status Card (Replaced Zoom Button) ===== */}
+          {/* Payment status */}
           <div className="bg-white text-slate-800 rounded-2xl p-4 sm:p-5 shadow-lg border border-white/20 min-w-[210px] sm:min-w-[230px] shrink-0 self-start md:self-center">
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-2">
@@ -226,7 +231,7 @@ export const StudentDashboard = () => {
 
       {/* Student Status Overview Section */}
       <div className="p-5 sm:p-6 rounded-2xl bg-white border border-[#c0d9ec] shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-        {/* Left: Student Status Info */}
+        {/* Enrolled grade details */}
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 rounded-full bg-[#003153] flex items-center justify-center shrink-0 shadow-sm text-white">
             <User className="w-6 h-6 text-white" />
@@ -244,9 +249,9 @@ export const StudentDashboard = () => {
           </div>
         </div>
 
-        {/* Right: Dynamic Learning Progress Stats */}
+        {/* Learning progress overview */}
         <div className="flex flex-wrap items-center gap-6 sm:gap-8 pt-4 lg:pt-0 border-t lg:border-t-0 border-slate-100">
-          {/* Stat 1: Total Lessons */}
+          {/* Total Lessons */}
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center shrink-0">
               <BookOpen className="w-5 h-5 text-sky-600" />
@@ -260,7 +265,7 @@ export const StudentDashboard = () => {
             </div>
           </div>
 
-          {/* Stat 2: Completed Lessons */}
+          {/* Completed Lessons */}
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
               <CheckCircle2 className="w-5 h-5 text-emerald-600" />
@@ -274,7 +279,7 @@ export const StudentDashboard = () => {
             </div>
           </div>
 
-          {/* Stat 3: Progress Ring */}
+          {/* Progress ring */}
           <div className="flex items-center gap-3">
             <div className="relative w-12 h-12 flex items-center justify-center shrink-0">
               <svg className="w-12 h-12 -rotate-90" viewBox="0 0 36 36">
@@ -312,7 +317,7 @@ export const StudentDashboard = () => {
 
       {/* Calendar & Topics Section */}
       <div className="flex flex-col lg:flex-row gap-6 items-start">
-        {/* Left Side: Current Month Calendar (~30% on desktop) - EXACT PRESERVED CALENDAR */}
+        {/* Calendar - Scheduled live classes */}
         <div className="w-full lg:w-[32%] shrink-0">
           <StudentCalendar
             classes={classes}
@@ -320,7 +325,7 @@ export const StudentDashboard = () => {
           />
         </div>
 
-        {/* Right Side: Unit Topics (~68-70% on desktop) */}
+        {/* Unit topics - Mathematics syllabus and lesson progress */}
         <div className="w-full lg:w-[68%] flex-1 min-w-0">
           <MathematicsTopics
             topics={topics}
