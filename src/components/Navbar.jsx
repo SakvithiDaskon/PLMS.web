@@ -149,7 +149,9 @@ export const Navbar = ({ toggleSidebar, isSidebarOpen, showSidebarButton = true 
 
                   <button
                     onClick={() => {
+                      switchRole('parent');
                       setShowRoleMenu(false);
+                      navigate('/parent');
                     }}
                     className={`w-full text-left px-3 py-2 text-xs flex items-center gap-2 hover:bg-[#e6f0f7] font-semibold ${
                       user?.role === 'parent' ? 'text-[#003153] bg-[#e6f0f7] font-bold' : 'text-slate-700'
