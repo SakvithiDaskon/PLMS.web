@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import logoImg from '../../assets/logo.jpeg';
+import posterImg from '../../assets/poster.jpeg';
 
 import {
   GraduationCap,
@@ -8,7 +9,8 @@ import {
   CheckCircle2,
   Users,
   ShieldCheck,
-  HelpCircle
+  HelpCircle,
+  Sparkles
 } from 'lucide-react';
 
 export const Home = () => {
@@ -81,6 +83,36 @@ export const Home = () => {
           <span>How to Register</span>
           <ArrowRight className="w-4 h-4" />
         </Link>
+      </section>
+
+      {/* Official Class Poster Section */}
+      <section className="relative overflow-hidden rounded-3xl bg-white border border-[#c0d9ec] shadow-xl p-4 sm:p-8 space-y-5">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-[#c0d9ec]/60">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 rounded-xl bg-[#003153] text-white shadow">
+              <Sparkles className="w-5 h-5 text-blue-200" />
+            </div>
+            <div>
+              <h3 className="text-base sm:text-xl font-extrabold text-slate-900 tracking-tight">
+                Official Class Announcement & Timetable
+              </h3>
+              <p className="text-xs text-slate-600">
+                Grade 6 to 11 Mathematics classes conducted by Sir Parakum Bandara
+              </p>
+            </div>
+          </div>
+          <span className="px-3.5 py-1 rounded-full bg-[#e6f0f7] text-[#003153] text-xs font-bold border border-[#b0d1e8] whitespace-nowrap">
+            2026 Academic Session
+          </span>
+        </div>
+
+        <div className="relative group overflow-hidden rounded-2xl bg-slate-900/5 border border-slate-200 flex items-center justify-center p-2 sm:p-4">
+          <img
+            src={posterImg}
+            alt="Sir Parakum Bandara Mathematics Class Poster"
+            className="w-full h-auto max-w-4xl object-contain rounded-xl shadow-md transition-transform duration-500 group-hover:scale-[1.005]"
+          />
+        </div>
       </section>
 
       {/* User Portals Section */}

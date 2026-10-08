@@ -68,81 +68,20 @@ export const Navbar = ({ toggleSidebar, isSidebarOpen, showSidebarButton = true 
 
         {/* Right Action Menu */}
         <div className="flex items-center gap-3">
-          {/* Role Switcher Pill */}
-          {isAuthenticated && (
-            <div className="relative">
-              <button
-                onClick={() => setShowRoleMenu(!showRoleMenu)}
-                className="flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-[#00223d] text-white border border-[#004575] text-xs font-bold shadow-sm transition-all hover:bg-[#00192e]"
-              >
-                <RoleIcon className="w-4 h-4" />
-                <span>{currentRoleInfo.label}</span>
-                <ChevronDown className="w-3 h-3 opacity-90" />
-              </button>
-
-              {showRoleMenu && (
-                <div
-                  className="absolute right-0 mt-2 w-48 rounded-xl bg-white text-slate-900 border border-blue-100 shadow-2xl py-2 z-50"
-                  onMouseLeave={() => setShowRoleMenu(false)}
-                >
-                  <div className="px-3 py-1.5 text-[10px] font-bold text-[#003153] uppercase tracking-wider border-b border-blue-50">
-                    Switch Role
-                  </div>
-
-                  <button
-                    onClick={() => {
-                      switchRole('student');
-                      setShowRoleMenu(false);
-                      navigate('/student');
-                    }}
-                    className={`w-full text-left px-3 py-2 text-xs flex items-center gap-2 hover:bg-[#e6f0f7] font-semibold ${
-                      user?.role === 'student' ? 'text-[#003153] bg-[#e6f0f7] font-bold' : 'text-slate-700'
-                    }`}
-                  >
-                    <UserCheck className="w-4 h-4 text-[#003153]" /> Student View
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      setShowRoleMenu(false);
-                    }}
-                    className={`w-full text-left px-3 py-2 text-xs flex items-center gap-2 hover:bg-[#e6f0f7] font-semibold ${
-                      user?.role === 'parent' ? 'text-[#003153] bg-[#e6f0f7] font-bold' : 'text-slate-700'
-                    }`}
-                  >
-                    <Users className="w-4 h-4 text-[#003153]" /> Parent View
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      switchRole('admin');
-                      setShowRoleMenu(false);
-                      navigate('/admin');
-                    }}
-                    className={`w-full text-left px-3 py-2 text-xs flex items-center gap-2 hover:bg-[#e6f0f7] font-semibold ${
-                      user?.role === 'admin' ? 'text-[#003153] bg-[#e6f0f7] font-bold' : 'text-slate-700'
-                    }`}
-                  >
-                    <ShieldCheck className="w-4 h-4 text-[#003153]" /> Sir / Admin View
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* User Account Menu */}
-          {isAuthenticated ? (
+          {isAuthenticated && showSidebarButton ? (
+            /* User Profile Menu (Portal Pages Only) */
             <div className="relative">
               <button
                 onClick={() => setShowProfileMenu(!showProfileMenu)}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#00223d] hover:bg-[#00192e] border border-[#004575] text-white transition-colors"
+                className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#00223d] hover:bg-[#00192e] border border-[#004575] text-white shadow-sm transition-all"
               >
-                <div className="w-6 h-6 rounded-full bg-white text-[#003153] flex items-center justify-center font-bold text-xs">
+                <div className="w-6 h-6 rounded-full bg-white text-[#003153] flex items-center justify-center font-bold text-xs shrink-0">
                   {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
                 </div>
-                <span className="hidden md:inline-block text-xs font-bold text-white">
+                <span className="text-xs font-bold text-white">
                   {user?.name}
                 </span>
+                <ChevronDown className="w-3.5 h-3.5 text-blue-200" />
               </button>
 
               {showProfileMenu && (
@@ -175,18 +114,19 @@ export const Navbar = ({ toggleSidebar, isSidebarOpen, showSidebarButton = true 
               )}
             </div>
           ) : (
+            /* Login & Signup Buttons (Home & Public Pages) */
             <div className="flex items-center gap-2">
               <Link
                 to="/login"
-                className="px-3.5 py-1.5 text-xs font-bold text-white hover:text-blue-100 transition-colors"
+                className="px-4 py-2 rounded-xl text-xs font-bold text-white hover:bg-white/10 transition-all border border-white/20"
               >
-                Sign In
+                Login
               </Link>
               <Link
                 to="/register"
-                className="px-4 py-2 text-xs font-bold text-[#003153] bg-white hover:bg-blue-50 rounded-lg shadow transition-colors"
+                className="px-4 py-2 rounded-xl text-xs font-bold text-[#003153] bg-white hover:bg-[#e6f0f7] shadow-md transition-all hover:scale-105"
               >
-                Register
+                Signup
               </Link>
             </div>
           )}
