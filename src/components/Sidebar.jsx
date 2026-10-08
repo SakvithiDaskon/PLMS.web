@@ -79,21 +79,21 @@ export const Sidebar = ({ isOpen, onClose }) => {
       >
         <div className="p-4 space-y-6">
           {/* User Role Card */}
-          <div className="p-3.5 rounded-xl bg-[#e6f0f7] border border-[#b0d1e8] flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-[#003153] text-white flex items-center justify-center font-bold shadow">
-              <ShieldCheck className="w-5 h-5" />
+          <div className="p-3.5 rounded-2xl bg-[#e6f0f7] border border-[#b0d1e8] flex items-center gap-3.5">
+            <div className="w-11 h-11 rounded-2xl bg-[#003153] text-white flex items-center justify-center font-bold shadow shrink-0">
+              <ShieldCheck className="w-6 h-6 text-white" />
             </div>
-            <div className="overflow-hidden">
-              <p className="text-xs font-bold text-slate-900 truncate">{user?.name}</p>
-              <p className="text-[10px] text-[#003153] font-extrabold uppercase tracking-wider">
+            <div className="overflow-hidden min-w-0">
+              <p className="text-sm font-extrabold text-slate-900 truncate">{user?.name}</p>
+              <p className="text-[10px] text-[#003153] font-black uppercase tracking-wider">
                 {role} Portal
               </p>
             </div>
           </div>
 
           {/* Navigation Items */}
-          <nav className="space-y-1">
-            <p className="px-3 text-[10px] font-bold text-[#003153] uppercase tracking-widest mb-2">
+          <nav className="space-y-2">
+            <p className="px-3 text-xs font-black text-[#003153] uppercase tracking-wider mb-2.5">
               System Menu
             </p>
 
@@ -107,37 +107,38 @@ export const Sidebar = ({ isOpen, onClose }) => {
                     key={idx}
                     type="button"
                     onClick={(e) => e.preventDefault()}
-                    className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-700 hover:text-[#003153] hover:bg-[#e6f0f7] transition-all"
+                    className="w-full flex items-center justify-between px-4 py-3 rounded-2xl text-sm font-extrabold text-slate-700 hover:text-[#003153] hover:bg-[#e6f0f7] transition-all"
                   >
                     <div className="flex items-center gap-3">
-                      <Icon className="w-4 h-4" />
+                      <Icon className="w-5 h-5 text-slate-600" />
                       <span>{item.label}</span>
                     </div>
                   </button>
                 );
               }
 
-              // Active route link
+              // Active route link with exact matching (end={true})
               return (
                 <NavLink
                   key={item.path}
                   to={item.path}
+                  end={true}
                   onClick={onClose}
                   className={({ isActive }) =>
-                    `flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                    `flex items-center justify-between px-4 py-3 rounded-2xl text-sm font-extrabold transition-all ${
                       isActive
-                        ? 'bg-[#003153] text-white shadow-md font-bold'
-                        : 'text-slate-700 hover:text-[#003153] hover:bg-[#e6f0f7]'
+                        ? 'bg-[#003153] text-white shadow-md'
+                        : 'text-slate-800 hover:text-[#003153] hover:bg-[#e6f0f7]'
                     }`
                   }
                 >
                   <div className="flex items-center gap-3">
-                    <Icon className="w-4 h-4" />
+                    <Icon className="w-5 h-5 shrink-0" />
                     <span>{item.label}</span>
                   </div>
 
                   {item.badge && (
-                    <span className="px-1.5 py-0.5 text-[9px] font-extrabold uppercase rounded bg-emerald-600 text-white shadow-sm">
+                    <span className="px-2 py-0.5 text-[10px] font-black uppercase rounded-md bg-[#059669] text-white tracking-wider shadow-xs">
                       {item.badge}
                     </span>
                   )}

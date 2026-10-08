@@ -13,11 +13,11 @@ import {
 } from 'lucide-react';
 
 // ============================================================
-// PRESERVED CALENDAR COMPONENT (DO NOT REDESIGN)
-// Integrates dynamically with student classes & grade from database
+// Calendar
+// Displays scheduled Mathematics classes for the student
 // ============================================================
 export const StudentCalendar = ({ classes = [], studentGrade = '' }) => {
-  // Current real-time date (auto-updates every month/year dynamically)
+  // Calendar state and real-time date
   const today = new Date();
   const [viewDate, setViewDate] = useState(new Date());
   const [selectedDateStr, setSelectedDateStr] = useState(() => {
@@ -30,20 +30,14 @@ export const StudentCalendar = ({ classes = [], studentGrade = '' }) => {
 
   const year = viewDate.getFullYear();
   const month = viewDate.getMonth(); // 0-indexed
-
-  // Month Name (e.g. "October")
   const monthName = viewDate.toLocaleString('default', { month: 'long' });
 
-  // Calculation for calendar grid
-  // Days in current month
+  // Calculation for calendar grid days
   const totalDaysInMonth = new Date(year, month + 1, 0).getDate();
-
-  // Day of week of the 1st day (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
   const firstDayOfWeek = new Date(year, month, 1).getDay();
-  // Convert to Monday-start (Monday = 0, ..., Sunday = 6)
   const startOffset = (firstDayOfWeek + 6) % 7;
 
-  // Month navigation
+  // Month navigation handlers
   const handlePrevMonth = () => {
     setViewDate(new Date(year, month - 1, 1));
   };
@@ -63,19 +57,19 @@ export const StudentCalendar = ({ classes = [], studentGrade = '' }) => {
 
   const weekdays = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 
-  // ===== ADDED TODAY: Dynamic Scheduled Classes Filtering by Month & Selected Date =====
+  // Filter scheduled classes for the current month and selected date
   const currentMonthPrefix = `${year}-${String(month + 1).padStart(2, '0')}`;
   const classesThisMonth = classes.filter(c => c.date && c.date.startsWith(currentMonthPrefix));
 
-  // Get classes for a specific date string
+  // Get classes for a specific date
   const getClassesForDate = (dateStr) => {
     return classes.filter(c => c.date === dateStr);
   };
 
-  // Selected date classes
+  // Classes for currently selected date
   const selectedDateClasses = getClassesForDate(selectedDateStr);
 
-  // Format date for readable display (e.g., "October 14, 2026")
+  // Format date for readable display
   const formatReadableDate = (dateStr) => {
     if (!dateStr) return '';
     try {
@@ -243,7 +237,7 @@ export const StudentCalendar = ({ classes = [], studentGrade = '' }) => {
         </div>
       )}
 
-      {/* Class Date Details Section (Shown when clicking or selecting a date) */}
+      {/* Selected class details and Zoom link */}
       <div className="pt-3 border-t border-[#e6f0f7] space-y-3">
         <div className="flex items-center justify-between">
           <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#003153] flex items-center gap-1.5">

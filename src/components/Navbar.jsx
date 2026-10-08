@@ -188,6 +188,7 @@ export const Navbar = ({ toggleSidebar, isSidebarOpen, showSidebarButton = true 
                 <span className="hidden md:inline-block text-xs font-bold text-white">
                   {user?.name}
                 </span>
+                <ChevronDown className="w-3.5 h-3.5 text-blue-200" />
               </button>
 
               {showProfileMenu && (
