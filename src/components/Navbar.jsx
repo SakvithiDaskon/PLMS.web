@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import logoImg from '../assets/logo.jpeg';
+import studentBoyClipArt from '../assets/student_boy_clipart.png';
+import studentGirlClipArt from '../assets/student_girl_clipart.png';
 import {
   LogOut,
   User,
@@ -182,8 +183,18 @@ export const Navbar = ({ toggleSidebar, isSidebarOpen, showSidebarButton = true 
                 onClick={() => setShowProfileMenu(!showProfileMenu)}
                 className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#00223d] hover:bg-[#00192e] border border-[#004575] text-white transition-colors"
               >
-                <div className="w-6 h-6 rounded-full bg-white text-[#003153] flex items-center justify-center font-bold text-xs">
-                  {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                <div className="w-6 h-6 rounded-full bg-[#003153] border border-blue-300/40 text-white flex items-center justify-center font-bold text-xs overflow-hidden shrink-0">
+                  {user?.avatar && user.avatar !== 'initials' ? (
+                    <img src={user.avatar} alt={user?.name} className="w-full h-full object-cover" />
+                  ) : user?.avatar === 'initials' ? (
+                    user?.name ? user.name.charAt(0).toUpperCase() : 'U'
+                  ) : (
+                    <img
+                      src={/(ini|ani|athi|sha|ali|uni|uri|adi|ushi|ari|ika)$/i.test(((user?.name || '').trim().split(' ')[0])) || ['nipuni', 'amali', 'sanduni', 'kavindi', 'chamari', 'hiruni', 'ananya', 'priya'].includes(((user?.name || '').trim().toLowerCase().split(' ')[0])) ? studentGirlClipArt : studentBoyClipArt}
+                      alt={user?.name}
+                      className="w-full h-full object-cover"
+                    />
+                  )}
                 </div>
                 <span className="hidden md:inline-block text-xs font-bold text-white">
                   {user?.name}

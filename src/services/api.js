@@ -685,6 +685,7 @@ export const apiService = {
       name: newName,
       firstName,
       lastName,
+      avatar: data.avatar !== undefined ? data.avatar : current.avatar,
       phone: data.phone !== undefined ? data.phone : current.phone,
       grade: data.grade !== undefined ? data.grade : current.grade,
       subject: data.subject !== undefined ? data.subject : (current.subject || 'Mathematics')

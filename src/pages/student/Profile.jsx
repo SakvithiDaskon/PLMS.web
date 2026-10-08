@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { apiService } from '../../services/api';
 import {
@@ -20,9 +20,43 @@ import {
   Camera,
   X,
   Lock,
-  AlertCircle
+  AlertCircle,
+  Upload,
+  RefreshCw
 } from 'lucide-react';
 import gradCapTransparent from '../../assets/grad_cap_transparent.png';
+import studentBoyClipArt from '../../assets/student_boy_clipart.png';
+import studentGirlClipArt from '../../assets/student_girl_clipart.png';
+
+// Illustrated student clip art avatars (Boy / Girl based on registered name)
+const DEFAULT_MALE_AVATAR = studentBoyClipArt;
+const DEFAULT_FEMALE_AVATAR = studentGirlClipArt;
+
+// Detect whether a student's given name is female or male
+const isFemaleStudentName = (name) => {
+  if (!name || typeof name !== 'string') return false;
+  const firstName = name.trim().toLowerCase().split(/\s+/)[0];
+
+  const femaleNames = new Set([
+    'nipuni', 'amali', 'sanduni', 'kavindi', 'chamari', 'hiruni', 'ananya', 'priya',
+    'fatima', 'ayesha', 'sarah', 'sara', 'emma', 'olivia', 'chloe', 'maria', 'nethmi',
+    'dewmi', 'kavya', 'shehani', 'ishara', 'thilini', 'kaveesha', 'rashmi', 'dinithi',
+    'sachini', 'hansani', 'oshadi', 'sithara', 'tharushi', 'dilini', 'nadeesha', 'pooja',
+    'hasini', 'imasha', 'madhavi', 'chathuri', 'malithi', 'senuri', 'kushani', 'shani',
+    'menaka', 'anushka', 'pavithra', 'gayani', 'anoma', 'kumari', 'damayanthi', 'kusum',
+    'subhashini', 'manori', 'ruwini', 'danushi', 'ashani', 'dulani', 'nayana', 'samadhi',
+    'yasasvi', 'tharushika', 'harshani', 'udari', 'dulanjali', 'lakmali', 'niluka', 'kusalya'
+  ]);
+
+  if (femaleNames.has(firstName)) return true;
+
+  // Typical Sinhala feminine suffixes
+  if (/(ini|ani|athi|sha|ali|uni|uri|adi|ushi|ari|ika)$/i.test(firstName)) {
+    return true;
+  }
+
+  return false;
+};
 
 // ============================================================
 // Student Profile
@@ -154,6 +188,128 @@ export const Profile = () => {
     }
   };
 
+  const fileInputRef = useRef(null);
+  const [imgLoadError, setImgLoadError] = useState(false);
+  const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
+
+  // Trigger device file selection when camera icon is clicked
+  const handleTriggerFileSelect = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  // Upload and save profile photo from device
+  const handleImageUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      setError('Please select a valid image file (PNG, JPG, JPEG, WEBP).');
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      setError('Selected image is too large. Please select an image under 5MB.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      const base64Image = event.target?.result;
+      if (!base64Image) return;
+
+      try {
+        setIsUploadingPhoto(true);
+        setError(null);
+        setImgLoadError(false);
+
+        // Update local state immediately for instant feedback
+        setStudent((prev) => ({
+          ...prev,
+          avatar: base64Image
+        }));
+
+        // Persist to database & AuthContext
+        const res = await updateProfile({
+          avatar: base64Image
+        });
+
+        if (res.success) {
+          setSuccessMsg('Profile photo updated successfully from your device!');
+          setTimeout(() => setSuccessMsg(''), 4000);
+        } else {
+          setError(res.message || 'Failed to save updated photo.');
+        }
+      } catch (err) {
+        console.error('Failed to upload photo:', err);
+        setError('Error uploading image from device.');
+      } finally {
+        setIsUploadingPhoto(false);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+      }
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  // Reset to default gender-based avatar photo
+  const handleResetToDefaultPhoto = async () => {
+    try {
+      setIsUploadingPhoto(true);
+      setError(null);
+      setImgLoadError(false);
+      const isFemale = isFemaleStudentName(student?.name || user?.name);
+      const defaultAvatar = isFemale ? DEFAULT_FEMALE_AVATAR : DEFAULT_MALE_AVATAR;
+
+      setStudent((prev) => ({
+        ...prev,
+        avatar: defaultAvatar
+      }));
+
+      const res = await updateProfile({
+        avatar: defaultAvatar
+      });
+
+      if (res.success) {
+        setSuccessMsg(`Profile avatar reset to student clip art (${isFemale ? 'Girl' : 'Boy'})!`);
+        setTimeout(() => setSuccessMsg(''), 4000);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsUploadingPhoto(false);
+    }
+  };
+
+  // Switch to Dark Blue initials avatar
+  const handleSetInitialsAvatar = async () => {
+    try {
+      setIsUploadingPhoto(true);
+      setError(null);
+
+      setStudent((prev) => ({
+        ...prev,
+        avatar: 'initials'
+      }));
+
+      const res = await updateProfile({
+        avatar: 'initials'
+      });
+
+      if (res.success) {
+        setSuccessMsg('Profile avatar set to Dark Blue initial!');
+        setTimeout(() => setSuccessMsg(''), 4000);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsUploadingPhoto(false);
+    }
+  };
+
   // Loading state
   if (loading) {
     return (
@@ -165,7 +321,7 @@ export const Profile = () => {
   }
 
   // Profile data from database
-  const activeName = student?.name || 'Student';
+  const activeName = student?.name || user?.name || 'Student';
   const nameInitial = activeName.charAt(0).toUpperCase();
   const activeStudentId = student?.studentId || student?.indexNo || 'N/A';
   const activeGrade = student?.grade || 'Grade 11 (O/L Mathematics)';
@@ -174,6 +330,28 @@ export const Profile = () => {
   const activeSubject = student?.subject || 'Mathematics';
   const activeEnrollmentDate = student?.enrollmentDate || '2024-01-10';
   const activeEnrollmentStatus = student?.enrollmentStatus || 'Active';
+
+  // Profile avatar logic:
+  // 1. If student uploaded a custom photo, use student.avatar
+  // 2. If 'initials', show dark blue background with initials only
+  // 3. Otherwise, automatic men / women profile picture based on their given name
+  const isFemale = isFemaleStudentName(activeName);
+  const defaultGenderAvatar = isFemale ? DEFAULT_FEMALE_AVATAR : DEFAULT_MALE_AVATAR;
+
+  let activeAvatarUrl = null;
+  if (student?.avatar === 'initials') {
+    activeAvatarUrl = null;
+  } else if (student?.avatar) {
+    activeAvatarUrl = student.avatar;
+  } else if (user?.avatar && user?.avatar !== 'initials') {
+    activeAvatarUrl = user.avatar;
+  } else {
+    activeAvatarUrl = defaultGenderAvatar;
+  }
+
+  if (imgLoadError) {
+    activeAvatarUrl = null;
+  }
 
   // Grade display
   const gradeMatch = activeGrade.match(/Grade\s*(\d+)/i);
@@ -209,6 +387,15 @@ export const Profile = () => {
 
   return (
     <div className="space-y-6 pb-8">
+      {/* Hidden Device File Picker for Camera Icon */}
+      <input
+        type="file"
+        ref={fileInputRef}
+        accept="image/*"
+        onChange={handleImageUpload}
+        className="hidden"
+      />
+
       {/* Success Notification Alert */}
       {successMsg && (
         <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs sm:text-sm font-semibold flex items-center justify-between gap-3 shadow-xs transition-all">
@@ -336,16 +523,31 @@ export const Profile = () => {
 
         {/* Banner Content (Left side: Avatar, Heading, Subtitle) */}
         <div className="relative z-10 flex items-center gap-5 sm:gap-6 px-6 sm:px-10 py-6 w-full max-w-xl">
-          {/* Circular Avatar with Initial and Camera Badge */}
+          {/* Circular Avatar with Photo/Initial and Camera Badge */}
           <div className="relative shrink-0">
-            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#2563eb] border-4 border-white shadow-xl flex items-center justify-center font-extrabold text-white text-3xl sm:text-4xl select-none">
-              {nameInitial}
+            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#003153] border-4 border-white shadow-xl flex items-center justify-center font-extrabold text-white text-3xl sm:text-4xl select-none overflow-hidden relative">
+              {activeAvatarUrl ? (
+                <img
+                  src={activeAvatarUrl}
+                  alt={activeName}
+                  className="w-full h-full object-cover"
+                  onError={() => setImgLoadError(true)}
+                />
+              ) : (
+                <span className="select-none">{nameInitial}</span>
+              )}
+              {isUploadingPhoto && (
+                <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                </div>
+              )}
             </div>
             <button
               type="button"
-              onClick={handleOpenEdit}
-              title="Edit Profile"
-              className="absolute -bottom-1 -right-1 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white text-[#003153] shadow-md border border-slate-200 flex items-center justify-center hover:bg-slate-50 transition-transform active:scale-90"
+              onClick={handleTriggerFileSelect}
+              title="Select profile photo from device"
+              aria-label="Select profile photo from device"
+              className="absolute -bottom-1 -right-1 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white text-[#003153] shadow-md border border-slate-200 flex items-center justify-center hover:bg-blue-50 transition-transform active:scale-90 cursor-pointer z-10"
             >
               <Camera className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#003153]" />
             </button>
@@ -367,7 +569,7 @@ export const Profile = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
         {/* Grade */}
         <div className="bg-white rounded-2xl border border-slate-200/90 p-4 sm:p-5 shadow-xs flex items-center gap-4 transition-all hover:shadow-sm hover:border-blue-200">
-          <div className="w-12 h-12 rounded-2xl bg-[#2563eb] text-white flex items-center justify-center shrink-0 shadow-sm">
+          <div className="w-12 h-12 rounded-2xl bg-[#003153] text-white flex items-center justify-center shrink-0 shadow-sm">
             <GraduationCap className="w-6 h-6" />
           </div>
           <div className="min-w-0">
@@ -439,14 +641,29 @@ export const Profile = () => {
           {/* Header Row with Avatar & Name */}
           <div className="flex items-center gap-4 pb-6 border-b border-slate-100">
             <div className="relative shrink-0">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#2563eb] text-white text-2xl sm:text-3xl font-extrabold flex items-center justify-center shadow-md border-4 border-blue-50">
-                {nameInitial}
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#003153] text-white text-2xl sm:text-3xl font-extrabold flex items-center justify-center shadow-md border-4 border-slate-100 overflow-hidden relative">
+                {activeAvatarUrl ? (
+                  <img
+                    src={activeAvatarUrl}
+                    alt={activeName}
+                    className="w-full h-full object-cover"
+                    onError={() => setImgLoadError(true)}
+                  />
+                ) : (
+                  <span className="select-none">{nameInitial}</span>
+                )}
+                {isUploadingPhoto && (
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  </div>
+                )}
               </div>
               <button
                 type="button"
-                onClick={handleOpenEdit}
-                title="Edit Profile"
-                className="absolute -bottom-1 -right-1 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-white text-[#003153] shadow border border-slate-200 flex items-center justify-center hover:bg-slate-50 transition-transform active:scale-90"
+                onClick={handleTriggerFileSelect}
+                title="Select profile photo from device"
+                aria-label="Select profile photo from device"
+                className="absolute -bottom-1 -right-1 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-white text-[#003153] shadow border border-slate-200 flex items-center justify-center hover:bg-blue-50 transition-transform active:scale-90 cursor-pointer z-10"
               >
                 <Camera className="w-3.5 h-3.5 text-[#003153]" />
               </button>
@@ -797,6 +1014,49 @@ export const Profile = () => {
 
             {/* Modal Form */}
             <form onSubmit={handleSaveProfile} className="p-6 space-y-4">
+              {/* Profile Photo Selector in Modal */}
+              <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center gap-3.5">
+                <div className="w-14 h-14 rounded-full bg-[#003153] text-white font-extrabold text-xl flex items-center justify-center shrink-0 overflow-hidden border-2 border-white shadow-sm relative">
+                  {activeAvatarUrl ? (
+                    <img src={activeAvatarUrl} alt={activeName} className="w-full h-full object-cover" />
+                  ) : (
+                    <span>{nameInitial}</span>
+                  )}
+                  {isUploadingPhoto && (
+                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    </div>
+                  )}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs font-bold text-slate-800">Profile Photo</p>
+                  <p className="text-[11px] text-slate-500 mb-2">Select from device or choose avatar style</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    <button
+                      type="button"
+                      onClick={handleTriggerFileSelect}
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-bold bg-[#003153] text-white hover:bg-[#00223d] transition-colors cursor-pointer shadow-xs"
+                    >
+                      <Camera className="w-3 h-3" /> Select from Device
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleResetToDefaultPhoto}
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 transition-colors cursor-pointer"
+                    >
+                      Default Clip Art ({isFemale ? 'Girl' : 'Boy'})
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleSetInitialsAvatar}
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 transition-colors cursor-pointer"
+                    >
+                      Dark Blue Initial
+                    </button>
+                  </div>
+                </div>
+              </div>
+
               {/* Full Name */}
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">
