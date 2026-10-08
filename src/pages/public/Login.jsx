@@ -159,10 +159,7 @@ export const Login = () => {
           </button>
         </form>
 
-        {/* ============================================================ */}
-        {/* UPDATED TODAY - QUICK FILL DEMO ACCOUNTS (STUDENT PRESETS)   */}
-        {/* Instant login for Grade 11 (Kasun), Grade 10 (Nipuni), Grade 9 (Dilshan) */}
-        {/* ============================================================ */}
+        {/* Quick Fill Demo Accounts */}
         <div className="pt-4 border-t border-slate-100 space-y-2 text-center">
           <p className="text-[11px] font-bold text-[#003153] uppercase tracking-wider">Quick Fill Demo Accounts</p>
           <div className="flex flex-wrap items-center justify-center gap-1.5">

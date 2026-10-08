@@ -15,9 +15,7 @@ import MathematicsTopics from '../../components/student/MathematicsTopics';
 
 import bannerIllustration from '../../assets/banner_illustration.png';
 
-// ============================================================
-// UPDATED TODAY - STUDENT DASHBOARD
-// ============================================================
+// Student Dashboard Component
 export const StudentDashboard = () => {
   const { user } = useAuth();
   const [student, setStudent] = useState(null);
@@ -140,9 +138,7 @@ export const StudentDashboard = () => {
 
   return (
     <div className="space-y-6">
-      {/* ============================================================ */}
-      {/* UPDATED TODAY: Welcome Banner with Background Waves & Illustration */}
-      {/* ============================================================ */}
+      {/* Welcome Banner */}
       <div className="relative overflow-hidden min-h-[160px] sm:min-h-[175px] rounded-2xl bg-gradient-to-r from-[#17365d] via-[#1b3e6c] to-[#1e4577] text-white shadow-xl shadow-[#0c2442]/20 border border-white/10 flex items-center">
         {/* Ambient glow spotlight behind the 3D graphic */}
         <div className="absolute right-32 sm:right-64 top-1/2 -translate-y-1/2 w-64 h-64 bg-sky-400/15 rounded-full blur-3xl pointer-events-none" />
@@ -228,9 +224,7 @@ export const StudentDashboard = () => {
         </div>
       </div>
 
-      {/* ============================================================ */}
-      {/* ADDED TODAY: Student Status Overview Section */}
-      {/* ============================================================ */}
+      {/* Student Status Overview Section */}
       <div className="p-5 sm:p-6 rounded-2xl bg-white border border-[#c0d9ec] shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         {/* Left: Student Status Info */}
         <div className="flex items-center gap-4">
@@ -316,9 +310,7 @@ export const StudentDashboard = () => {
         </div>
       </div>
 
-      {/* ============================================================ */}
-      {/* UPDATED TODAY: Lower Dashboard Section (Preserved Calendar & Unit Topics) */}
-      {/* ============================================================ */}
+      {/* Calendar & Topics Section */}
       <div className="flex flex-col lg:flex-row gap-6 items-start">
         {/* Left Side: Current Month Calendar (~30% on desktop) - EXACT PRESERVED CALENDAR */}
         <div className="w-full lg:w-[32%] shrink-0">

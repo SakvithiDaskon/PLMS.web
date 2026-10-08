@@ -20,11 +20,8 @@ export const Navbar = ({ toggleSidebar, isSidebarOpen, showSidebarButton = true 
   const [showRoleMenu, setShowRoleMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
-  // ============================================================
-  // UPDATED TODAY - STUDENT NAVIGATION CONDITIONAL
-  // Hide the Student View / Role switcher button on student pages
-  // ============================================================
-  const isStudentPage = location.pathname.startsWith('/student') || user?.role === 'student';
+  // Check if current page is inside a portal (Student, Parent, or Admin)
+  const isPortalPage = (showSidebarButton || location.pathname.startsWith('/student') || location.pathname.startsWith('/parent') || location.pathname.startsWith('/admin')) && location.pathname !== '/';
 
   const handleLogout = () => {
     logout();
@@ -75,8 +72,8 @@ export const Navbar = ({ toggleSidebar, isSidebarOpen, showSidebarButton = true 
 
         {/* Right Action Menu */}
         <div className="flex items-center gap-3">
-          {/* Role Switcher Pill */}
-          {isAuthenticated && (
+          {/* Role Switcher Pill - Only shown inside portal pages */}
+          {isAuthenticated && isPortalPage && (
             <div className="relative">
               <button
                 onClick={() => setShowRoleMenu(!showRoleMenu)}
@@ -110,7 +107,9 @@ export const Navbar = ({ toggleSidebar, isSidebarOpen, showSidebarButton = true 
 
                   <button
                     onClick={() => {
+                      switchRole('parent');
                       setShowRoleMenu(false);
+                      navigate('/parent');
                     }}
                     className={`w-full text-left px-3 py-2 text-xs flex items-center gap-2 hover:bg-[#e6f0f7] font-semibold ${user?.role === 'parent' ? 'text-[#003153] bg-[#e6f0f7] font-bold' : 'text-slate-700'
                       }`}
@@ -134,8 +133,8 @@ export const Navbar = ({ toggleSidebar, isSidebarOpen, showSidebarButton = true 
             </div>
           )}
 
-          {/* User Account Menu */}
-          {isAuthenticated ? (
+          {/* User Account Menu (Portal Pages) vs Login & Signup Buttons (Home & Public Pages) */}
+          {isAuthenticated && isPortalPage ? (
             <div className="relative">
               <button
                 onClick={() => setShowProfileMenu(!showProfileMenu)}
@@ -144,7 +143,7 @@ export const Navbar = ({ toggleSidebar, isSidebarOpen, showSidebarButton = true 
                 <div className="w-6 h-6 rounded-full bg-white text-[#003153] flex items-center justify-center font-bold text-xs shrink-0">
                   {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
                 </div>
-                <span className="text-xs font-bold text-white">
+                <span className="text-xs font-extrabold text-white tracking-wide">
                   {user?.name}
                 </span>
                 <ChevronDown className="w-3.5 h-3.5 text-blue-200" />

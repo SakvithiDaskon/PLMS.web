@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import logoImg from '../../assets/logo.jpeg';
 import posterImg from '../../assets/poster.jpeg';
+import { useAuth } from '../../context/AuthContext';
 
 import {
   GraduationCap,
@@ -10,10 +11,19 @@ import {
   Users,
   ShieldCheck,
   HelpCircle,
-  Sparkles
+  Sparkles,
+  Video,
+  Calendar,
+  Award,
+  Maximize2,
+  ZoomIn,
+  X
 } from 'lucide-react';
 
 export const Home = () => {
+  const { isAuthenticated, user } = useAuth();
+  const [isPosterModalOpen, setIsPosterModalOpen] = useState(false);
+
   return (
     <div className="space-y-10 pb-12">
       {/* Hero Banner */}
@@ -42,7 +52,7 @@ export const Home = () => {
 
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <Link
-              to="/login"
+              to={isAuthenticated ? (user?.role === 'admin' ? '/admin' : '/student') : '/login'}
               className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-[#003153] bg-white hover:bg-[#e6f0f7] shadow-lg transition-all hover:scale-105"
             >
               <span>Access Student Portal</span>
@@ -76,8 +86,6 @@ export const Home = () => {
 
         <Link
           to="/how-to-register"
-          target="_blank"
-          rel="noopener noreferrer"
           className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-[#003153] bg-white hover:bg-[#e6f0f7] shadow-lg transition-all hover:scale-105 whitespace-nowrap shrink-0"
         >
           <span>How to Register</span>
@@ -86,14 +94,14 @@ export const Home = () => {
       </section>
 
       {/* Official Class Poster Section */}
-      <section className="relative overflow-hidden rounded-3xl bg-white border border-[#c0d9ec] shadow-xl p-4 sm:p-8 space-y-5">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-[#c0d9ec]/60">
+      <section className="relative overflow-hidden rounded-3xl bg-white border border-[#c0d9ec] shadow-xl p-6 sm:p-8 space-y-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-[#c0d9ec]/60">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-[#003153] text-white shadow">
+            <div className="p-2.5 rounded-xl bg-[#003153] text-white shadow-md">
               <Sparkles className="w-5 h-5 text-blue-200" />
             </div>
             <div>
-              <h3 className="text-base sm:text-xl font-extrabold text-slate-900 tracking-tight">
+              <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">
                 Official Class Announcement & Timetable
               </h3>
               <p className="text-xs text-slate-600">
@@ -101,18 +109,119 @@ export const Home = () => {
               </p>
             </div>
           </div>
-          <span className="px-3.5 py-1 rounded-full bg-[#e6f0f7] text-[#003153] text-xs font-bold border border-[#b0d1e8] whitespace-nowrap">
+          <span className="px-3.5 py-1.5 rounded-full bg-[#e6f0f7] text-[#003153] text-xs font-bold border border-[#b0d1e8] shadow-xs">
             2026 Academic Session
           </span>
         </div>
 
-        <div className="relative group overflow-hidden rounded-2xl bg-slate-900/5 border border-slate-200 flex items-center justify-center p-2 sm:p-4">
-          <img
-            src={posterImg}
-            alt="Sir Parakum Bandara Mathematics Class Poster"
-            className="w-full h-auto max-w-4xl object-contain rounded-xl shadow-md transition-transform duration-500 group-hover:scale-[1.005]"
-          />
+        {/* Poster Showcase Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          {/* Left Column: Highlights & Quick Info */}
+          <div className="lg:col-span-7 space-y-5">
+            <div className="space-y-2">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#003153] bg-[#e6f0f7] px-3 py-1 rounded-md border border-[#b0d1e8]">
+                Class Schedule & Details
+              </span>
+              <h4 className="text-2xl font-extrabold text-slate-900 leading-snug">
+                Comprehensive Mathematics Classes for Grade 6 - 11
+              </h4>
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                Join Sir Parakum Bandara's structured mathematics program designed for Grade 6 through 11 students. View session details, Zoom schedules, and curriculum structure.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="p-3.5 rounded-xl bg-[#f4f8fb] border border-[#c0d9ec] flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-[#003153] text-white flex items-center justify-center font-extrabold text-xs shrink-0 shadow-xs">
+                  6-11
+                </div>
+                <div>
+                  <h5 className="text-xs font-bold text-slate-900">Grades 6 to 11</h5>
+                  <p className="text-[11px] text-slate-500 font-medium">Full Syllabus Coverage</p>
+                </div>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-[#f4f8fb] border border-[#c0d9ec] flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-[#003153] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
+                  <Video className="w-4 h-4 text-blue-200" />
+                </div>
+                <div>
+                  <h5 className="text-xs font-bold text-slate-900">Live Zoom & Recorded</h5>
+                  <p className="text-[11px] text-slate-500 font-medium">HD Recording Access</p>
+                </div>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-[#f4f8fb] border border-[#c0d9ec] flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-[#003153] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
+                  <Calendar className="w-4 h-4 text-blue-200" />
+                </div>
+                <div>
+                  <h5 className="text-xs font-bold text-slate-900">Weekly Timetable</h5>
+                  <p className="text-[11px] text-slate-500 font-medium">Structured Session Hours</p>
+                </div>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-[#f4f8fb] border border-[#c0d9ec] flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-[#003153] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
+                  <Award className="w-4 h-4 text-blue-200" />
+                </div>
+                <div>
+                  <h5 className="text-xs font-bold text-slate-900">O/L Model Papers</h5>
+                  <p className="text-[11px] text-slate-500 font-medium">Exam Practice & Marks</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-1 flex items-center gap-3">
+              <button
+                onClick={() => setIsPosterModalOpen(true)}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#003153] hover:bg-[#00223d] text-white text-xs font-bold shadow-md transition-all hover:scale-[1.02]"
+              >
+                <Maximize2 className="w-4 h-4" />
+                <span>View Full Poster & Timetable</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Right Column: Beautiful Compact Poster Frame */}
+          <div className="lg:col-span-5 flex justify-center">
+            <div className="relative group max-w-xs sm:max-w-sm w-full rounded-2xl bg-gradient-to-b from-[#003153] to-[#00192e] p-2.5 sm:p-3 shadow-xl border border-[#004575] transition-all hover:shadow-2xl">
+              <div className="relative overflow-hidden rounded-xl bg-slate-950 flex items-center justify-center max-h-[400px]">
+                <img
+                  src={posterImg}
+                  alt="Sir Parakum Bandara Mathematics Class Poster"
+                  className="w-full h-auto max-h-[380px] object-contain rounded-lg transition-transform duration-500 group-hover:scale-105 cursor-pointer"
+                  onClick={() => setIsPosterModalOpen(true)}
+                />
+
+                <div
+                  onClick={() => setIsPosterModalOpen(true)}
+                  className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2 text-white font-bold text-xs cursor-pointer backdrop-blur-[2px]"
+                >
+                  <ZoomIn className="w-5 h-5 text-blue-200" />
+                  <span>Click to Expand Poster</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
+        {/* Modal for full size view */}
+        {isPosterModalOpen && (
+          <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setIsPosterModalOpen(false)}>
+            <div className="relative max-w-2xl w-full bg-white rounded-2xl p-4 shadow-2xl space-y-3" onClick={(e) => e.stopPropagation()}>
+              <div className="flex items-center justify-between pb-2 border-b border-slate-200">
+                <h4 className="text-sm font-bold text-slate-900">Official Class Announcement & Timetable</h4>
+                <button onClick={() => setIsPosterModalOpen(false)} className="p-1.5 rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <div className="max-h-[75vh] overflow-auto rounded-xl bg-slate-900 flex items-center justify-center p-2">
+                <img src={posterImg} alt="Class Poster" className="max-w-full h-auto rounded-lg" />
+              </div>
+            </div>
+          </div>
+        )}
       </section>
 
       {/* User Portals Section */}
