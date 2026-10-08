@@ -43,13 +43,6 @@ export const Login = () => {
     }
   };
 
-  const handleQuickAdmin = () => {
-    setSelectedRole('admin');
-    setIdentifier('admin@plms.com');
-    setPassword('password123');
-    setErrorMsg('');
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg('');
@@ -218,20 +211,6 @@ export const Login = () => {
               )}
             </button>
           </form>
-
-          {/* Admin quick access */}
-          <div className="pt-4 border-t border-slate-100 space-y-2 text-center">
-            <p className="text-[11px] font-bold text-[#003153] uppercase tracking-wider">Educator & Admin Access</p>
-            <div className="flex items-center justify-center gap-2">
-              <button
-                type="button"
-                onClick={handleQuickAdmin}
-                className="px-3 py-1.5 text-[11px] font-bold rounded-lg bg-[#e6f0f7] text-[#003153] border border-[#b0d1e8] hover:bg-blue-100 transition-colors cursor-pointer"
-              >
-                Fill Sir / Admin Credentials
-              </button>
-            </div>
-          </div>
         </div>
       </div>
 
