@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { BookOpen, Layers, ChevronRight, CheckCircle2, Sparkles, X, Check } from 'lucide-react';
 
 // ============================================================
-// UPDATED TODAY - UNIT TOPICS COMPONENT
+// Unit Topics
+// Mathematics curriculum and lesson progress for student's grade
 // ============================================================
 
-// ===== ADDED TODAY: Mathematical Topic Category Badges & Color Themes =====
+// Topic theme colors and symbols
 const topicThemes = [
   { symbol: 'Σ', bg: 'bg-blue-600' },
   { symbol: 'Δ', bg: 'bg-purple-600' },
@@ -15,12 +16,13 @@ const topicThemes = [
   { symbol: '∫', bg: 'bg-rose-600' }
 ];
 
+// Unit Topics component
 export const MathematicsTopics = ({ topics = [], studentGrade = '' }) => {
   const [activeTopic, setActiveTopic] = useState(null);
 
   return (
     <div className="space-y-4">
-      {/* ===== UPDATED TODAY: Unit Topics Header (Dynamic Grade & Available Count) ===== */}
+      {/* Unit Topics Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-[#c0d9ec]">
         <div className="flex items-center gap-2.5">
           <div className="p-2.5 rounded-xl bg-[#003153] text-white shadow-xs">
@@ -54,7 +56,7 @@ export const MathematicsTopics = ({ topics = [], studentGrade = '' }) => {
           </p>
         </div>
       ) : (
-        /* ===== UPDATED TODAY: Unit Topic Cards (Icons, Lessons Count, Progress Bar & View Lessons) ===== */
+        /* Unit topic cards grid */
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {topics.map((topic, index) => {
             const progress = topic.progress || 0;
@@ -121,7 +123,7 @@ export const MathematicsTopics = ({ topics = [], studentGrade = '' }) => {
         </div>
       )}
 
-      {/* ===== ADDED TODAY: View Lessons Interactive Curriculum Modal ===== */}
+      {/* Topic lessons modal */}
       {activeTopic && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#003153]/50 backdrop-blur-xs animate-in fade-in">
           <div className="relative w-full max-w-lg p-6 bg-white rounded-2xl shadow-2xl border border-[#c0d9ec] space-y-4">

@@ -17,15 +17,16 @@ const STORAGE_KEYS = {
 // ============================================================
 // ===== ADDED TODAY: Real Student Records with Enrollment & Payment Status =====
 const initialUsers = [
-  { id: 'std-1', name: 'Kasun Perera', email: 'student@plms.com', password: 'password123', role: 'student', phone: '+94 77 123 4567', grade: 'Grade 11 (O/L Mathematics)', studentId: 'STU-2026-889', indexNo: 'STU-2026-889', parentId: 'prn-1', enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Paid', nextPaymentDue: '-' },
-  { id: 'std-2', name: 'Nipuni Silva', email: 'nipuni@plms.com', password: 'password123', role: 'student', phone: '+94 71 987 6543', grade: 'Grade 10 Mathematics', studentId: 'STU-2027-902', indexNo: 'STU-2027-902', parentId: null, enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Pending', nextPaymentDue: '2026-10-15' },
-  { id: 'std-3', name: 'Dilshan Fernando', email: 'dilshan@plms.com', password: 'password123', role: 'student', phone: '+94 76 555 4321', grade: 'Grade 9 Mathematics', studentId: 'STU-2028-104', indexNo: 'STU-2028-104', parentId: null, enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Unpaid', nextPaymentDue: '2026-10-10' },
-  { id: 'std-4', name: 'Amali Fernando', email: 'amali@plms.com', password: 'password123', role: 'student', phone: '+94 77 888 9900', grade: 'Grade 11 (O/L Mathematics)', studentId: 'STU-7846', indexNo: 'STU-7846', parentId: null, enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Paid', nextPaymentDue: '-' },
+  { id: 'std-1', name: 'Kasun Perera', email: 'student@plms.com', password: 'password123', role: 'student', phone: '+94 77 123 4567', grade: 'Grade 11 (O/L Mathematics)', studentId: 'STU-2026-889', indexNo: 'STU-2026-889', parentId: 'prn-1', enrollmentStatus: 'Currently Enrolled', enrollmentDate: '2024-01-10', subject: 'Mathematics', paymentStatus: 'Paid', nextPaymentDue: '2026-11-15' },
+  { id: 'std-2', name: 'Nipuni Silva', email: 'nipuni@plms.com', password: 'password123', role: 'student', phone: '+94 71 987 6543', grade: 'Grade 10 Mathematics', studentId: 'STU-2027-902', indexNo: 'STU-2027-902', parentId: null, enrollmentStatus: 'Currently Enrolled', enrollmentDate: '2024-03-15', subject: 'Mathematics', paymentStatus: 'Pending', nextPaymentDue: '2026-10-15' },
+  { id: 'std-3', name: 'Dilshan Fernando', email: 'dilshan@plms.com', password: 'password123', role: 'student', phone: '+94 76 555 4321', grade: 'Grade 9 Mathematics', studentId: 'STU-2028-104', indexNo: 'STU-2028-104', parentId: null, enrollmentStatus: 'Currently Enrolled', enrollmentDate: '2024-05-20', subject: 'Mathematics', paymentStatus: 'Unpaid', nextPaymentDue: '2026-10-10' },
+  { id: 'std-4', name: 'Amali Fernando', email: 'amali@plms.com', password: 'password123', role: 'student', phone: '+94 77 888 9900', grade: 'Grade 11 (O/L Mathematics)', studentId: 'STU-7846', indexNo: 'STU-7846', parentId: null, enrollmentStatus: 'Currently Enrolled', enrollmentDate: '2024-02-01', subject: 'Mathematics', paymentStatus: 'Paid', nextPaymentDue: '2026-11-01' },
   { id: 'prn-1', name: 'Sunil Perera', email: 'parent@plms.com', password: 'password123', role: 'parent', phone: '+94 70 333 2211', occupation: 'Civil Engineer', linkedStudentIds: ['std-1'] },
   { id: 'adm-1', name: 'Sir Parakum Bandara (Admin)', email: 'admin@plms.com', password: 'password123', role: 'admin', phone: '+94 77 000 1122', designation: 'Head Educator & Admin' }
 ];
 
 const initialZoomLinks = [
+  // Grade 11 Classes
   {
     id: 'zoom-1',
     title: 'Grade 11 O/L Mathematics: Algebra & Quadratic Equations',
@@ -82,6 +83,8 @@ const initialZoomLinks = [
     isLive: false,
     type: 'Live Zoom Class'
   },
+
+  // Grade 10 Classes
   {
     id: 'zoom-5',
     title: 'Grade 10 Mathematics: Algebraic Fractions & Equations',
@@ -93,7 +96,7 @@ const initialZoomLinks = [
     time: '17:00 - 18:30',
     link: 'https://zoom.us/j/1234567890',
     passcode: 'MATH10',
-    isLive: false,
+    isLive: true,
     type: 'Live Zoom Class'
   },
   {
@@ -111,6 +114,36 @@ const initialZoomLinks = [
     type: 'Live Zoom Class'
   },
   {
+    id: 'zoom-8',
+    title: 'Grade 10 Mathematics: Logarithms & Scientific Indices',
+    subject: 'Mathematics',
+    grade: 'Grade 10',
+    topic: 'Logarithms & Scientific Indices',
+    teacher: 'Sir Parakum Bandara',
+    date: '2026-10-23',
+    time: '17:00 - 18:30',
+    link: 'https://zoom.us/j/1234567890',
+    passcode: 'LOGS10',
+    isLive: false,
+    type: 'Interactive Workshop'
+  },
+  {
+    id: 'zoom-9',
+    title: 'Grade 10 Mathematics: Sets & Venn Diagrams Masterclass',
+    subject: 'Mathematics',
+    grade: 'Grade 10',
+    topic: 'Sets & Venn Diagrams',
+    teacher: 'Sir Parakum Bandara',
+    date: '2026-10-30',
+    time: '17:00 - 19:00',
+    link: 'https://zoom.us/j/1234567890',
+    passcode: 'VENN10',
+    isLive: false,
+    type: 'Live Zoom Class'
+  },
+
+  // Grade 9 Classes
+  {
     id: 'zoom-7',
     title: 'Grade 9 Mathematics: Linear Equations & Graphs',
     subject: 'Mathematics',
@@ -121,6 +154,48 @@ const initialZoomLinks = [
     time: '16:00 - 17:30',
     link: 'https://zoom.us/j/5555555555',
     passcode: 'MATH9',
+    isLive: true,
+    type: 'Live Zoom Class'
+  },
+  {
+    id: 'zoom-10',
+    title: 'Grade 9 Mathematics: Financial Mathematics & Profit',
+    subject: 'Mathematics',
+    grade: 'Grade 9',
+    topic: 'Financial Mathematics',
+    teacher: 'Sir Parakum Bandara',
+    date: '2026-10-18',
+    time: '16:00 - 17:30',
+    link: 'https://zoom.us/j/5555555555',
+    passcode: 'FIN9',
+    isLive: false,
+    type: 'Live Zoom Class'
+  },
+  {
+    id: 'zoom-11',
+    title: 'Grade 9 Mathematics: Angles & Parallel Lines',
+    subject: 'Mathematics',
+    grade: 'Grade 9',
+    topic: 'Angles & Parallel Lines',
+    teacher: 'Sir Parakum Bandara',
+    date: '2026-10-25',
+    time: '16:00 - 17:30',
+    link: 'https://zoom.us/j/5555555555',
+    passcode: 'ANGLE9',
+    isLive: false,
+    type: 'Interactive Workshop'
+  },
+  {
+    id: 'zoom-12',
+    title: 'Grade 9 Mathematics: Fractions & Decimals Problem Solving',
+    subject: 'Mathematics',
+    grade: 'Grade 9',
+    topic: 'Fractions & Decimal Operations',
+    teacher: 'Sir Parakum Bandara',
+    date: '2026-10-31',
+    time: '16:00 - 17:30',
+    link: 'https://zoom.us/j/5555555555',
+    passcode: 'FRAC9',
     isLive: false,
     type: 'Live Zoom Class'
   }
@@ -357,10 +432,10 @@ const initialGrades = [
 
 // ===== ADDED TODAY: Payment Records Seed Data (Paid, Pending, Unpaid) =====
 const initialPayments = [
-  { id: 'pay-1', studentId: 'std-1', studentName: 'Kasun Perera', month: 'October 2026', amount: 3500, status: 'Paid', nextDue: '-', slipUrl: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80', submittedAt: '2026-10-01 10:30 AM', notes: 'Bank transfer receipt attached.' },
+  { id: 'pay-1', studentId: 'std-1', studentName: 'Kasun Perera', month: 'October 2026', amount: 3500, status: 'Paid', nextDue: '2026-11-15', slipUrl: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80', submittedAt: '2026-10-01 10:30 AM', notes: 'Bank transfer receipt attached.' },
   { id: 'pay-2', studentId: 'std-2', studentName: 'Nipuni Silva', month: 'October 2026', amount: 3500, status: 'Pending', nextDue: '2026-10-15', slipUrl: null, submittedAt: '2026-10-05 02:15 PM', notes: 'Slip verification pending.' },
   { id: 'pay-3', studentId: 'std-3', studentName: 'Dilshan Fernando', month: 'October 2026', amount: 3500, status: 'Unpaid', nextDue: '2026-10-10', slipUrl: null, submittedAt: null, notes: 'Overdue monthly fee.' },
-  { id: 'pay-4', studentId: 'std-4', studentName: 'Amali Fernando', month: 'October 2026', amount: 3500, status: 'Paid', nextDue: '-', slipUrl: null, submittedAt: '2026-10-01 09:00 AM', notes: 'Monthly fee paid via online portal.' }
+  { id: 'pay-4', studentId: 'std-4', studentName: 'Amali Fernando', month: 'October 2026', amount: 3500, status: 'Paid', nextDue: '2026-11-01', slipUrl: null, submittedAt: '2026-10-01 09:00 AM', notes: 'Monthly fee paid via online portal.' }
 ];
 
 const getStorageItem = (key, defaultVal) => {
@@ -391,11 +466,21 @@ const initMockDB = () => {
         u.enrollmentStatus = 'Currently Enrolled';
         updated = true;
       }
-      if (!u.paymentStatus) {
-        const foundPay = initialPayments.find(p => p.studentId === u.id || p.studentName === u.name);
-        u.paymentStatus = foundPay?.status || 'Paid';
-        u.nextPaymentDue = foundPay?.nextDue || '-';
+      if (!u.enrollmentDate) {
+        u.enrollmentDate = '2024-01-10';
         updated = true;
+      }
+      if (!u.subject) {
+        u.subject = 'Mathematics';
+        updated = true;
+      }
+      if (!u.paymentStatus || u.paymentStatus === 'Paid') {
+        const foundPay = initialPayments.find(p => p.studentId === u.id || p.studentName === u.name);
+        if (foundPay) {
+          u.paymentStatus = foundPay.status;
+          u.nextPaymentDue = foundPay.nextDue;
+          updated = true;
+        }
       }
     });
 
@@ -412,9 +497,9 @@ const initMockDB = () => {
     }
   }
   
-  // Ensure zoom links have full calendar schedule
+  // Ensure zoom links have full calendar schedule (4 classes per grade: Grade 11, Grade 10, Grade 9)
   const storedZoom = getStorageItem(STORAGE_KEYS.ZOOM, null);
-  if (!storedZoom || storedZoom.length < 5) {
+  if (!storedZoom || storedZoom.length < 12) {
     setStorageItem(STORAGE_KEYS.ZOOM, initialZoomLinks);
   }
 
@@ -435,8 +520,12 @@ const initMockDB = () => {
     const storedPayments = getStorageItem(STORAGE_KEYS.PAYMENTS, initialPayments);
     let updatedPayments = false;
     initialPayments.forEach(p => {
-      if (!storedPayments.some(sp => sp.studentId === p.studentId || sp.id === p.id)) {
+      const existing = storedPayments.find(sp => sp.studentId === p.studentId || sp.id === p.id);
+      if (!existing) {
         storedPayments.push(p);
+        updatedPayments = true;
+      } else if (p.id === 'pay-1' && existing.nextDue === '-') {
+        existing.nextDue = '2026-11-15';
         updatedPayments = true;
       }
     });
@@ -541,7 +630,8 @@ export const apiService = {
     };
   },
 
-  // ===== UPDATED TODAY: Dynamic Student Lookup by Authenticated User ID =====
+  // Load logged-in student
+  // Get student data from database by user ID
   async getStudentById(id) {
     await delay();
     if (!id) return null;
@@ -564,6 +654,8 @@ export const apiService = {
         lastName,
         fullName,
         enrollmentStatus: student.enrollmentStatus || 'Currently Enrolled',
+        enrollmentDate: student.enrollmentDate || '2024-01-10',
+        subject: student.subject || 'Mathematics',
         paymentStatus,
         nextPaymentDue
       };
@@ -571,7 +663,56 @@ export const apiService = {
     return null;
   },
 
-  // ===== ADDED TODAY: Dynamic Student Payment Status Query (Paid / Pending / Unpaid) =====
+  // Save profile changes
+  // Save updated student profile to database
+  async updateStudentProfile(id, data) {
+    await delay();
+    if (!id) return { success: false, message: 'Student ID is required' };
+    const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
+    const index = users.findIndex(u => u.id === id || u.studentId === id || (u.email && u.email.toLowerCase() === String(id).toLowerCase()));
+    if (index === -1) {
+      return { success: false, message: 'Student record not found in database' };
+    }
+
+    const current = users[index];
+    const newName = (data.name !== undefined ? data.name : current.name) || current.name;
+    const nameParts = newName.trim().split(' ');
+    const firstName = nameParts[0] || '';
+    const lastName = nameParts.slice(1).join(' ') || '';
+
+    const updatedUser = {
+      ...current,
+      name: newName,
+      firstName,
+      lastName,
+      phone: data.phone !== undefined ? data.phone : current.phone,
+      grade: data.grade !== undefined ? data.grade : current.grade,
+      subject: data.subject !== undefined ? data.subject : (current.subject || 'Mathematics')
+    };
+
+    users[index] = updatedUser;
+    setStorageItem(STORAGE_KEYS.USERS, users);
+
+    // Also update studentName in payments if name changed
+    if (data.name && data.name !== current.name) {
+      const payments = getStorageItem(STORAGE_KEYS.PAYMENTS, initialPayments);
+      let payUpdated = false;
+      payments.forEach(p => {
+        if (p.studentId === current.id || p.studentId === current.studentId || p.studentName === current.name) {
+          p.studentName = data.name;
+          payUpdated = true;
+        }
+      });
+      if (payUpdated) {
+        setStorageItem(STORAGE_KEYS.PAYMENTS, payments);
+      }
+    }
+
+    return { success: true, user: updatedUser };
+  },
+
+  // Payment status
+  // Get student payment status from database
   async getStudentPaymentStatus(studentId) {
     await delay();
     if (!studentId) return { status: 'Paid', nextDue: '-', amount: 3500, month: 'October 2026' };
@@ -610,7 +751,8 @@ export const apiService = {
     };
   },
 
-  // ===== ADDED TODAY: Dynamic Mathematics Topics Filtered by Student Grade =====
+  // Unit topics
+  // Get Mathematics topics for the student's grade
   async getMathematicsTopics(grade) {
     await delay();
     const topics = getStorageItem(STORAGE_KEYS.TOPICS, initialTopics);
@@ -627,7 +769,8 @@ export const apiService = {
     return topics.filter(t => t.grade.toLowerCase().includes(grade.toLowerCase()));
   },
 
-  // ===== ADDED TODAY: Dynamic Student Classes Filtered by Grade for Calendar =====
+  // Calendar
+  // Get scheduled Mathematics classes for student's grade
   async getStudentClasses(studentId, grade) {
     await delay();
     const zoomLinks = getStorageItem(STORAGE_KEYS.ZOOM, initialZoomLinks);
@@ -639,12 +782,16 @@ export const apiService = {
 
     if (gradeNum) {
       return zoomLinks.filter(c => {
-        const text = `${c.grade || ''} ${c.subject || ''} ${c.title || ''}`;
-        return text.includes(gradeNum);
+        const classGradeMatch = (c.grade || '').match(/Grade\s*(\d+)/i) || (c.title || '').match(/Grade\s*(\d+)/i);
+        if (classGradeMatch) {
+          return classGradeMatch[1] === gradeNum;
+        }
+        return (c.grade || '').toLowerCase().includes(`grade ${gradeNum}`) ||
+               (c.title || '').toLowerCase().includes(`grade ${gradeNum}`);
       });
     }
 
-    return zoomLinks;
+    return zoomLinks.filter(c => (c.grade || '').toLowerCase().includes(grade.toLowerCase()));
   },
 
   async getZoomLinks() {
