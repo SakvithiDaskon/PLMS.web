@@ -9,20 +9,10 @@ export const AuthProvider = ({ children }) => {
     if (saved) {
       try { return JSON.parse(saved); } catch (e) {}
     }
-    // Default demo user (Student)
-    return {
-      id: 'std-1',
-      name: 'Kasun Perera',
-      email: 'student@plms.com',
-      role: 'student',
-      phone: '+94 77 123 4567',
-      grade: 'Grade 11 (O/L Mathematics)',
-      studentId: 'STU-2026-889',
-      indexNo: 'STU-2026-889'
-    };
+    return null;
   });
 
-  const [token, setToken] = useState(() => localStorage.getItem('plms_auth_token') || 'demo-token-123');
+  const [token, setToken] = useState(() => localStorage.getItem('plms_auth_token') || null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -75,10 +65,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // ============================================================
-  // UPDATED TODAY - ROLE & STUDENT SWITCHER LOGIC
-  // Allows switching directly to specific student records (Kasun, Nipuni, Dilshan)
-  // ============================================================
+  // Switch role logic
   const switchRole = (newRole, extraId) => {
     let mockUser;
     if (newRole === 'admin') {
@@ -119,7 +106,7 @@ export const AuthProvider = ({ children }) => {
     setToken(`demo-token-${newRole}`);
   };
 
-  // ===== ADDED TODAY: Switch Active Student Dynamically =====
+  // Switch active student
   const switchStudent = (studentId) => {
     const users = JSON.parse(localStorage.getItem('plms_mock_users') || '[]');
     const found = users.find(u => u.id === studentId || u.studentId === studentId);

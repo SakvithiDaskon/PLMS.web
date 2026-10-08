@@ -17,13 +17,22 @@ const STORAGE_KEYS = {
 // ============================================================
 // ===== ADDED TODAY: Real Student Records with Enrollment & Payment Status =====
 const initialUsers = [
-  { id: 'std-1', name: 'Kasun Perera', email: 'student@plms.com', password: 'password123', role: 'student', phone: '+94 77 123 4567', grade: 'Grade 11 (O/L Mathematics)', studentId: 'STU-2026-889', indexNo: 'STU-2026-889', parentId: 'prn-1', enrollmentStatus: 'Currently Enrolled', enrollmentDate: '2024-01-10', subject: 'Mathematics', paymentStatus: 'Paid', nextPaymentDue: '2026-11-15' },
-  { id: 'std-2', name: 'Nipuni Silva', email: 'nipuni@plms.com', password: 'password123', role: 'student', phone: '+94 71 987 6543', grade: 'Grade 10 Mathematics', studentId: 'STU-2027-902', indexNo: 'STU-2027-902', parentId: null, enrollmentStatus: 'Currently Enrolled', enrollmentDate: '2024-03-15', subject: 'Mathematics', paymentStatus: 'Pending', nextPaymentDue: '2026-10-15' },
-  { id: 'std-3', name: 'Dilshan Fernando', email: 'dilshan@plms.com', password: 'password123', role: 'student', phone: '+94 76 555 4321', grade: 'Grade 9 Mathematics', studentId: 'STU-2028-104', indexNo: 'STU-2028-104', parentId: null, enrollmentStatus: 'Currently Enrolled', enrollmentDate: '2024-05-20', subject: 'Mathematics', paymentStatus: 'Unpaid', nextPaymentDue: '2026-10-10' },
-  { id: 'std-4', name: 'Amali Fernando', email: 'amali@plms.com', password: 'password123', role: 'student', phone: '+94 77 888 9900', grade: 'Grade 11 (O/L Mathematics)', studentId: 'STU-7846', indexNo: 'STU-7846', parentId: null, enrollmentStatus: 'Currently Enrolled', enrollmentDate: '2024-02-01', subject: 'Mathematics', paymentStatus: 'Paid', nextPaymentDue: '2026-11-01' },
+  { id: 'std-1', name: 'Kasun Perera', email: 'student@plms.com', password: 'password123', role: 'student', phone: '+94 77 123 4567', grade: 'Grade 11 (O/L Mathematics)', studentId: 'STU-2026-889', indexNo: 'STU-2026-889', parentId: 'prn-1', enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Paid', nextPaymentDue: '-' },
+  { id: 'std-2', name: 'Nipuni Silva', email: 'nipuni@plms.com', password: 'password123', role: 'student', phone: '+94 71 987 6543', grade: 'Grade 10 Mathematics', studentId: 'STU-2027-902', indexNo: 'STU-2027-902', parentId: null, enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Pending', nextPaymentDue: '2026-10-15' },
+  { id: 'std-3', name: 'Dilshan Fernando', email: 'dilshan@plms.com', password: 'password123', role: 'student', phone: '+94 76 555 4321', grade: 'Grade 9 Mathematics', studentId: 'STU-2028-104', indexNo: 'STU-2028-104', parentId: null, enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Unpaid', nextPaymentDue: '2026-10-10' },
+  { id: 'std-4', name: 'Amali Fernando', email: 'amali@plms.com', password: 'password123', role: 'student', phone: '+94 77 888 9900', grade: 'Grade 11 (O/L Mathematics)', studentId: 'STU-7846', indexNo: 'STU-7846', parentId: null, enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Paid', nextPaymentDue: '-' },
   { id: 'prn-1', name: 'Sunil Perera', email: 'parent@plms.com', password: 'password123', role: 'parent', phone: '+94 70 333 2211', occupation: 'Civil Engineer', linkedStudentIds: ['std-1'] },
   { id: 'adm-1', name: 'Sir Parakum Bandara (Admin)', email: 'admin@plms.com', password: 'password123', role: 'admin', phone: '+94 77 000 1122', designation: 'Head Educator & Admin' }
 ];
+
+const getRelativeDateString = (daysFromToday = 1) => {
+  const d = new Date();
+  d.setDate(d.getDate() + daysFromToday);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
 
 const initialZoomLinks = [
   // Grade 11 Classes
@@ -34,52 +43,52 @@ const initialZoomLinks = [
     grade: 'Grade 11',
     topic: 'Quadratic Equations',
     teacher: 'Sir Parakum Bandara',
-    date: '2026-10-08',
+    date: getRelativeDateString(1), // Tomorrow
     time: '18:00 - 20:00',
     link: 'https://zoom.us/j/9876543210',
-    passcode: 'PARAKUM26',
-    isLive: true,
+    passcode: '123456',
+    isLive: false,
     type: 'Live Zoom Class'
   },
   {
     id: 'zoom-2',
-    title: 'Grade 11 Geometry: Circle Theorems Masterclass',
+    title: 'Grade 10 Mathematics: Algebraic Fractions & Equations',
     subject: 'Mathematics',
-    grade: 'Grade 11',
-    topic: 'Circle Theorems & Geometric Proofs',
+    grade: 'Grade 10',
+    topic: 'Algebraic Fractions',
     teacher: 'Sir Parakum Bandara',
-    date: '2026-10-14',
-    time: '18:30 - 20:00',
-    link: 'https://zoom.us/j/9876543210',
-    passcode: 'CIRCLE26',
+    date: getRelativeDateString(2),
+    time: '17:30 - 19:00',
+    link: 'https://zoom.us/j/1234567890',
+    passcode: '123789',
     isLive: false,
     type: 'Live Zoom Class'
   },
   {
     id: 'zoom-3',
-    title: 'Grade 11 Trigonometry Problem Solving Workshop',
+    title: 'Grade 9 Mathematics: Linear Equations & Graphs',
     subject: 'Mathematics',
-    grade: 'Grade 11',
-    topic: 'Trigonometry & Angles of Elevation',
+    grade: 'Grade 9',
+    topic: 'Linear Equations',
     teacher: 'Sir Parakum Bandara',
-    date: '2026-10-21',
-    time: '18:00 - 19:30',
-    link: 'https://zoom.us/j/9876543210',
-    passcode: 'TRIGO26',
+    date: getRelativeDateString(3),
+    time: '16:00 - 17:30',
+    link: 'https://zoom.us/j/5555555555',
+    passcode: '654321',
     isLive: false,
-    type: 'Interactive Workshop'
+    type: 'Live Zoom Class'
   },
   {
     id: 'zoom-4',
-    title: 'Grade 11 O/L Mathematics Past Paper Discussion',
+    title: 'Grade 8 Mathematics: Perimeter & Area of Plane Figures',
     subject: 'Mathematics',
-    grade: 'Grade 11',
-    topic: 'Past Paper Assessment & Review',
+    grade: 'Grade 8',
+    topic: 'Plane Figures',
     teacher: 'Sir Parakum Bandara',
-    date: '2026-10-28',
-    time: '18:00 - 20:30',
-    link: 'https://zoom.us/j/9876543210',
-    passcode: 'PAPER26',
+    date: getRelativeDateString(4),
+    time: '16:00 - 17:30',
+    link: 'https://zoom.us/j/4444444444',
+    passcode: '789012',
     isLive: false,
     type: 'Live Zoom Class'
   },
@@ -87,24 +96,24 @@ const initialZoomLinks = [
   // Grade 10 Classes
   {
     id: 'zoom-5',
-    title: 'Grade 10 Mathematics: Algebraic Fractions & Equations',
+    title: 'Grade 7 Mathematics: Ratio & Percentage Calculations',
     subject: 'Mathematics',
-    grade: 'Grade 10',
-    topic: 'Algebraic Fractions',
+    grade: 'Grade 7',
+    topic: 'Ratio & Percentages',
     teacher: 'Sir Parakum Bandara',
     date: '2026-10-09',
     time: '17:00 - 18:30',
     link: 'https://zoom.us/j/1234567890',
     passcode: 'MATH10',
-    isLive: true,
+    isLive: false,
     type: 'Live Zoom Class'
   },
   {
     id: 'zoom-6',
-    title: 'Grade 10 Mathematics: Pythagoras Theorem in Depth',
+    title: 'Grade 6 Mathematics: Basic Geometry & Angles',
     subject: 'Mathematics',
-    grade: 'Grade 10',
-    topic: 'Pythagoras Theorem',
+    grade: 'Grade 6',
+    topic: 'Basic Geometry',
     teacher: 'Sir Parakum Bandara',
     date: '2026-10-16',
     time: '17:00 - 18:30',
@@ -113,36 +122,6 @@ const initialZoomLinks = [
     isLive: false,
     type: 'Live Zoom Class'
   },
-  {
-    id: 'zoom-8',
-    title: 'Grade 10 Mathematics: Logarithms & Scientific Indices',
-    subject: 'Mathematics',
-    grade: 'Grade 10',
-    topic: 'Logarithms & Scientific Indices',
-    teacher: 'Sir Parakum Bandara',
-    date: '2026-10-23',
-    time: '17:00 - 18:30',
-    link: 'https://zoom.us/j/1234567890',
-    passcode: 'LOGS10',
-    isLive: false,
-    type: 'Interactive Workshop'
-  },
-  {
-    id: 'zoom-9',
-    title: 'Grade 10 Mathematics: Sets & Venn Diagrams Masterclass',
-    subject: 'Mathematics',
-    grade: 'Grade 10',
-    topic: 'Sets & Venn Diagrams',
-    teacher: 'Sir Parakum Bandara',
-    date: '2026-10-30',
-    time: '17:00 - 19:00',
-    link: 'https://zoom.us/j/1234567890',
-    passcode: 'VENN10',
-    isLive: false,
-    type: 'Live Zoom Class'
-  },
-
-  // Grade 9 Classes
   {
     id: 'zoom-7',
     title: 'Grade 9 Mathematics: Linear Equations & Graphs',
@@ -154,48 +133,6 @@ const initialZoomLinks = [
     time: '16:00 - 17:30',
     link: 'https://zoom.us/j/5555555555',
     passcode: 'MATH9',
-    isLive: true,
-    type: 'Live Zoom Class'
-  },
-  {
-    id: 'zoom-10',
-    title: 'Grade 9 Mathematics: Financial Mathematics & Profit',
-    subject: 'Mathematics',
-    grade: 'Grade 9',
-    topic: 'Financial Mathematics',
-    teacher: 'Sir Parakum Bandara',
-    date: '2026-10-18',
-    time: '16:00 - 17:30',
-    link: 'https://zoom.us/j/5555555555',
-    passcode: 'FIN9',
-    isLive: false,
-    type: 'Live Zoom Class'
-  },
-  {
-    id: 'zoom-11',
-    title: 'Grade 9 Mathematics: Angles & Parallel Lines',
-    subject: 'Mathematics',
-    grade: 'Grade 9',
-    topic: 'Angles & Parallel Lines',
-    teacher: 'Sir Parakum Bandara',
-    date: '2026-10-25',
-    time: '16:00 - 17:30',
-    link: 'https://zoom.us/j/5555555555',
-    passcode: 'ANGLE9',
-    isLive: false,
-    type: 'Interactive Workshop'
-  },
-  {
-    id: 'zoom-12',
-    title: 'Grade 9 Mathematics: Fractions & Decimals Problem Solving',
-    subject: 'Mathematics',
-    grade: 'Grade 9',
-    topic: 'Fractions & Decimal Operations',
-    teacher: 'Sir Parakum Bandara',
-    date: '2026-10-31',
-    time: '16:00 - 17:30',
-    link: 'https://zoom.us/j/5555555555',
-    passcode: 'FRAC9',
     isLive: false,
     type: 'Live Zoom Class'
   }
@@ -426,8 +363,12 @@ const initialQuizzes = [
 ];
 
 const initialGrades = [
-  { id: 'grd-1', studentId: 'std-1', studentName: 'Kasun Perera', subject: 'Mathematics (Grade 11)', examName: 'Monthly Assessment - September', score: 88, maxScore: 100, grade: 'A', remarks: 'Excellent performance in Algebra test. Sir Parakum Bandara.', date: '2026-09-30' },
-  { id: 'grd-2', studentId: 'std-1', studentName: 'Kasun Perera', subject: 'Science (Grade 11)', examName: 'Mid-Term Science Test', score: 82, maxScore: 100, grade: 'A', remarks: 'Good grasp of chemistry concepts.', date: '2026-09-15' }
+  { id: 'grd-1', studentId: 'std-1', studentName: 'Kasun Perera', subject: 'Grade 11 (O/L Mathematics)', score: 88, maxScore: 100, grade: 'A', evaluationTag: 'High Achiever', date: '2026-09-30' },
+  { id: 'grd-2', studentId: 'std-2', studentName: 'Nipuni Silva', subject: 'Grade 10 Mathematics', score: 92, maxScore: 100, grade: 'A+', evaluationTag: 'Pass with Distinction', date: '2026-09-28' },
+  { id: 'grd-3', studentId: 'std-3', studentName: 'Dilshan Fernando', subject: 'Grade 9 Mathematics', score: 78, maxScore: 100, grade: 'B', evaluationTag: 'On Track', date: '2026-09-25' },
+  { id: 'grd-4', studentId: 'std-5', studentName: 'Kavindu Rathnayake', subject: 'Grade 8 Mathematics', score: 85, maxScore: 100, grade: 'A', evaluationTag: 'High Achiever', date: '2026-09-22' },
+  { id: 'grd-5', studentId: 'std-6', studentName: 'Sithmi Perera', subject: 'Grade 7 Mathematics', score: 90, maxScore: 100, grade: 'A+', evaluationTag: 'Pass with Distinction', date: '2026-09-20' },
+  { id: 'grd-6', studentId: 'std-7', studentName: 'Tashmi Jayawardena', subject: 'Grade 6 Mathematics', score: 84, maxScore: 100, grade: 'A', evaluationTag: 'On Track', date: '2026-09-18' }
 ];
 
 // ===== ADDED TODAY: Payment Records Seed Data (Paid, Pending, Unpaid) =====
@@ -450,7 +391,7 @@ const getStorageItem = (key, defaultVal) => {
 const setStorageItem = (key, val) => {
   try {
     localStorage.setItem(key, JSON.stringify(val));
-  } catch (e) {}
+  } catch (e) { }
 };
 
 // ===== UPDATED TODAY: Mock DB Initialization & Sync for Real Student Records =====
@@ -458,7 +399,7 @@ const initMockDB = () => {
   if (!localStorage.getItem(STORAGE_KEYS.USERS)) {
     setStorageItem(STORAGE_KEYS.USERS, initialUsers);
   } else {
-    // Sync missing students (like Amali Fernando) or missing fields into localStorage
+    // Sync missing students into localStorage
     const storedUsers = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
     let updated = false;
     storedUsers.forEach(u => {
@@ -484,22 +425,21 @@ const initMockDB = () => {
       }
     });
 
-    if (!storedUsers.some(u => u.name === 'Amali Fernando' || u.studentId === 'STU-7846')) {
-      const amali = initialUsers.find(u => u.name === 'Amali Fernando');
-      if (amali) {
-        storedUsers.push(amali);
+    initialUsers.forEach(u => {
+      if (!storedUsers.some(su => su.id === u.id || su.name === u.name)) {
+        storedUsers.push(u);
         updated = true;
       }
-    }
+    });
 
     if (updated) {
       setStorageItem(STORAGE_KEYS.USERS, storedUsers);
     }
   }
-  
-  // Ensure zoom links have full calendar schedule (4 classes per grade: Grade 11, Grade 10, Grade 9)
+
+  // Ensure zoom links have full calendar schedule
   const storedZoom = getStorageItem(STORAGE_KEYS.ZOOM, null);
-  if (!storedZoom || storedZoom.length < 12) {
+  if (!storedZoom || storedZoom.length < 5) {
     setStorageItem(STORAGE_KEYS.ZOOM, initialZoomLinks);
   }
 
@@ -512,7 +452,23 @@ const initMockDB = () => {
   if (!localStorage.getItem(STORAGE_KEYS.RECORDINGS)) setStorageItem(STORAGE_KEYS.RECORDINGS, initialRecordings);
   if (!localStorage.getItem(STORAGE_KEYS.TUTORIALS)) setStorageItem(STORAGE_KEYS.TUTORIALS, initialTutorials);
   if (!localStorage.getItem(STORAGE_KEYS.QUIZZES)) setStorageItem(STORAGE_KEYS.QUIZZES, initialQuizzes);
-  if (!localStorage.getItem(STORAGE_KEYS.GRADES)) setStorageItem(STORAGE_KEYS.GRADES, initialGrades);
+
+  // Refresh grades in localStorage to replace remarks with evaluationTag
+  const storedGrades = getStorageItem(STORAGE_KEYS.GRADES, null);
+  if (!storedGrades || storedGrades.length < 5 || storedGrades.some(g => g.remarks || g.examName)) {
+    setStorageItem(STORAGE_KEYS.GRADES, initialGrades);
+  } else {
+    let updatedGrades = false;
+    initialGrades.forEach(g => {
+      if (!storedGrades.some(sg => sg.id === g.id || (sg.studentName === g.studentName && sg.subject === g.subject))) {
+        storedGrades.push(g);
+        updatedGrades = true;
+      }
+    });
+    if (updatedGrades) {
+      setStorageItem(STORAGE_KEYS.GRADES, storedGrades);
+    }
+  }
 
   if (!localStorage.getItem(STORAGE_KEYS.PAYMENTS)) {
     setStorageItem(STORAGE_KEYS.PAYMENTS, initialPayments);
@@ -544,13 +500,13 @@ export const apiService = {
     await delay();
     const query = (email || '').trim().toLowerCase();
     const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
-    const user = users.find(u => 
+    const user = users.find(u =>
       (u.email && u.email.toLowerCase() === query) ||
       (u.studentId && u.studentId.toLowerCase() === query) ||
       (u.indexNo && u.indexNo.toLowerCase() === query) ||
       (u.id && u.id.toLowerCase() === query)
     );
-    
+
     if (user) {
       if (user.password && user.password !== password) {
         return { success: false, message: 'Invalid password. Please check your credentials.' };
@@ -726,8 +682,8 @@ export const apiService = {
     const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
     const user = users.find(u => u.id === studentId || u.studentId === studentId || (u.email && u.email.toLowerCase() === String(studentId).toLowerCase()));
 
-    const studentPayment = payments.find(p => 
-      p.studentId === studentId || 
+    const studentPayment = payments.find(p =>
+      p.studentId === studentId ||
       (user && (p.studentName === user.name || p.studentId === user.studentId || p.studentId === user.id))
     );
 
@@ -763,7 +719,7 @@ export const apiService = {
     await delay();
     const topics = getStorageItem(STORAGE_KEYS.TOPICS, initialTopics);
     if (!grade) return [];
-    
+
     // Normalize grade search (e.g. "Grade 11 (O/L Mathematics)" -> "11")
     const match = grade.match(/Grade\s*(\d+)/i) || grade.match(/(\d+)/);
     const gradeNum = match ? match[1] : null;
@@ -793,7 +749,7 @@ export const apiService = {
           return classGradeMatch[1] === gradeNum;
         }
         return (c.grade || '').toLowerCase().includes(`grade ${gradeNum}`) ||
-               (c.title || '').toLowerCase().includes(`grade ${gradeNum}`);
+          (c.title || '').toLowerCase().includes(`grade ${gradeNum}`);
       });
     }
 
@@ -946,11 +902,10 @@ export const apiService = {
       studentId: gradeData.studentId,
       studentName: gradeData.studentName || 'Student',
       subject: gradeData.subject,
-      examName: gradeData.examName,
       score: Number(gradeData.score),
       maxScore: Number(gradeData.maxScore) || 100,
       grade: gradeData.grade || 'A',
-      remarks: gradeData.remarks || 'Excellent progress. Sir Parakum Bandara',
+      evaluationTag: gradeData.evaluationTag || 'On Track',
       date: new Date().toISOString().split('T')[0]
     };
     grades.unshift(newGrade);

@@ -15,10 +15,7 @@ import MathematicsTopics from '../../components/student/MathematicsTopics';
 
 import bannerIllustration from '../../assets/banner_illustration.png';
 
-// ============================================================
-// Student Dashboard
-// Main dashboard view for enrolled students
-// ============================================================
+// Student Dashboard Component
 export const StudentDashboard = () => {
   const { user } = useAuth();
 
@@ -232,7 +229,7 @@ export const StudentDashboard = () => {
         </div>
       </div>
 
-      {/* Student status */}
+      {/* Student Status Overview Section */}
       <div className="p-5 sm:p-6 rounded-2xl bg-white border border-[#c0d9ec] shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         {/* Enrolled grade details */}
         <div className="flex items-center gap-4">
@@ -318,7 +315,7 @@ export const StudentDashboard = () => {
         </div>
       </div>
 
-      {/* Calendar & Unit Topics */}
+      {/* Calendar & Topics Section */}
       <div className="flex flex-col lg:flex-row gap-6 items-start">
         {/* Calendar - Scheduled live classes */}
         <div className="w-full lg:w-[32%] shrink-0">

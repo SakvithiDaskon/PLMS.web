@@ -20,11 +20,8 @@ export const Navbar = ({ toggleSidebar, isSidebarOpen, showSidebarButton = true 
   const [showRoleMenu, setShowRoleMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
-  // ============================================================
-  // UPDATED TODAY - STUDENT NAVIGATION CONDITIONAL
-  // Hide the Student View / Role switcher button on student pages
-  // ============================================================
-  const isStudentPage = location.pathname.startsWith('/student') || user?.role === 'student';
+  // Check if current page is inside a portal (Student, Parent, or Admin)
+  const isPortalPage = (showSidebarButton || location.pathname.startsWith('/student') || location.pathname.startsWith('/parent') || location.pathname.startsWith('/admin')) && location.pathname !== '/';
 
   const handleLogout = () => {
     logout();
@@ -75,8 +72,8 @@ export const Navbar = ({ toggleSidebar, isSidebarOpen, showSidebarButton = true 
 
         {/* Right Action Menu */}
         <div className="flex items-center gap-3">
-          {/* Role Switcher Pill (Hidden on student page) */}
-          {isAuthenticated && !isStudentPage && (
+          {/* Role Switcher Pill - Only shown inside portal pages */}
+          {isAuthenticated && isPortalPage && (
             <div className="relative">
               <button
                 onClick={() => setShowRoleMenu(!showRoleMenu)}
@@ -96,56 +93,17 @@ export const Navbar = ({ toggleSidebar, isSidebarOpen, showSidebarButton = true 
                     Switch Role
                   </div>
 
-                  {/* ===== ADDED TODAY: Dynamic Multi-Student Role Switcher ===== */}
-                  <div className="space-y-0.5">
-                    <button
-                      onClick={() => {
-                        switchRole('student', 'std-1');
-                        setShowRoleMenu(false);
-                        navigate('/student');
-                      }}
-                      className={`w-full text-left px-3 py-1.5 text-xs flex items-center justify-between hover:bg-[#e6f0f7] font-semibold ${
-                        user?.role === 'student' && user?.id === 'std-1' ? 'text-[#003153] bg-[#e6f0f7] font-bold' : 'text-slate-700'
+                  <button
+                    onClick={() => {
+                      switchRole('student');
+                      setShowRoleMenu(false);
+                      navigate('/student');
+                    }}
+                    className={`w-full text-left px-3 py-2 text-xs flex items-center gap-2 hover:bg-[#e6f0f7] font-semibold ${user?.role === 'student' ? 'text-[#003153] bg-[#e6f0f7] font-bold' : 'text-slate-700'
                       }`}
-                    >
-                      <span className="flex items-center gap-2">
-                        <UserCheck className="w-3.5 h-3.5 text-[#003153]" />
-                        <span>Kasun (Grade 11)</span>
-                      </span>
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        switchRole('student', 'std-2');
-                        setShowRoleMenu(false);
-                        navigate('/student');
-                      }}
-                      className={`w-full text-left px-3 py-1.5 text-xs flex items-center justify-between hover:bg-[#e6f0f7] font-semibold ${
-                        user?.role === 'student' && user?.id === 'std-2' ? 'text-[#003153] bg-[#e6f0f7] font-bold' : 'text-slate-700'
-                      }`}
-                    >
-                      <span className="flex items-center gap-2">
-                        <UserCheck className="w-3.5 h-3.5 text-[#003153]" />
-                        <span>Nipuni (Grade 10)</span>
-                      </span>
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        switchRole('student', 'std-3');
-                        setShowRoleMenu(false);
-                        navigate('/student');
-                      }}
-                      className={`w-full text-left px-3 py-1.5 text-xs flex items-center justify-between hover:bg-[#e6f0f7] font-semibold ${
-                        user?.role === 'student' && user?.id === 'std-3' ? 'text-[#003153] bg-[#e6f0f7] font-bold' : 'text-slate-700'
-                      }`}
-                    >
-                      <span className="flex items-center gap-2">
-                        <UserCheck className="w-3.5 h-3.5 text-[#003153]" />
-                        <span>Dilshan (Grade 9)</span>
-                      </span>
-                    </button>
-                  </div>
+                  >
+                    <UserCheck className="w-4 h-4 text-[#003153]" /> Student View
+                  </button>
 
                   <button
                     onClick={() => {
@@ -153,9 +111,8 @@ export const Navbar = ({ toggleSidebar, isSidebarOpen, showSidebarButton = true 
                       setShowRoleMenu(false);
                       navigate('/parent');
                     }}
-                    className={`w-full text-left px-3 py-2 text-xs flex items-center gap-2 hover:bg-[#e6f0f7] font-semibold ${
-                      user?.role === 'parent' ? 'text-[#003153] bg-[#e6f0f7] font-bold' : 'text-slate-700'
-                    }`}
+                    className={`w-full text-left px-3 py-2 text-xs flex items-center gap-2 hover:bg-[#e6f0f7] font-semibold ${user?.role === 'parent' ? 'text-[#003153] bg-[#e6f0f7] font-bold' : 'text-slate-700'
+                      }`}
                   >
                     <Users className="w-4 h-4 text-[#003153]" /> Parent View
                   </button>
@@ -166,9 +123,8 @@ export const Navbar = ({ toggleSidebar, isSidebarOpen, showSidebarButton = true 
                       setShowRoleMenu(false);
                       navigate('/admin');
                     }}
-                    className={`w-full text-left px-3 py-2 text-xs flex items-center gap-2 hover:bg-[#e6f0f7] font-semibold ${
-                      user?.role === 'admin' ? 'text-[#003153] bg-[#e6f0f7] font-bold' : 'text-slate-700'
-                    }`}
+                    className={`w-full text-left px-3 py-2 text-xs flex items-center gap-2 hover:bg-[#e6f0f7] font-semibold ${user?.role === 'admin' ? 'text-[#003153] bg-[#e6f0f7] font-bold' : 'text-slate-700'
+                      }`}
                   >
                     <ShieldCheck className="w-4 h-4 text-[#003153]" /> Sir / Admin View
                   </button>
@@ -177,17 +133,17 @@ export const Navbar = ({ toggleSidebar, isSidebarOpen, showSidebarButton = true 
             </div>
           )}
 
-          {/* User Account Menu */}
-          {isAuthenticated ? (
+          {/* User Account Menu (Portal Pages) vs Login & Signup Buttons (Home & Public Pages) */}
+          {isAuthenticated && isPortalPage ? (
             <div className="relative">
               <button
                 onClick={() => setShowProfileMenu(!showProfileMenu)}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#00223d] hover:bg-[#00192e] border border-[#004575] text-white transition-colors"
+                className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#00223d] hover:bg-[#00192e] border border-[#004575] text-white shadow-sm transition-all"
               >
-                <div className="w-6 h-6 rounded-full bg-white text-[#003153] flex items-center justify-center font-bold text-xs">
+                <div className="w-6 h-6 rounded-full bg-white text-[#003153] flex items-center justify-center font-bold text-xs shrink-0">
                   {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
                 </div>
-                <span className="hidden md:inline-block text-xs font-bold text-white">
+                <span className="text-xs font-extrabold text-white tracking-wide">
                   {user?.name}
                 </span>
                 <ChevronDown className="w-3.5 h-3.5 text-blue-200" />
@@ -223,18 +179,19 @@ export const Navbar = ({ toggleSidebar, isSidebarOpen, showSidebarButton = true 
               )}
             </div>
           ) : (
+            /* Login & Signup Buttons (Home & Public Pages) */
             <div className="flex items-center gap-2">
               <Link
                 to="/login"
-                className="px-3.5 py-1.5 text-xs font-bold text-white hover:text-blue-100 transition-colors"
+                className="px-4 py-2 rounded-xl text-xs font-bold text-white hover:bg-white/10 transition-all border border-white/20"
               >
-                Sign In
+                Login
               </Link>
               <Link
                 to="/register"
-                className="px-4 py-2 text-xs font-bold text-[#003153] bg-white hover:bg-blue-50 rounded-lg shadow transition-colors"
+                className="px-4 py-2 rounded-xl text-xs font-bold text-[#003153] bg-white hover:bg-[#e6f0f7] shadow-md transition-all hover:scale-105"
               >
-                Register
+                Signup
               </Link>
             </div>
           )}
