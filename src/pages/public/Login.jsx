@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import logoImg from '../../assets/logo.jpeg';
 import {
@@ -19,35 +19,40 @@ import {
 export const Login = () => {
   const { login, loading } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [selectedRole, setSelectedRole] = useState('student');
-  const [identifier, setIdentifier] = useState(location.state?.studentId || '');
+  const [identifier, setIdentifier] = useState(location?.state?.studentId || '');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [successNotice, setSuccessNotice] = useState(location?.state?.message || '');
 
   const handleRoleTabChange = (role) => {
-    if (role === 'parent') {
-      // Looks completely normal, silently prevents switching role
-      return;
-    }
     setSelectedRole(role);
+    setErrorMsg('');
     if (role === 'admin') {
-      setEmail('admin@plms.com');
+      setIdentifier('admin@plms.com');
+      setPassword('password123');
+    } else if (role === 'student') {
+      setIdentifier(location?.state?.studentId || '');
+      setPassword('');
     } else {
-      setEmail('student@plms.com');
+      setIdentifier('');
+      setPassword('');
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg('');
-    const res = await login(email, password, selectedRole);
+    const res = await login(identifier, password, selectedRole);
     if (res.success) {
       if (res.user.role === 'admin') navigate('/admin');
+      else if (res.user.role === 'parent') navigate('/parent');
       else navigate('/student');
     } else {
-      setErrorMsg(res.message || 'Login failed. Please check credentials.');
+      setErrorMsg(res.message || 'Login failed. Please check your credentials.');
     }
   };
 
@@ -206,20 +211,6 @@ export const Login = () => {
               )}
             </button>
           </form>
-
-          {/* Admin quick access */}
-          <div className="pt-4 border-t border-slate-100 space-y-2 text-center">
-            <p className="text-[11px] font-bold text-[#003153] uppercase tracking-wider">Educator & Admin Access</p>
-            <div className="flex items-center justify-center gap-2">
-              <button
-                type="button"
-                onClick={handleQuickAdmin}
-                className="px-3 py-1.5 text-[11px] font-bold rounded-lg bg-[#e6f0f7] text-[#003153] border border-[#b0d1e8] hover:bg-blue-100 transition-colors cursor-pointer"
-              >
-                Fill Sir / Admin Credentials
-              </button>
-            </div>
-          </div>
         </div>
       </div>
 
