@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import logoImg from '../../assets/logo.jpeg';
 import {
@@ -19,35 +19,47 @@ import {
 export const Login = () => {
   const { login, loading } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [selectedRole, setSelectedRole] = useState('student');
-  const [identifier, setIdentifier] = useState(location.state?.studentId || '');
+  const [identifier, setIdentifier] = useState(location?.state?.studentId || '');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [successNotice, setSuccessNotice] = useState(location?.state?.message || '');
 
   const handleRoleTabChange = (role) => {
-    if (role === 'parent') {
-      // Looks completely normal, silently prevents switching role
-      return;
-    }
     setSelectedRole(role);
+    setErrorMsg('');
     if (role === 'admin') {
-      setEmail('admin@plms.com');
+      setIdentifier('admin@plms.com');
+      setPassword('password123');
+    } else if (role === 'student') {
+      setIdentifier(location?.state?.studentId || '');
+      setPassword('');
     } else {
-      setEmail('student@plms.com');
+      setIdentifier('');
+      setPassword('');
     }
+  };
+
+  const handleQuickAdmin = () => {
+    setSelectedRole('admin');
+    setIdentifier('admin@plms.com');
+    setPassword('password123');
+    setErrorMsg('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg('');
-    const res = await login(email, password, selectedRole);
+    const res = await login(identifier, password, selectedRole);
     if (res.success) {
       if (res.user.role === 'admin') navigate('/admin');
+      else if (res.user.role === 'parent') navigate('/parent');
       else navigate('/student');
     } else {
-      setErrorMsg(res.message || 'Login failed. Please check credentials.');
+      setErrorMsg(res.message || 'Login failed. Please check your credentials.');
     }
   };
 

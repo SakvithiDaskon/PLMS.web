@@ -542,8 +542,14 @@ const delay = (ms = 200) => new Promise(res => setTimeout(res, ms));
 export const apiService = {
   async login({ email, password, role }) {
     await delay();
+    const query = (email || '').trim().toLowerCase();
     const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
-    const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+    const user = users.find(u => 
+      (u.email && u.email.toLowerCase() === query) ||
+      (u.studentId && u.studentId.toLowerCase() === query) ||
+      (u.indexNo && u.indexNo.toLowerCase() === query) ||
+      (u.id && u.id.toLowerCase() === query)
+    );
     
     if (user) {
       if (user.password && user.password !== password) {
@@ -555,7 +561,7 @@ export const apiService = {
       return { success: true, user, token: 'mock-jwt-token-' + user.id };
     }
 
-    return { success: false, message: 'No account found with this email. Please register first.' };
+    return { success: false, message: 'No account found with these credentials. Please check your Student ID or email.' };
   },
 
   // ===== UPDATED TODAY: Student Registration with Dynamic ID & Payment Status =====
