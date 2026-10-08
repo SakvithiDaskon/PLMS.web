@@ -166,11 +166,6 @@ export const Login = () => {
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#f4f8fb] border border-[#c0d9ec] text-slate-900 text-xs placeholder:text-slate-400 focus:outline-none focus:border-[#003153] focus:bg-white font-mono"
               />
             </div>
-            {selectedRole === 'student' && (
-              <p className="text-[11px] text-slate-500 mt-1">
-                Enter your 4-digit Student ID (e.g., <strong className="text-[#003153]">0001</strong>, <strong className="text-[#003153]">0002</strong>) received during registration.
-              </p>
-            )}
           </div>
 
           <div>
