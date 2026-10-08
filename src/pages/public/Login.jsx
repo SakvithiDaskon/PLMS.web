@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import logoImg from '../../assets/logo.jpeg';
 import {
@@ -19,47 +19,35 @@ import {
 export const Login = () => {
   const { login, loading } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
 
   const [selectedRole, setSelectedRole] = useState('student');
   const [identifier, setIdentifier] = useState(location.state?.studentId || '');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
-  const [successNotice, setSuccessNotice] = useState(location.state?.message || '');
 
   const handleRoleTabChange = (role) => {
-    setSelectedRole(role);
-    setErrorMsg('');
-    if (role === 'admin') {
-      setIdentifier('admin@plms.com');
-      setPassword('password123');
-    } else if (role === 'student') {
-      setIdentifier(location.state?.studentId || '');
-      setPassword('');
-    } else {
-      setIdentifier('');
-      setPassword('');
+    if (role === 'parent') {
+      // Looks completely normal, silently prevents switching role
+      return;
     }
-  };
-
-  const handleQuickAdmin = () => {
-    setSelectedRole('admin');
-    setIdentifier('admin@plms.com');
-    setPassword('password123');
-    setErrorMsg('');
+    setSelectedRole(role);
+    if (role === 'admin') {
+      setEmail('admin@plms.com');
+    } else {
+      setEmail('student@plms.com');
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg('');
-    const res = await login(identifier, password, selectedRole);
+    const res = await login(email, password, selectedRole);
     if (res.success) {
       if (res.user.role === 'admin') navigate('/admin');
-      else if (res.user.role === 'parent') navigate('/parent');
       else navigate('/student');
     } else {
-      setErrorMsg(res.message || 'Login failed. Please check your credentials.');
+      setErrorMsg(res.message || 'Login failed. Please check credentials.');
     }
   };
 
@@ -70,7 +58,7 @@ export const Login = () => {
           <img src={logoImg} alt="PLMS Logo" className="w-full h-full object-cover" />
         </div>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Sign In to PLMS</h1>
-        <p className="text-xs sm:text-sm text-slate-600">Enter your credentials to access your portal</p>
+        <p className="text-xs sm:text-sm text-slate-600">Select your role to access your portal</p>
       </div>
 
       {/* Main Login Card */}
