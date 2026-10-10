@@ -17,10 +17,7 @@ const STORAGE_KEYS = {
 // ============================================================
 // ===== ADDED TODAY: Real Student Records with Enrollment & Payment Status =====
 const initialUsers = [
-  { id: 'std-1', name: 'Kasun Perera', email: 'student@plms.com', password: 'password123', role: 'student', phone: '+94 77 123 4567', grade: 'Grade 11 (O/L Mathematics)', studentId: 'STU-2026-889', indexNo: 'STU-2026-889', parentId: 'prn-1', enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Paid', nextPaymentDue: '-' },
-  { id: 'std-2', name: 'Nipuni Silva', email: 'nipuni@plms.com', password: 'password123', role: 'student', phone: '+94 71 987 6543', grade: 'Grade 10 Mathematics', studentId: 'STU-2027-902', indexNo: 'STU-2027-902', parentId: null, enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Pending', nextPaymentDue: '2026-10-15' },
-  { id: 'std-3', name: 'Dilshan Fernando', email: 'dilshan@plms.com', password: 'password123', role: 'student', phone: '+94 76 555 4321', grade: 'Grade 9 Mathematics', studentId: 'STU-2028-104', indexNo: 'STU-2028-104', parentId: null, enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Unpaid', nextPaymentDue: '2026-10-10' },
-  { id: 'std-4', name: 'Amali Fernando', email: 'amali@plms.com', password: 'password123', role: 'student', phone: '+94 77 888 9900', grade: 'Grade 11 (O/L Mathematics)', studentId: 'STU-7846', indexNo: 'STU-7846', parentId: null, enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Paid', nextPaymentDue: '-' },
+  { id: 'std-1', name: 'Kasun Perera', email: 'student@plms.com', password: 'password123', role: 'student', phone: '+94 77 123 4567', grade: 'Grade 11 (O/L Mathematics)', studentId: 'STU-2026', indexNo: 'STU-2026', parentId: 'prn-1', enrollmentStatus: 'Currently Enrolled', enrollmentDate: '2024-01-10', subject: 'Mathematics', paymentStatus: 'Paid', nextPaymentDue: '-' },
   { id: 'prn-1', name: 'Sunil Perera', email: 'parent@plms.com', password: 'password123', role: 'parent', phone: '+94 70 333 2211', occupation: 'Civil Engineer', linkedStudentIds: ['std-1'] },
   { id: 'adm-1', name: 'Sir Parakum Bandara (Admin)', email: 'admin@plms.com', password: 'password123', role: 'admin', phone: '+94 77 000 1122', designation: 'Head Educator & Admin' }
 ];
@@ -363,20 +360,12 @@ const initialQuizzes = [
 ];
 
 const initialGrades = [
-  { id: 'grd-1', studentId: 'std-1', studentName: 'Kasun Perera', subject: 'Grade 11 (O/L Mathematics)', score: 88, maxScore: 100, grade: 'A', evaluationTag: 'High Achiever', date: '2026-09-30' },
-  { id: 'grd-2', studentId: 'std-2', studentName: 'Nipuni Silva', subject: 'Grade 10 Mathematics', score: 92, maxScore: 100, grade: 'A+', evaluationTag: 'Pass with Distinction', date: '2026-09-28' },
-  { id: 'grd-3', studentId: 'std-3', studentName: 'Dilshan Fernando', subject: 'Grade 9 Mathematics', score: 78, maxScore: 100, grade: 'B', evaluationTag: 'On Track', date: '2026-09-25' },
-  { id: 'grd-4', studentId: 'std-5', studentName: 'Kavindu Rathnayake', subject: 'Grade 8 Mathematics', score: 85, maxScore: 100, grade: 'A', evaluationTag: 'High Achiever', date: '2026-09-22' },
-  { id: 'grd-5', studentId: 'std-6', studentName: 'Sithmi Perera', subject: 'Grade 7 Mathematics', score: 90, maxScore: 100, grade: 'A+', evaluationTag: 'Pass with Distinction', date: '2026-09-20' },
-  { id: 'grd-6', studentId: 'std-7', studentName: 'Tashmi Jayawardena', subject: 'Grade 6 Mathematics', score: 84, maxScore: 100, grade: 'A', evaluationTag: 'On Track', date: '2026-09-18' }
+  { id: 'grd-1', studentId: 'std-1', studentName: 'Kasun Perera', subject: 'Grade 11 (O/L Mathematics)', score: 88, maxScore: 100, grade: 'A', evaluationTag: 'High Achiever', date: '2026-09-30' }
 ];
 
-// ===== ADDED TODAY: Payment Records Seed Data (Paid, Pending, Unpaid) =====
+// ===== ADDED TODAY: Payment Records Seed Data =====
 const initialPayments = [
-  { id: 'pay-1', studentId: 'std-1', studentName: 'Kasun Perera', month: 'October 2026', amount: 3500, status: 'Paid', nextDue: '2026-11-15', slipUrl: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80', submittedAt: '2026-10-01 10:30 AM', notes: 'Bank transfer receipt attached.' },
-  { id: 'pay-2', studentId: 'std-2', studentName: 'Nipuni Silva', month: 'October 2026', amount: 3500, status: 'Pending', nextDue: '2026-10-15', slipUrl: null, submittedAt: '2026-10-05 02:15 PM', notes: 'Slip verification pending.' },
-  { id: 'pay-3', studentId: 'std-3', studentName: 'Dilshan Fernando', month: 'October 2026', amount: 3500, status: 'Unpaid', nextDue: '2026-10-10', slipUrl: null, submittedAt: null, notes: 'Overdue monthly fee.' },
-  { id: 'pay-4', studentId: 'std-4', studentName: 'Amali Fernando', month: 'October 2026', amount: 3500, status: 'Paid', nextDue: '2026-11-01', slipUrl: null, submittedAt: '2026-10-01 09:00 AM', notes: 'Monthly fee paid via online portal.' }
+  { id: 'pay-1', studentId: 'std-1', studentName: 'Kasun Perera', month: 'October 2026', amount: 3500, status: 'Paid', nextDue: '-', slipUrl: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80', submittedAt: '2026-10-01 10:30 AM', notes: 'Bank transfer receipt attached.' }
 ];
 
 const getStorageItem = (key, defaultVal) => {
@@ -396,45 +385,20 @@ const setStorageItem = (key, val) => {
 
 // ===== UPDATED TODAY: Mock DB Initialization & Sync for Real Student Records =====
 const initMockDB = () => {
-  if (!localStorage.getItem(STORAGE_KEYS.USERS)) {
+  // Filter out extra sample students so only Kasun Perera (and manually added new students) exist
+  const storedUsers = getStorageItem(STORAGE_KEYS.USERS, null);
+  if (!storedUsers || storedUsers.some(u => u.name === 'Nipuni Silva' || u.name === 'Dilshan Fernando' || u.name === 'Amali Fernando' || u.studentId === 'STU-2026-889')) {
     setStorageItem(STORAGE_KEYS.USERS, initialUsers);
-  } else {
-    // Sync missing students into localStorage
-    const storedUsers = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
-    let updated = false;
-    storedUsers.forEach(u => {
-      if (!u.enrollmentStatus) {
-        u.enrollmentStatus = 'Currently Enrolled';
-        updated = true;
-      }
-      if (!u.enrollmentDate) {
-        u.enrollmentDate = '2024-01-10';
-        updated = true;
-      }
-      if (!u.subject) {
-        u.subject = 'Mathematics';
-        updated = true;
-      }
-      if (!u.paymentStatus || u.paymentStatus === 'Paid') {
-        const foundPay = initialPayments.find(p => p.studentId === u.id || p.studentName === u.name);
-        if (foundPay) {
-          u.paymentStatus = foundPay.status;
-          u.nextPaymentDue = foundPay.nextDue;
-          updated = true;
-        }
-      }
-    });
+  }
 
-    initialUsers.forEach(u => {
-      if (!storedUsers.some(su => su.id === u.id || su.name === u.name)) {
-        storedUsers.push(u);
-        updated = true;
-      }
-    });
+  const storedGrades = getStorageItem(STORAGE_KEYS.GRADES, null);
+  if (!storedGrades || storedGrades.some(g => g.studentName === 'Nipuni Silva' || g.studentName === 'Dilshan Fernando' || g.remarks)) {
+    setStorageItem(STORAGE_KEYS.GRADES, initialGrades);
+  }
 
-    if (updated) {
-      setStorageItem(STORAGE_KEYS.USERS, storedUsers);
-    }
+  const storedPayments = getStorageItem(STORAGE_KEYS.PAYMENTS, null);
+  if (!storedPayments || storedPayments.some(p => p.studentName === 'Nipuni Silva' || p.studentName === 'Dilshan Fernando')) {
+    setStorageItem(STORAGE_KEYS.PAYMENTS, initialPayments);
   }
 
   // Ensure zoom links have full calendar schedule
@@ -452,43 +416,6 @@ const initMockDB = () => {
   if (!localStorage.getItem(STORAGE_KEYS.RECORDINGS)) setStorageItem(STORAGE_KEYS.RECORDINGS, initialRecordings);
   if (!localStorage.getItem(STORAGE_KEYS.TUTORIALS)) setStorageItem(STORAGE_KEYS.TUTORIALS, initialTutorials);
   if (!localStorage.getItem(STORAGE_KEYS.QUIZZES)) setStorageItem(STORAGE_KEYS.QUIZZES, initialQuizzes);
-
-  // Refresh grades in localStorage to replace remarks with evaluationTag
-  const storedGrades = getStorageItem(STORAGE_KEYS.GRADES, null);
-  if (!storedGrades || storedGrades.length < 5 || storedGrades.some(g => g.remarks || g.examName)) {
-    setStorageItem(STORAGE_KEYS.GRADES, initialGrades);
-  } else {
-    let updatedGrades = false;
-    initialGrades.forEach(g => {
-      if (!storedGrades.some(sg => sg.id === g.id || (sg.studentName === g.studentName && sg.subject === g.subject))) {
-        storedGrades.push(g);
-        updatedGrades = true;
-      }
-    });
-    if (updatedGrades) {
-      setStorageItem(STORAGE_KEYS.GRADES, storedGrades);
-    }
-  }
-
-  if (!localStorage.getItem(STORAGE_KEYS.PAYMENTS)) {
-    setStorageItem(STORAGE_KEYS.PAYMENTS, initialPayments);
-  } else {
-    const storedPayments = getStorageItem(STORAGE_KEYS.PAYMENTS, initialPayments);
-    let updatedPayments = false;
-    initialPayments.forEach(p => {
-      const existing = storedPayments.find(sp => sp.studentId === p.studentId || sp.id === p.id);
-      if (!existing) {
-        storedPayments.push(p);
-        updatedPayments = true;
-      } else if (p.id === 'pay-1' && existing.nextDue === '-') {
-        existing.nextDue = '2026-11-15';
-        updatedPayments = true;
-      }
-    });
-    if (updatedPayments) {
-      setStorageItem(STORAGE_KEYS.PAYMENTS, storedPayments);
-    }
-  }
 };
 
 initMockDB();

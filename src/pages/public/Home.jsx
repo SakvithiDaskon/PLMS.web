@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import logoImg from '../../assets/logo.jpeg';
+import logoImg from '../../assets/logo.png';
 import posterImg from '../../assets/poster.jpeg';
 import { useAuth } from '../../context/AuthContext';
 
@@ -97,15 +97,17 @@ export const Home = () => {
       <section className="relative overflow-hidden rounded-3xl bg-white border border-[#c0d9ec] shadow-xl p-6 sm:p-8 space-y-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-[#c0d9ec]/60">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-[#003153] text-white shadow-md">
-              <Sparkles className="w-5 h-5 text-blue-200" />
-            </div>
+            <img
+              src={logoImg}
+              alt="PLMS Logo"
+              className="w-10 h-10 rounded-xl object-cover border border-[#c0d9ec] shadow-sm shrink-0"
+            />
             <div>
               <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">
-                Official Class Announcement & Timetable
+                Official Class Announcement
               </h3>
               <p className="text-xs text-slate-600">
-                Grade 6 to 11 Mathematics classes conducted by Sir Parakum Bandara
+                Mathematics classes for Grade 6 to 11 conducted by Sir Parakum Bandara
               </p>
             </div>
           </div>
@@ -120,13 +122,13 @@ export const Home = () => {
           <div className="lg:col-span-7 space-y-5">
             <div className="space-y-2">
               <span className="text-xs font-bold uppercase tracking-wider text-[#003153] bg-[#e6f0f7] px-3 py-1 rounded-md border border-[#b0d1e8]">
-                Class Schedule & Details
+                Class Details
               </span>
               <h4 className="text-2xl font-extrabold text-slate-900 leading-snug">
-                Comprehensive Mathematics Classes for Grade 6 - 11
+                Mathematics Classes for Grade 6 to 11
               </h4>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                Join Sir Parakum Bandara's structured mathematics program designed for Grade 6 through 11 students. View session details, Zoom schedules, and curriculum structure.
+                Mathematics classes for Grade 6 to 11 conducted by Sir Parakum Bandara. Join live Zoom sessions, access recorded modules, and build strong problem solving skills.
               </p>
             </div>
 
@@ -137,7 +139,7 @@ export const Home = () => {
                 </div>
                 <div>
                   <h5 className="text-xs font-bold text-slate-900">Grades 6 to 11</h5>
-                  <p className="text-[11px] text-slate-500 font-medium">Full Syllabus Coverage</p>
+                  <p className="text-[11px] text-slate-500 font-medium">Full Mathematics Syllabus</p>
                 </div>
               </div>
 
@@ -153,33 +155,13 @@ export const Home = () => {
 
               <div className="p-3.5 rounded-xl bg-[#f4f8fb] border border-[#c0d9ec] flex items-center gap-3">
                 <div className="w-9 h-9 rounded-xl bg-[#003153] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
-                  <Calendar className="w-4 h-4 text-blue-200" />
-                </div>
-                <div>
-                  <h5 className="text-xs font-bold text-slate-900">Weekly Timetable</h5>
-                  <p className="text-[11px] text-slate-500 font-medium">Structured Session Hours</p>
-                </div>
-              </div>
-
-              <div className="p-3.5 rounded-xl bg-[#f4f8fb] border border-[#c0d9ec] flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-[#003153] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
                   <Award className="w-4 h-4 text-blue-200" />
                 </div>
                 <div>
-                  <h5 className="text-xs font-bold text-slate-900">O/L Model Papers</h5>
-                  <p className="text-[11px] text-slate-500 font-medium">Exam Practice & Marks</p>
+                  <h5 className="text-xs font-bold text-slate-900">O/L Paper Practice</h5>
+                  <p className="text-[11px] text-slate-500 font-medium">Model Papers & Evaluation</p>
                 </div>
               </div>
-            </div>
-
-            <div className="pt-1 flex items-center gap-3">
-              <button
-                onClick={() => setIsPosterModalOpen(true)}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#003153] hover:bg-[#00223d] text-white text-xs font-bold shadow-md transition-all hover:scale-[1.02]"
-              >
-                <Maximize2 className="w-4 h-4" />
-                <span>View Full Poster & Timetable</span>
-              </button>
             </div>
           </div>
 
@@ -211,7 +193,7 @@ export const Home = () => {
           <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setIsPosterModalOpen(false)}>
             <div className="relative max-w-2xl w-full bg-white rounded-2xl p-4 shadow-2xl space-y-3" onClick={(e) => e.stopPropagation()}>
               <div className="flex items-center justify-between pb-2 border-b border-slate-200">
-                <h4 className="text-sm font-bold text-slate-900">Official Class Announcement & Timetable</h4>
+                <h4 className="text-sm font-bold text-slate-900">Official Class Announcement</h4>
                 <button onClick={() => setIsPosterModalOpen(false)} className="p-1.5 rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900">
                   <X className="w-5 h-5" />
                 </button>
