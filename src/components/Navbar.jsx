@@ -5,19 +5,15 @@ import logoImg from '../assets/logo.jpeg';
 import {
   LogOut,
   User,
-  ShieldCheck,
-  Users,
-  UserCheck,
   Menu,
   X,
   ChevronDown
 } from 'lucide-react';
 
 export const Navbar = ({ toggleSidebar, isSidebarOpen, showSidebarButton = true }) => {
-  const { user, isAuthenticated, logout, switchRole } = useAuth();
+  const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const [showRoleMenu, setShowRoleMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   // Check if current page is inside a portal (Student, Parent, or Admin)
@@ -27,21 +23,6 @@ export const Navbar = ({ toggleSidebar, isSidebarOpen, showSidebarButton = true 
     logout();
     navigate('/login');
   };
-
-  const getRoleBadge = (role) => {
-    switch (role) {
-      case 'admin':
-        return { label: 'Sir / Admin', icon: ShieldCheck };
-      case 'parent':
-        return { label: 'Parent View', icon: Users };
-      case 'student':
-      default:
-        return { label: 'Student View', icon: UserCheck };
-    }
-  };
-
-  const currentRoleInfo = getRoleBadge(user?.role);
-  const RoleIcon = currentRoleInfo.icon;
 
   return (
     <header className="sticky top-0 z-40 w-full bg-[#003153] text-white shadow-md border-b border-[#00223d]">
@@ -72,8 +53,8 @@ export const Navbar = ({ toggleSidebar, isSidebarOpen, showSidebarButton = true 
 
         {/* Right Action Menu */}
         <div className="flex items-center gap-3">
-          {/* Role Switcher Pill - Only shown inside portal pages */}
-          {isAuthenticated && isPortalPage && (
+          {/* Role Switcher Pill - Only shown inside portal pages (hidden on student portal) */}
+          {isAuthenticated && isPortalPage && !location.pathname.startsWith('/student') && user?.role !== 'student' && (
             <div className="relative">
               <button
                 onClick={() => setShowRoleMenu(!showRoleMenu)}

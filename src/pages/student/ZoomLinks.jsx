@@ -9,7 +9,6 @@ import {
   ExternalLink,
   Copy,
   Check,
-  Radio,
   GraduationCap,
   Sparkles,
   BookOpen,
@@ -89,7 +88,6 @@ export const ZoomLinks = () => {
   const activeGrade = student?.grade || 'Grade 10 Mathematics';
   const gradeMatch = activeGrade.match(/Grade\s*(\d+)/i);
   const gradeLabel = gradeMatch ? `Grade ${gradeMatch[1]}` : activeGrade;
-  const hasLiveClasses = zoomLinks.some((c) => c.isLive);
 
   return (
     <div className="space-y-6 pb-8">
@@ -102,7 +100,7 @@ export const ZoomLinks = () => {
           <div>
             <div className="flex items-center gap-2">
               <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
-                Live Zoom Classes
+                Zoom Classes
               </h1>
               <span className="px-2.5 py-0.5 text-xs font-extrabold rounded-full bg-blue-100 text-[#003153] border border-blue-200 flex items-center gap-1">
                 <GraduationCap className="w-3.5 h-3.5" />
@@ -116,19 +114,12 @@ export const ZoomLinks = () => {
           </div>
         </div>
 
-        {/* Live Indicator Status */}
+        {/* Indicator Status */}
         <div className="flex items-center gap-2 self-start sm:self-auto">
-          {hasLiveClasses ? (
-            <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs font-extrabold shadow-xs">
-              <Radio className="w-4 h-4 text-emerald-600 animate-pulse" />
-              <span>Live Class In Progress</span>
-            </div>
-          ) : (
-            <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#003153] text-xs font-bold shadow-xs">
-              <Sparkles className="w-3.5 h-3.5 text-blue-600" />
-              <span>{zoomLinks.length} Lessons Available</span>
-            </div>
-          )}
+          <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#003153] text-xs font-bold shadow-xs">
+            <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+            <span>{zoomLinks.length} Lessons Available</span>
+          </div>
         </div>
       </div>
 
@@ -173,13 +164,9 @@ export const ZoomLinks = () => {
           {zoomLinks.map((session) => (
             <div
               key={session.id}
-              className={`p-6 rounded-2xl bg-white border shadow-sm transition-all space-y-4 hover:shadow-md ${
-                session.isLive
-                  ? 'border-emerald-500 ring-2 ring-emerald-500/20'
-                  : 'border-slate-200/90'
-              }`}
+              className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-sm transition-all space-y-4 hover:shadow-md"
             >
-              {/* Header Badges & Live Status */}
+              {/* Header Badges */}
               <div className="flex items-start justify-between gap-3">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2 flex-wrap">
@@ -187,7 +174,7 @@ export const ZoomLinks = () => {
                       {session.subject || 'Mathematics'} • {session.grade || gradeLabel}
                     </span>
                     <span className="px-2 py-0.5 rounded-md text-[10px] font-semibold bg-slate-100 text-slate-600 border border-slate-200">
-                      {session.type || 'Live Zoom Class'}
+                      {session.type || 'Zoom Class'}
                     </span>
                   </div>
 
@@ -206,13 +193,6 @@ export const ZoomLinks = () => {
                     </span>
                   </p>
                 </div>
-
-                {session.isLive && (
-                  <span className="px-3 py-1 text-[10px] font-extrabold uppercase rounded-full bg-emerald-600 text-white animate-pulse shrink-0 shadow-sm flex items-center gap-1">
-                    <Radio className="w-3 h-3" />
-                    <span>LIVE NOW</span>
-                  </span>
-                )}
               </div>
 
               {/* Schedule Box: Date & Time */}

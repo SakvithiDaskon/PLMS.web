@@ -236,7 +236,7 @@ export const HowToRegister = () => {
 
           <div className="p-3.5 rounded-xl bg-[#f4f8fb] border border-[#c0d9ec] flex items-center gap-2.5">
             <CheckCircle2 className="w-4 h-4 text-[#003153]" />
-            <span>Manage Grade 6-11 Student Rosters</span>
+            <span>Manage Grade 6-11 Students</span>
           </div>
 
           <div className="p-3.5 rounded-xl bg-[#f4f8fb] border border-[#c0d9ec] flex items-center gap-2.5">
