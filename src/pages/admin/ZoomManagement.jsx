@@ -12,7 +12,6 @@ import {
   ExternalLink,
   Copy,
   Check,
-  GraduationCap,
   AlertTriangle
 } from 'lucide-react';
 
@@ -21,7 +20,7 @@ export const ZoomManagement = () => {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [successMsg, setSuccessMsg] = useState('');
-  const [selectedGradeFilter, setSelectedGradeFilter] = useState('All');
+  const [selectedGradeFilter, setSelectedGradeFilter] = useState('');
   const [copiedId, setCopiedId] = useState(null);
 
   // Helper to get tomorrow's date string YYYY-MM-DD
@@ -103,11 +102,11 @@ export const ZoomManagement = () => {
 
   // Filter links by grade
   const filteredLinks = links.filter((item) => {
-    if (selectedGradeFilter === 'All') return true;
+    if (!selectedGradeFilter) return true;
     return (item.grade || '').includes(selectedGradeFilter);
   });
 
-  const gradeOptions = ['All', 'Grade 6', 'Grade 7', 'Grade 8', 'Grade 9', 'Grade 10', 'Grade 11'];
+  const gradeOptions = ['Grade 6', 'Grade 7', 'Grade 8', 'Grade 9', 'Grade 10', 'Grade 11'];
 
   const openScheduleModal = () => {
     setConflictError('');
@@ -128,10 +127,6 @@ export const ZoomManagement = () => {
       <div className="relative overflow-hidden p-6 sm:p-8 rounded-3xl bg-[#003153] text-white shadow-xl border border-[#00223d]">
         <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-white text-xs font-bold border border-white/20">
-              <Video className="w-3.5 h-3.5 text-blue-200" />
-              <span>Live Class Scheduler</span>
-            </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white">Zoom Class Schedule Manager</h1>
             <p className="text-xs sm:text-sm text-blue-100">
               Schedule live Zoom lectures for Grade 6 to Grade 11, set dates, and assign numeric passcodes.
@@ -156,22 +151,22 @@ export const ZoomManagement = () => {
         </div>
       )}
 
-      {/* Grade Filter Tabs (Pull All Grades 6 to 11) */}
+      {/* Grade Filter Tabs */}
       <div className="flex items-center gap-1.5 overflow-x-auto pb-2 scrollbar-none">
-        <span className="text-xs font-bold text-slate-500 mr-2 shrink-0 flex items-center gap-1">
-          <GraduationCap className="w-4 h-4 text-[#003153]" /> Filter by Grade:
+        <span className="text-xs font-bold text-slate-500 mr-2 shrink-0">
+          Filter by Grade:
         </span>
         {gradeOptions.map((g) => (
           <button
             key={g}
-            onClick={() => setSelectedGradeFilter(g)}
+            onClick={() => setSelectedGradeFilter(selectedGradeFilter === g ? '' : g)}
             className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 border ${
               selectedGradeFilter === g
                 ? 'bg-[#003153] text-white border-[#003153] shadow-sm'
                 : 'bg-white text-slate-700 border-[#c0d9ec] hover:bg-[#e6f0f7]'
             }`}
           >
-            {g === 'All' ? 'All Grades (6-11)' : g}
+            {g}
           </button>
         ))}
       </div>
@@ -191,16 +186,6 @@ export const ZoomManagement = () => {
                 </span>
 
                 <div className="flex items-center gap-2">
-                  {item.isLive ? (
-                    <span className="px-2.5 py-1 text-[10px] font-extrabold uppercase rounded-full bg-emerald-600 text-white animate-pulse">
-                      LIVE NOW
-                    </span>
-                  ) : (
-                    <span className="px-2.5 py-1 text-[10px] font-bold rounded-md bg-slate-100 text-slate-600 border border-slate-200">
-                      Scheduled
-                    </span>
-                  )}
-
                   <button
                     onClick={() => handleDelete(item.id)}
                     className="p-1.5 rounded-lg text-rose-600 hover:bg-rose-50 transition-colors"

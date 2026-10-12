@@ -46,7 +46,7 @@ export const Sidebar = ({ isOpen, onClose }) => {
   // Streamlined Admin Navigation Items
   const adminNav = [
     { label: 'Admin Dashboard', path: '/admin', icon: LayoutDashboard },
-    { label: 'Zoom Schedules', path: '/admin/zoom', icon: Radio, badge: 'Live' },
+    { label: 'Zoom Schedules', path: '/admin/zoom', icon: Video },
     { label: 'Student Management', path: '/admin/students', icon: Users },
     { label: 'Grade Manager', path: '/admin/grades', icon: Award }
   ];
