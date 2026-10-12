@@ -156,7 +156,7 @@ export const StudentManagement = () => {
                   <tr key={std.id} className="hover:bg-[#e6f0f7]/50 transition-colors">
                     {/* Student ID */}
                     <td className="py-3.5 px-4 font-mono font-black text-[#003153]">
-                      {std.studentId || std.indexNo || 'STU-0001'}
+                      {std.studentId || std.indexNo || '0001'}
                     </td>
 
                     {/* Student Name with Visual Avatar */}

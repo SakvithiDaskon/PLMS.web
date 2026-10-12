@@ -1,5 +1,4 @@
-// PLMS (Private Learning Management System) Mock API Service
-// Configured for Grade 6 to 11 Mathematics & Science conducted by Sir Parakum Bandara
+
 
 const STORAGE_KEYS = {
   USERS: 'plms_mock_users',
@@ -12,12 +11,10 @@ const STORAGE_KEYS = {
   TOPICS: 'plms_mock_topics'
 };
 
-// ============================================================
-// UPDATED TODAY - DATABASE SEED DATA (STUDENT DATA & ENROLLMENT)
-// ============================================================
-// ===== ADDED TODAY: Real Student Records with Enrollment & Payment Status =====
+
+
 const initialUsers = [
-  { id: 'std-1', name: 'Kasun Perera', email: 'student@plms.com', password: 'password123', role: 'student', phone: '+94 77 123 4567', grade: 'Grade 11 (O/L Mathematics)', studentId: 'STU-2026-889', indexNo: 'STU-2026-889', parentId: 'prn-1', enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Paid', nextPaymentDue: '-' },
+  { id: 'std-1', name: 'Kasun Perera', email: 'student@plms.com', password: 'password123', role: 'student', phone: '+94 77 123 4567', grade: 'Grade 11 (O/L Mathematics)', studentId: '0001', indexNo: '0001', parentId: 'prn-1', enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Paid', nextPaymentDue: '-' },
   { id: 'std-2', name: 'Nipuni Silva', email: 'nipuni@plms.com', password: 'password123', role: 'student', phone: '+94 71 987 6543', grade: 'Grade 10 Mathematics', studentId: 'STU-2027-902', indexNo: 'STU-2027-902', parentId: null, enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Pending', nextPaymentDue: '2026-10-15' },
   { id: 'std-3', name: 'Dilshan Fernando', email: 'dilshan@plms.com', password: 'password123', role: 'student', phone: '+94 76 555 4321', grade: 'Grade 9 Mathematics', studentId: 'STU-2028-104', indexNo: 'STU-2028-104', parentId: null, enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Unpaid', nextPaymentDue: '2026-10-10' },
   { id: 'std-4', name: 'Amali Fernando', email: 'amali@plms.com', password: 'password123', role: 'student', phone: '+94 77 888 9900', grade: 'Grade 11 (O/L Mathematics)', studentId: 'STU-7846', indexNo: 'STU-7846', parentId: null, enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Paid', nextPaymentDue: '-' },
@@ -497,6 +494,20 @@ const delay = (ms = 200) => new Promise(res => setTimeout(res, ms));
 
 export const apiService = {
   async login({ email, password, role }) {
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, role })
+      });
+      const data = await response.json();
+      if (data && data.success !== undefined) {
+        return data;
+      }
+    } catch (e) {
+      console.warn('Direct Aiven API login fallback:', e.message);
+    }
+
     await delay();
     const query = (email || '').trim().toLowerCase();
     const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
@@ -522,13 +533,33 @@ export const apiService = {
 
   // ===== UPDATED TODAY: Student Registration with Dynamic ID & Payment Status =====
   async registerStudent(formData) {
+    try {
+      const response = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      const data = await response.json();
+      if (data && data.success) {
+        // Also sync into localStorage so offline/cached components stay aligned
+        const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
+        users.push(data.user);
+        setStorageItem(STORAGE_KEYS.USERS, users);
+        return data;
+      } else if (data && !data.success) {
+        return data;
+      }
+    } catch (e) {
+      console.warn('Direct Aiven API register fallback:', e.message);
+    }
+
     await delay();
     const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
     const existing = users.find(u => u.email.toLowerCase() === formData.email.toLowerCase());
     if (existing) {
       return { success: false, message: 'An account with this email address already exists. Please log in.' };
     }
-    const newStudentId = 'STU-' + Math.floor(1000 + Math.random() * 9000);
+    const newStudentId = String(users.filter(u => u.role === 'student').length + 1).padStart(4, '0');
     const nameParts = (formData.name || '').trim().split(' ');
     const firstName = nameParts[0] || '';
     const lastName = nameParts.slice(1).join(' ') || '';
@@ -595,8 +626,18 @@ export const apiService = {
   // Load logged-in student
   // Get student data from database by user ID
   async getStudentById(id) {
-    await delay();
     if (!id) return null;
+    try {
+      const response = await fetch(`/api/student/${encodeURIComponent(id)}`);
+      const data = await response.json();
+      if (data && data.success && data.student) {
+        return data.student;
+      }
+    } catch (e) {
+      console.warn('Direct Aiven API getStudentById fallback:', e.message);
+    }
+
+    await delay();
     const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
     const payments = getStorageItem(STORAGE_KEYS.PAYMENTS, initialPayments);
     const student = users.find(u => u.id === id || u.studentId === id || (u.email && u.email.toLowerCase() === String(id).toLowerCase()));
@@ -628,8 +669,28 @@ export const apiService = {
   // Save profile changes
   // Save updated student profile to database
   async updateStudentProfile(id, data) {
-    await delay();
     if (!id) return { success: false, message: 'Student ID is required' };
+    try {
+      const response = await fetch(`/api/student/${encodeURIComponent(id)}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const resData = await response.json();
+      if (resData && resData.success) {
+        const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
+        const idx = users.findIndex(u => u.id === id || u.studentId === id || (u.email && u.email.toLowerCase() === String(id).toLowerCase()));
+        if (idx !== -1) {
+          users[idx] = { ...users[idx], ...data };
+          setStorageItem(STORAGE_KEYS.USERS, users);
+        }
+        return resData;
+      }
+    } catch (e) {
+      console.warn('Direct Aiven API updateStudentProfile fallback:', e.message);
+    }
+
+    await delay();
     const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
     const index = users.findIndex(u => u.id === id || u.studentId === id || (u.email && u.email.toLowerCase() === String(id).toLowerCase()));
     if (index === -1) {
@@ -716,6 +777,16 @@ export const apiService = {
   // Unit topics
   // Get Mathematics topics for the student's grade
   async getMathematicsTopics(grade) {
+    try {
+      const response = await fetch(`/api/topics?grade=${encodeURIComponent(grade || '')}`);
+      const data = await response.json();
+      if (data && data.success && Array.isArray(data.topics) && data.topics.length > 0) {
+        return data.topics;
+      }
+    } catch (e) {
+      console.warn('Direct Aiven API topics fallback:', e.message);
+    }
+
     await delay();
     const topics = getStorageItem(STORAGE_KEYS.TOPICS, initialTopics);
     if (!grade) return [];
@@ -734,6 +805,16 @@ export const apiService = {
   // Calendar
   // Get scheduled Mathematics classes for student's grade
   async getStudentClasses(studentId, grade) {
+    try {
+      const response = await fetch(`/api/classes?grade=${encodeURIComponent(grade || '')}`);
+      const data = await response.json();
+      if (data && data.success && Array.isArray(data.classes) && data.classes.length > 0) {
+        return data.classes;
+      }
+    } catch (e) {
+      console.warn('Direct Aiven API classes fallback:', e.message);
+    }
+
     await delay();
     const zoomLinks = getStorageItem(STORAGE_KEYS.ZOOM, initialZoomLinks);
     if (!grade) return zoomLinks;
@@ -757,6 +838,16 @@ export const apiService = {
   },
 
   async getZoomLinks() {
+    try {
+      const response = await fetch('/api/zoom');
+      const data = await response.json();
+      if (data && data.success && Array.isArray(data.links) && data.links.length > 0) {
+        return data.links;
+      }
+    } catch (e) {
+      console.warn('Direct Aiven API zoom links fallback:', e.message);
+    }
+
     await delay();
     return getStorageItem(STORAGE_KEYS.ZOOM, initialZoomLinks);
   },
@@ -815,6 +906,16 @@ export const apiService = {
   },
 
   async getAllStudents() {
+    try {
+      const response = await fetch('/api/students');
+      const data = await response.json();
+      if (data && data.success && Array.isArray(data.students) && data.students.length > 0) {
+        return data.students;
+      }
+    } catch (e) {
+      console.warn('Direct Aiven API getAllStudents fallback:', e.message);
+    }
+
     await delay();
     const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
     return users.filter(u => u.role === 'student');
@@ -823,7 +924,7 @@ export const apiService = {
   async addStudent(studentData) {
     await delay();
     const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
-    const newStudentId = 'STU-' + Math.floor(1000 + Math.random() * 9000);
+    const newStudentId = String(users.filter(u => u.role === 'student').length + 1).padStart(4, '0');
     const newStudent = {
       id: 'std-' + Date.now(),
       role: 'student',
@@ -841,6 +942,24 @@ export const apiService = {
   },
 
   async createZoomLink(data) {
+    try {
+      const response = await fetch('/api/zoom', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const resData = await response.json();
+      if (resData && resData.success) {
+        const links = getStorageItem(STORAGE_KEYS.ZOOM, initialZoomLinks);
+        const newLink = { ...data, id: 'zoom-' + (resData.id || Date.now()) };
+        links.unshift(newLink);
+        setStorageItem(STORAGE_KEYS.ZOOM, links);
+        return { success: true, zoom: newLink };
+      }
+    } catch (e) {
+      console.warn('Direct Aiven API createZoomLink fallback:', e.message);
+    }
+
     await delay();
     const links = getStorageItem(STORAGE_KEYS.ZOOM, initialZoomLinks);
     const newLink = {
@@ -860,6 +979,21 @@ export const apiService = {
   },
 
   async deleteZoomLink(id) {
+    try {
+      const response = await fetch(`/api/zoom/${encodeURIComponent(id)}`, {
+        method: 'DELETE'
+      });
+      const resData = await response.json();
+      if (resData && resData.success) {
+        let links = getStorageItem(STORAGE_KEYS.ZOOM, initialZoomLinks);
+        links = links.filter(l => String(l.id) !== String(id));
+        setStorageItem(STORAGE_KEYS.ZOOM, links);
+        return { success: true };
+      }
+    } catch (e) {
+      console.warn('Direct Aiven API deleteZoomLink fallback:', e.message);
+    }
+
     await delay();
     let links = getStorageItem(STORAGE_KEYS.ZOOM, initialZoomLinks);
     links = links.filter(l => l.id !== id);
