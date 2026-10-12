@@ -48,12 +48,13 @@ export const StudentManagement = () => {
   };
 
   const filtered = students.filter((s) => {
+    const query = searchTerm.toLowerCase().trim();
     const matchesSearch =
-      s.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      s.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      s.grade.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (s.studentId && s.studentId.toLowerCase().includes(searchTerm.toLowerCase())) ||
-      (s.indexNo && s.indexNo.toLowerCase().includes(searchTerm.toLowerCase()));
+      !query ||
+      (s.name && s.name.toLowerCase().includes(query)) ||
+      (s.studentId && s.studentId.toLowerCase().includes(query)) ||
+      (s.indexNo && s.indexNo.toLowerCase().includes(query)) ||
+      (s.id && String(s.id).toLowerCase().includes(query));
 
     const matchesGrade = gradeFilter === 'All' || s.grade.includes(gradeFilter);
 
@@ -74,13 +75,9 @@ export const StudentManagement = () => {
       <div className="relative overflow-hidden p-6 sm:p-8 rounded-3xl bg-[#003153] text-white shadow-xl border border-[#00223d]">
         <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-white text-xs font-bold border border-white/20">
-              <Users className="w-3.5 h-3.5 text-blue-200" />
-              <span>Roster & Records</span>
-            </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white">Student Management</h1>
             <p className="text-xs sm:text-sm text-blue-100">
-              View, register, and manage enrolled Grade 6 to Grade 11 student records.
+              View, register, and manage enrolled Grade 6 to Grade 11 students.
             </p>
           </div>
 
@@ -112,7 +109,7 @@ export const StudentManagement = () => {
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search by student name, ID or email..."
+              placeholder="Search by student name or ID..."
               className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#f4f8fb] border border-[#c0d9ec] text-slate-900 text-xs font-semibold placeholder:text-slate-400 focus:outline-none focus:border-[#003153] focus:bg-white"
             />
           </div>
@@ -208,7 +205,7 @@ export const StudentManagement = () => {
         {filtered.length === 0 && (
           <div className="p-8 text-center bg-[#f4f8fb] rounded-2xl border border-[#c0d9ec] space-y-2">
             <Users className="w-8 h-8 text-slate-400 mx-auto" />
-            <p className="text-xs font-bold text-slate-600">No student records found matching your search.</p>
+            <p className="text-xs font-bold text-slate-600">No students found matching your search.</p>
           </div>
         )}
       </div>
@@ -294,7 +291,7 @@ export const StudentManagement = () => {
                   type="submit"
                   className="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-[#003153] hover:bg-[#00223d] shadow-md transition-all hover:scale-105"
                 >
-                  Save Student Record
+                  Save Student
                 </button>
               </div>
             </form>

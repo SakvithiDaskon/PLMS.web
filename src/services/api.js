@@ -32,7 +32,6 @@ const getRelativeDateString = (daysFromToday = 1) => {
 };
 
 const initialZoomLinks = [
-  // Grade 11 Classes
   {
     id: 'zoom-1',
     title: 'Grade 11 O/L Mathematics: Algebra & Quadratic Equations',
@@ -45,93 +44,7 @@ const initialZoomLinks = [
     link: 'https://zoom.us/j/9876543210',
     passcode: '123456',
     isLive: false,
-    type: 'Live Zoom Class'
-  },
-  {
-    id: 'zoom-2',
-    title: 'Grade 10 Mathematics: Algebraic Fractions & Equations',
-    subject: 'Mathematics',
-    grade: 'Grade 10',
-    topic: 'Algebraic Fractions',
-    teacher: 'Sir Parakum Bandara',
-    date: getRelativeDateString(2),
-    time: '17:30 - 19:00',
-    link: 'https://zoom.us/j/1234567890',
-    passcode: '123789',
-    isLive: false,
-    type: 'Live Zoom Class'
-  },
-  {
-    id: 'zoom-3',
-    title: 'Grade 9 Mathematics: Linear Equations & Graphs',
-    subject: 'Mathematics',
-    grade: 'Grade 9',
-    topic: 'Linear Equations',
-    teacher: 'Sir Parakum Bandara',
-    date: getRelativeDateString(3),
-    time: '16:00 - 17:30',
-    link: 'https://zoom.us/j/5555555555',
-    passcode: '654321',
-    isLive: false,
-    type: 'Live Zoom Class'
-  },
-  {
-    id: 'zoom-4',
-    title: 'Grade 8 Mathematics: Perimeter & Area of Plane Figures',
-    subject: 'Mathematics',
-    grade: 'Grade 8',
-    topic: 'Plane Figures',
-    teacher: 'Sir Parakum Bandara',
-    date: getRelativeDateString(4),
-    time: '16:00 - 17:30',
-    link: 'https://zoom.us/j/4444444444',
-    passcode: '789012',
-    isLive: false,
-    type: 'Live Zoom Class'
-  },
-
-  // Grade 10 Classes
-  {
-    id: 'zoom-5',
-    title: 'Grade 7 Mathematics: Ratio & Percentage Calculations',
-    subject: 'Mathematics',
-    grade: 'Grade 7',
-    topic: 'Ratio & Percentages',
-    teacher: 'Sir Parakum Bandara',
-    date: '2026-10-09',
-    time: '17:00 - 18:30',
-    link: 'https://zoom.us/j/1234567890',
-    passcode: 'MATH10',
-    isLive: false,
-    type: 'Live Zoom Class'
-  },
-  {
-    id: 'zoom-6',
-    title: 'Grade 6 Mathematics: Basic Geometry & Angles',
-    subject: 'Mathematics',
-    grade: 'Grade 6',
-    topic: 'Basic Geometry',
-    teacher: 'Sir Parakum Bandara',
-    date: '2026-10-16',
-    time: '17:00 - 18:30',
-    link: 'https://zoom.us/j/1234567890',
-    passcode: 'PYTH10',
-    isLive: false,
-    type: 'Live Zoom Class'
-  },
-  {
-    id: 'zoom-7',
-    title: 'Grade 9 Mathematics: Linear Equations & Graphs',
-    subject: 'Mathematics',
-    grade: 'Grade 9',
-    topic: 'Linear Equations',
-    teacher: 'Sir Parakum Bandara',
-    date: '2026-10-11',
-    time: '16:00 - 17:30',
-    link: 'https://zoom.us/j/5555555555',
-    passcode: 'MATH9',
-    isLive: false,
-    type: 'Live Zoom Class'
+    type: 'Zoom Class'
   }
 ];
 
@@ -401,9 +314,9 @@ const initMockDB = () => {
     setStorageItem(STORAGE_KEYS.PAYMENTS, initialPayments);
   }
 
-  // Ensure zoom links have full calendar schedule
+  // Ensure zoom links have single class schedule
   const storedZoom = getStorageItem(STORAGE_KEYS.ZOOM, null);
-  if (!storedZoom || storedZoom.length < 5) {
+  if (!storedZoom || storedZoom.length !== 1 || storedZoom[0]?.id !== 'zoom-1') {
     setStorageItem(STORAGE_KEYS.ZOOM, initialZoomLinks);
   }
 

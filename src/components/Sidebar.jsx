@@ -31,7 +31,7 @@ export const Sidebar = ({ isOpen, onClose }) => {
   const studentNav = [
     { label: 'Dashboard', path: '/student', icon: LayoutDashboard },
     { label: 'My Profile', path: '/student/profile', icon: User },
-    { label: 'Zoom Classes', path: '/student/zoom', icon: Video, badge: 'Live' }
+    { label: 'Zoom Classes', path: '/student/zoom', icon: Video }
   ];
 
   // Parent Navigation Items
@@ -46,7 +46,7 @@ export const Sidebar = ({ isOpen, onClose }) => {
   // Streamlined Admin Navigation Items
   const adminNav = [
     { label: 'Admin Dashboard', path: '/admin', icon: LayoutDashboard },
-    { label: 'Zoom Schedules', path: '/admin/zoom', icon: Radio, badge: 'Live' },
+    { label: 'Zoom Schedules', path: '/admin/zoom', icon: Video },
     { label: 'Student Management', path: '/admin/students', icon: Users },
     { label: 'Grade Manager', path: '/admin/grades', icon: Award }
   ];

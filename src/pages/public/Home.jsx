@@ -236,7 +236,7 @@ export const Home = () => {
                 Admin
               </h3>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                Manage Grade 6–11 classes, schedules, student rosters, and records.
+                Manage Grade 6–11 classes, schedules, and students.
               </p>
             </div>
 
