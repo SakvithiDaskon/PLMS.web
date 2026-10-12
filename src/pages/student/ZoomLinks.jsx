@@ -3,17 +3,97 @@ import { useAuth } from '../../context/AuthContext';
 import { apiService } from '../../services/api';
 import {
   Video,
-  Calendar,
-  Clock,
-  Lock,
   ExternalLink,
-  Copy,
-  Check,
   GraduationCap,
   Sparkles,
   BookOpen,
   UserCheck
 } from 'lucide-react';
+
+// Format date as '2026/oct/12' and determine its weekday
+const formatDateDetails = (dateStr) => {
+  if (!dateStr) return { formattedDate: '', weekday: '' };
+
+  const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+  const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+  // Check if dateStr matches YYYY/mon/DD or YYYY-mon-DD
+  const slashMatch = String(dateStr).trim().match(/^(\d{4})[/-]([a-zA-Z]{3})[/-](\d{1,2})$/);
+  if (slashMatch) {
+    const year = slashMatch[1];
+    const monStr = slashMatch[2].toLowerCase();
+    const day = String(slashMatch[3]).padStart(2, '0');
+    const mIdx = months.indexOf(monStr);
+    let weekday = '';
+    if (mIdx !== -1) {
+      const d = new Date(parseInt(year, 10), mIdx, parseInt(day, 10));
+      if (!isNaN(d.getTime())) {
+        weekday = weekdays[d.getDay()];
+      }
+    }
+    return {
+      formattedDate: `${year}/${monStr}/${day}`,
+      weekday
+    };
+  }
+
+  // Handle YYYY-MM-DD or YYYY/MM/DD (numeric)
+  const numMatch = String(dateStr).trim().match(/^(\d{4})[/-](\d{1,2})[/-](\d{1,2})$/);
+  if (numMatch) {
+    const year = numMatch[1];
+    const mIdx = parseInt(numMatch[2], 10) - 1;
+    const day = String(numMatch[3]).padStart(2, '0');
+    const d = new Date(parseInt(year, 10), mIdx, parseInt(day, 10));
+    const weekday = !isNaN(d.getTime()) ? weekdays[d.getDay()] : '';
+    const monStr = months[mIdx] || '';
+    return {
+      formattedDate: `${year}/${monStr}/${day}`,
+      weekday
+    };
+  }
+
+  // Fallback to standard Date parsing
+  const d = new Date(dateStr);
+  if (!isNaN(d.getTime())) {
+    const year = d.getFullYear();
+    const month = months[d.getMonth()];
+    const day = String(d.getDate()).padStart(2, '0');
+    const weekday = weekdays[d.getDay()];
+    return {
+      formattedDate: `${year}/${month}/${day}`,
+      weekday
+    };
+  }
+
+  return { formattedDate: dateStr, weekday: '' };
+};
+
+// Format time with AM/PM (e.g., '18:00 - 20:00' -> '06:00 PM - 08:00 PM')
+const formatTimeWithAmPm = (timeStr) => {
+  if (!timeStr) return '';
+
+  const convertSingle = (t) => {
+    const trimmed = t.trim();
+    if (!trimmed) return '';
+    if (/am|pm/i.test(trimmed)) return trimmed;
+    const match = trimmed.match(/^(\d{1,2}):(\d{2})/);
+    if (!match) return trimmed;
+    let hours = parseInt(match[1], 10);
+    const mins = match[2];
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12 || 12;
+    const paddedHours = String(hours).padStart(2, '0');
+    return `${paddedHours}:${mins} ${ampm}`;
+  };
+
+  if (timeStr.includes('-')) {
+    return timeStr
+      .split('-')
+      .map(convertSingle)
+      .join(' - ');
+  }
+  return convertSingle(timeStr);
+};
 
 // ============================================================
 // Student Zoom Classes
@@ -196,33 +276,47 @@ export const ZoomLinks = () => {
               </div>
 
               {/* Schedule Box: Date & Time */}
-              <div className="grid grid-cols-2 gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold">
-                <div className="flex items-center gap-2 text-slate-700">
-                  <Calendar className="w-4 h-4 text-blue-600 shrink-0" />
-                  <span className="truncate">{session.date}</span>
-                </div>
-                <div className="flex items-center gap-2 text-slate-700">
-                  <Clock className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span className="truncate">{session.time}</span>
-                </div>
-              </div>
+              {(() => {
+                const { formattedDate, weekday } = formatDateDetails(session.date);
+                const formattedTime = formatTimeWithAmPm(session.time);
+                return (
+                  <div className="grid grid-cols-2 gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                    <div className="space-y-0.5">
+                      <div className="text-slate-700">
+                        <span className="font-extrabold text-[#003153]">Date: </span>
+                        <span className="font-bold text-slate-900">{formattedDate}</span>
+                      </div>
+                      {weekday && (
+                        <div className="text-[11px] font-bold text-slate-500">
+                          {weekday}
+                        </div>
+                      )}
+                    </div>
+                    <div className="space-y-0.5">
+                      <div className="text-slate-700">
+                        <span className="font-extrabold text-[#003153]">Time: </span>
+                        <span className="font-bold text-slate-900">{formattedTime}</span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
 
               {/* Passcode & Launch Action Button */}
               <div className="flex items-center justify-between gap-3 pt-2">
                 <div className="flex items-center gap-2 bg-slate-100 px-3 py-2 rounded-xl border border-slate-200">
-                  <Lock className="w-3.5 h-3.5 text-slate-500 shrink-0" />
                   <span className="text-xs font-mono font-bold text-slate-800">
                     Passcode: {session.passcode}
                   </span>
                   <button
                     onClick={() => handleCopyPasscode(session.id, session.passcode)}
-                    className="p-1 hover:text-blue-600 text-slate-500 transition-colors"
+                    className="px-2 py-0.5 rounded text-[11px] font-bold text-blue-700 hover:bg-blue-50 transition-colors"
                     title="Copy Passcode"
                   >
                     {copiedId === session.id ? (
-                      <Check className="w-3.5 h-3.5 text-emerald-600" />
+                      <span className="text-emerald-600">Copied!</span>
                     ) : (
-                      <Copy className="w-3.5 h-3.5" />
+                      <span>Copy</span>
                     )}
                   </button>
                 </div>

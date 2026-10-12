@@ -344,7 +344,11 @@ export const apiService = {
         body: JSON.stringify({ email, password, role })
       });
       const data = await response.json();
-      if (data && data.success !== undefined) {
+      if (response.ok && data && data.success) {
+        return data;
+      }
+      // If server responded with a normal user validation error (e.g. wrong password), return it
+      if (data && data.message && !data.message.includes('Access denied') && !data.message.includes('connect') && response.status !== 500) {
         return data;
       }
     } catch (e) {
@@ -447,6 +451,13 @@ export const apiService = {
   async resetPassword(email) {
     await delay();
     return { success: true, message: `Reset link sent to ${email}` };
+  },
+
+  async getAdminDashboardStats() {
+    await delay();
+    return {
+      totalStudents: 0
+    };
   },
 
   async getStudentDashboardData(studentId = 'std-1') {

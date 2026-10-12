@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { apiService } from '../../services/api';
 import {
   Users,
   Award,
@@ -12,18 +11,7 @@ import {
 
 export const AdminDashboard = () => {
   const navigate = useNavigate();
-  const [stats, setStats] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [selectedGradeDropdown, setSelectedGradeDropdown] = useState('');
-
-  useEffect(() => {
-    const fetchStats = async () => {
-      const data = await apiService.getAdminDashboardStats();
-      setStats(data);
-      setLoading(false);
-    };
-    fetchStats();
-  }, []);
 
   const handleGradeDropdownChange = (e) => {
     const val = e.target.value;
@@ -33,22 +21,14 @@ export const AdminDashboard = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex h-64 items-center justify-center">
-        <div className="w-8 h-8 border-4 border-[#003153] border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
-  }
-
   // Student counts breakdown for Grade 6 to Grade 11
   const gradeEnrollmentData = [
-    { gradeId: 'grade-6', gradeName: 'Grade 6', label: 'Grade 6 Mathematics', studentCount: 0, maxCapacity: 60, color: 'from-blue-600 to-indigo-700', badgeColor: 'bg-blue-100 text-blue-900 border-blue-200' },
-    { gradeId: 'grade-7', gradeName: 'Grade 7', label: 'Grade 7 Mathematics', studentCount: 0, maxCapacity: 60, color: 'from-cyan-600 to-blue-700', badgeColor: 'bg-cyan-100 text-cyan-900 border-cyan-200' },
-    { gradeId: 'grade-8', gradeName: 'Grade 8', label: 'Grade 8 Mathematics', studentCount: 0, maxCapacity: 60, color: 'from-[#003153] to-slate-800', badgeColor: 'bg-indigo-100 text-indigo-900 border-indigo-200' },
-    { gradeId: 'grade-9', gradeName: 'Grade 9', label: 'Grade 9 Mathematics', studentCount: 0, maxCapacity: 60, color: 'from-teal-600 to-emerald-800', badgeColor: 'bg-emerald-100 text-emerald-900 border-emerald-200' },
-    { gradeId: 'grade-10', gradeName: 'Grade 10', label: 'Grade 10 Mathematics', studentCount: 0, maxCapacity: 60, color: 'from-sky-600 to-[#003153]', badgeColor: 'bg-sky-100 text-sky-900 border-sky-200' },
-    { gradeId: 'grade-11', gradeName: 'Grade 11', label: 'Grade 11 (O/L Mathematics)', studentCount: 0, maxCapacity: 60, color: 'from-[#003153] to-[#00192e]', badgeColor: 'bg-amber-100 text-amber-900 border-amber-200' },
+    { gradeId: 'grade-6', gradeName: 'Grade 6', label: 'Grade 6 Mathematics', studentCount: 0, color: 'from-blue-600 to-indigo-700', badgeColor: 'bg-blue-100 text-blue-900 border-blue-200' },
+    { gradeId: 'grade-7', gradeName: 'Grade 7', label: 'Grade 7 Mathematics', studentCount: 0, color: 'from-cyan-600 to-blue-700', badgeColor: 'bg-cyan-100 text-cyan-900 border-cyan-200' },
+    { gradeId: 'grade-8', gradeName: 'Grade 8', label: 'Grade 8 Mathematics', studentCount: 0, color: 'from-[#003153] to-slate-800', badgeColor: 'bg-indigo-100 text-indigo-900 border-indigo-200' },
+    { gradeId: 'grade-9', gradeName: 'Grade 9', label: 'Grade 9 Mathematics', studentCount: 0, color: 'from-teal-600 to-emerald-800', badgeColor: 'bg-emerald-100 text-emerald-900 border-emerald-200' },
+    { gradeId: 'grade-10', gradeName: 'Grade 10', label: 'Grade 10 Mathematics', studentCount: 0, color: 'from-sky-600 to-[#003153]', badgeColor: 'bg-sky-100 text-sky-900 border-sky-200' },
+    { gradeId: 'grade-11', gradeName: 'Grade 11', label: 'Grade 11 (O/L Mathematics)', studentCount: 0, color: 'from-[#003153] to-[#00192e]', badgeColor: 'bg-amber-100 text-amber-900 border-amber-200' },
   ];
 
   const totalStudentsCombined = 0;
@@ -123,9 +103,6 @@ export const AdminDashboard = () => {
                 <div className="flex items-center justify-between gap-2">
                   <span className={`px-3 py-1 rounded-lg text-xs font-black border ${item.badgeColor}`}>
                     {item.gradeName}
-                  </span>
-                  <span className="text-[11px] font-bold text-slate-400">
-                    Capacity: {item.maxCapacity}
                   </span>
                 </div>
 

@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }) => {
         setToken(res.token);
         return { success: true, user: res.user };
       }
-      return { success: false, message: 'Invalid credentials' };
+      return { success: false, message: res.message || 'Invalid credentials' };
     } catch (err) {
       return { success: false, message: err.message };
     } finally {
