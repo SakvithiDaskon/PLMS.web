@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BookOpen, Layers, ChevronRight, CheckCircle2, Sparkles, X, Check } from 'lucide-react';
+import { BookOpen, Layers, ChevronRight, CheckCircle2, X, Check } from 'lucide-react';
 
 // ============================================================
 // Unit Topics
@@ -38,12 +38,6 @@ export const MathematicsTopics = ({ topics = [], studentGrade = '' }) => {
           </div>
         </div>
 
-        {topics.length > 0 && (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-[#e6f0f7] text-[#003153] border border-[#b0d1e8] self-start sm:self-auto">
-            <Sparkles className="w-3.5 h-3.5 text-[#003153]" />
-            <span>{topics.length} Topics Available</span>
-          </span>
-        )}
       </div>
 
       {/* Topics Content */}
