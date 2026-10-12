@@ -72,8 +72,8 @@ export const Navbar = ({ toggleSidebar, isSidebarOpen, showSidebarButton = true 
 
         {/* Right Action Menu */}
         <div className="flex items-center gap-3">
-          {/* Role Switcher Pill - Only shown inside portal pages */}
-          {isAuthenticated && isPortalPage && (
+          {/* Role Switcher Pill - Only shown inside portal pages (hidden on student portal) */}
+          {isAuthenticated && isPortalPage && !location.pathname.startsWith('/student') && user?.role !== 'student' && (
             <div className="relative">
               <button
                 onClick={() => setShowRoleMenu(!showRoleMenu)}

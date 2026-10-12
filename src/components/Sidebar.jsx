@@ -31,7 +31,7 @@ export const Sidebar = ({ isOpen, onClose }) => {
   const studentNav = [
     { label: 'Dashboard', path: '/student', icon: LayoutDashboard },
     { label: 'My Profile', path: '/student/profile', icon: User },
-    { label: 'Zoom Classes', path: '/student/zoom', icon: Video, badge: 'Live' }
+    { label: 'Zoom Classes', path: '/student/zoom', icon: Video }
   ];
 
   // Parent Navigation Items

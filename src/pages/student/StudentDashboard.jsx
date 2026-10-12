@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { apiService } from '../../services/api';
 import {
-  Sparkles,
   AlertCircle,
   CreditCard,
   Check,
@@ -184,10 +183,6 @@ export const StudentDashboard = () => {
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6 px-6 sm:px-10 py-6 sm:py-7 w-full">
           {/* Greeting and student info */}
           <div className="space-y-2 max-w-xl">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-white/95 text-xs font-semibold border border-white/15 shadow-sm">
-              <Sparkles className="w-3.5 h-3.5 text-blue-200" />
-              <span>Student Portal</span>
-            </div>
 
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
               Welcome back, {displayName}!
