@@ -27,10 +27,7 @@ export const Sidebar = ({ isOpen, onClose }) => {
 
   const role = user?.role || 'student';
 
-  // ============================================================
-  // UPDATED TODAY - STUDENT NAVIGATION ITEMS
-  // Cleaned up student portal menu items (retained Dashboard, Profile, Zoom Classes)
-  // ============================================================
+
   const studentNav = [
     { label: 'Dashboard', path: '/student', icon: LayoutDashboard },
     { label: 'My Profile', path: '/student/profile', icon: User },

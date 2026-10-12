@@ -1,8 +1,3 @@
--- =============================================================================
--- PLMS (Private Learning Management System) Database Schema
--- Modules: Authentication & Registration System (Users & Profiles)
--- Designed for: MySQL / PostgreSQL / SQL Server (Standard SQL-92/99 compatible)
--- =============================================================================
 
 -- 1. ROLES TABLE (Defines user access levels)
 CREATE TABLE IF NOT EXISTS roles (
