@@ -75,9 +75,11 @@ export const MathematicsTopics = ({ topics = [], studentGrade = '' }) => {
                     <h3 className="text-base font-extrabold text-slate-900 group-hover:text-[#003153] transition-colors leading-snug">
                       {topic.name}
                     </h3>
-                    <p className="text-xs text-slate-600 mt-1.5 line-clamp-2 leading-relaxed">
-                      {topic.description}
-                    </p>
+                    {topic.description ? (
+                      <p className="text-xs text-slate-600 mt-1.5 line-clamp-2 leading-relaxed">
+                        {topic.description}
+                      </p>
+                    ) : null}
                   </div>
                 </div>
 
@@ -140,9 +142,11 @@ export const MathematicsTopics = ({ topics = [], studentGrade = '' }) => {
               </button>
             </div>
 
-            <p className="text-xs text-slate-600 leading-relaxed">
-              {activeTopic.description}
-            </p>
+            {activeTopic.description ? (
+              <p className="text-xs text-slate-600 leading-relaxed">
+                {activeTopic.description}
+              </p>
+            ) : null}
 
             <div className="p-4 rounded-xl bg-[#f4f8fb] border border-[#c0d9ec] space-y-2">
               <div className="flex items-center justify-between text-xs font-bold text-slate-800">
