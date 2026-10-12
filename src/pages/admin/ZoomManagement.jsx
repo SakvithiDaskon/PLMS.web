@@ -12,7 +12,8 @@ import {
   ExternalLink,
   Copy,
   Check,
-  GraduationCap
+  GraduationCap,
+  AlertTriangle
 } from 'lucide-react';
 
 export const ZoomManagement = () => {
@@ -42,6 +43,8 @@ export const ZoomManagement = () => {
     isLive: false
   });
 
+  const [conflictError, setConflictError] = useState('');
+
   const fetchLinks = async () => {
     const data = await apiService.getZoomLinks();
     setLinks(data);
@@ -54,6 +57,19 @@ export const ZoomManagement = () => {
 
   const handleCreate = async (e) => {
     e.preventDefault();
+    setConflictError('');
+
+    // Compulsory check: prevent scheduling two classes at the same date and time slot
+    const existingConflict = links.find(
+      (item) => item.date === formData.date && item.time.trim().toLowerCase() === formData.time.trim().toLowerCase()
+    );
+
+    if (existingConflict) {
+      alert(`⚠️ SCHEDULE CONFLICT!\n\nA class is already scheduled on ${formData.date} at ${formData.time} ("${existingConflict.title}").\n\nYou cannot organize two classes at the exact same date and time.`);
+      setConflictError(`Conflict: A class ("${existingConflict.title}") is already scheduled on ${formData.date} at ${formData.time}.`);
+      return;
+    }
+
     await apiService.createZoomLink(formData);
     setShowModal(false);
     setSuccessMsg('Zoom class scheduled successfully!');
@@ -93,6 +109,11 @@ export const ZoomManagement = () => {
 
   const gradeOptions = ['All', 'Grade 6', 'Grade 7', 'Grade 8', 'Grade 9', 'Grade 10', 'Grade 11'];
 
+  const openScheduleModal = () => {
+    setConflictError('');
+    setShowModal(true);
+  };
+
   if (loading) {
     return (
       <div className="flex h-64 items-center justify-center">
@@ -118,7 +139,7 @@ export const ZoomManagement = () => {
           </div>
 
           <button
-            onClick={() => setShowModal(true)}
+            onClick={openScheduleModal}
             className="flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-xs text-[#003153] bg-white hover:bg-[#e6f0f7] shadow-lg transition-all hover:scale-105 shrink-0"
           >
             <Plus className="w-4 h-4" />
@@ -261,7 +282,7 @@ export const ZoomManagement = () => {
           <Video className="w-10 h-10 text-slate-300 mx-auto" />
           <p className="text-sm font-bold text-slate-700">No Zoom classes scheduled for this grade yet.</p>
           <button
-            onClick={() => setShowModal(true)}
+            onClick={openScheduleModal}
             className="text-xs font-bold text-[#003153] underline"
           >
             Click here to schedule a class
@@ -289,6 +310,13 @@ export const ZoomManagement = () => {
             </div>
 
             <form onSubmit={handleCreate} className="space-y-4">
+              {conflictError && (
+                <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-bold flex items-center gap-2.5 animate-shake">
+                  <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0" />
+                  <span>{conflictError}</span>
+                </div>
+              )}
+
               {/* Lecture Title */}
               <div>
                 <label className="block text-xs font-extrabold text-slate-700 mb-1">Lecture Title</label>
