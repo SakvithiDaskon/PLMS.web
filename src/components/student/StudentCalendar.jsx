@@ -8,7 +8,6 @@ import {
   ChevronRight,
   Sparkles,
   ExternalLink,
-  Lock,
   BookOpen
 } from 'lucide-react';
 
@@ -299,7 +298,6 @@ export const StudentCalendar = ({ classes = [], studentGrade = '' }) => {
                   <div className="pt-2 border-t border-[#d8eaf6] flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     {item.passcode && (
                       <div className="inline-flex items-center gap-1 text-[10px] font-mono font-bold text-slate-700 bg-white px-2 py-1 rounded border border-[#c0d9ec]">
-                        <Lock className="w-3 h-3 text-slate-500" />
                         <span>Passcode: {item.passcode}</span>
                       </div>
                     )}
