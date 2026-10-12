@@ -98,8 +98,8 @@ export const AuthProvider = ({ children }) => {
         role: 'student',
         phone: '+94 77 123 4567',
         grade: 'Grade 11 (O/L Mathematics)',
-        studentId: 'STU-2026-889',
-        indexNo: 'STU-2026-889'
+        studentId: '0001',
+        indexNo: '0001'
       };
     }
     setUser(mockUser);

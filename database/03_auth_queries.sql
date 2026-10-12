@@ -1,19 +1,11 @@
--- =============================================================================
--- PLMS Authentication & Registration Queries
--- How data is written during Registration and retrieved during Login
--- =============================================================================
 
--- =============================================================================
--- 1. REGISTRATION WORKFLOW (When a student submits the Register form)
--- =============================================================================
-
--- STEP 1.1: Verify email does not already exist
+- STEP 1.1: Verify email does not already exist
 SELECT user_id FROM users WHERE email = 'newstudent@example.com';
 
 -- STEP 1.2: Atomic Transaction to save Registration Details across both tables
 START TRANSACTION;
 
--- Step 1.2.1: Insert Login Credentials into USERS table
+
 -- Role ID 1 corresponds to 'student'
 INSERT INTO users (email, password_hash, role_id, is_active)
 VALUES ('newstudent@example.com', '$2a$12$hashedPasswordGoesHere...', 1, TRUE);
@@ -22,7 +14,7 @@ VALUES ('newstudent@example.com', '$2a$12$hashedPasswordGoesHere...', 1, TRUE);
 SET @new_user_id = LAST_INSERT_ID();
 
 -- Step 1.2.2: Insert Registration Details into STUDENT_DETAILS table
--- Generates student ID (e.g., 'STU-2026-9912')
+-- Generates 4-digit sequential student ID (e.g., '0002')
 INSERT INTO student_details (
     user_id,
     full_name,
@@ -35,7 +27,7 @@ VALUES (
     'Nuwan Pradeep',
     '+94 77 987 6543',
     'Grade 11 (O/L Mathematics)',
-    'STU-2026-9912'
+    '0002'
 );
 
 -- Commit transaction ensuring both records are created together
@@ -83,9 +75,9 @@ UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE user_id = @authenticated_u
 -- }
 
 
--- ============================================================
+
 -- ADDED TODAY - STUDENT DASHBOARD DATA QUERIES
--- ============================================================
+
 
 -- ===== ADDED TODAY: Retrieve Student Profile Dynamically by Authenticated user_id =====
 SELECT 

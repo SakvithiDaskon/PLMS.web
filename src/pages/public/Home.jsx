@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import logoImg from '../../assets/logo.png';
 import posterImg from '../../assets/poster.jpeg';
@@ -8,62 +8,82 @@ import {
   GraduationCap,
   ArrowRight,
   CheckCircle2,
-  Users,
-  ShieldCheck,
-  HelpCircle,
-  Sparkles,
   Video,
-  Calendar,
-  Award,
-  Maximize2,
-  ZoomIn,
-  X
+  Award
 } from 'lucide-react';
 
 export const Home = () => {
   const { isAuthenticated, user } = useAuth();
-  const [isPosterModalOpen, setIsPosterModalOpen] = useState(false);
 
   return (
     <div className="space-y-10 pb-12">
       {/* Hero Banner */}
-      <section className="relative overflow-hidden pt-12 pb-16 md:pt-16 md:pb-20 rounded-3xl bg-[#003153] text-white shadow-xl p-6 md:p-12 border border-[#00223d]">
-        <div className="relative z-10 max-w-4xl mx-auto text-center space-y-6">
+      <section className="relative overflow-hidden pt-12 pb-16 md:pt-18 md:pb-22 rounded-none bg-[#002c4b] bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(56,189,248,0.2),rgba(0,0,0,0))] text-white shadow-2xl p-6 sm:p-10 md:p-14 border border-[#004575]">
+        {/* Ambient background glows */}
+        <div className="absolute -top-32 -left-32 w-80 h-80 bg-blue-400/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-32 -right-32 w-80 h-80 bg-cyan-400/15 rounded-full blur-3xl pointer-events-none" />
 
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-white border border-white/20 text-xs font-bold">
-            <img
-              src={logoImg}
-              alt="PLMS Logo"
-              className="w-5 h-5 rounded-full object-cover border border-white/30"
-            />
-            <span>Private Learning Management System (PLMS)</span>
-          </div>
+        <div className="relative z-10 max-w-4xl mx-auto text-center space-y-6 sm:space-y-7">
 
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
             Transform Your Mathematics Journey: Grade 6 to 11 with{' '}
-            <span className="text-blue-200">
-              Sir Parakum Bandara
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 via-sky-200 to-cyan-300">
+              Mr Parakum Bandara
             </span>
           </h1>
 
-          <p className="text-blue-50 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-            The dedicated private learning portal for Grade 6 to 11 Mathematics students. Join live Zoom lectures, review recorded video modules, practice geometry and algebra step-by-step, and track your term marks.
-          </p>
+          <div className="space-y-4 max-w-3xl mx-auto">
+            <p className="text-blue-100/95 text-sm sm:text-base md:text-lg leading-relaxed">
+              Welcome to your personal Mathematics learning portal for Grade 6–11 students. Join live online classes, watch recorded lessons anytime, practice at your own pace, and track your learning progress and term marks all in one place. Make learning easier, build your confidence, and achieve your goals with us!
+            </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-            <Link
-              to={isAuthenticated ? (user?.role === 'admin' ? '/admin' : '/student') : '/login'}
-              className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-[#003153] bg-white hover:bg-[#e6f0f7] shadow-lg transition-all hover:scale-105"
+            <div className="space-y-2 pt-2">
+              <h2 className="text-base sm:text-xl md:text-2xl font-bold tracking-wide text-amber-300">
+                ආත්ම විශ්වාසයෙන් ගණිතය ඉගෙන ගනිමු!
+              </h2>
+              <p className="text-blue-100/90 text-xs sm:text-sm md:text-base leading-relaxed">
+                6 සිට 11 ශ්රේණිය දක්වා සිසුන් සඳහාම වෙන් වූ අපගේ ගණිත ඉගෙනුම් අවකාශය වෙත සාදරයෙන් පිළිගනිමු. සජීවී මාර්ගගත පන්තිවලට සහභාගී වන්න, පටිගත කළ පාඩම් ඕනෑම වේලාවක නරඹන්න, ඔබට පහසු වේගයකින් පුහුණු වන්න, ඔබේ ඉගෙනුම් ප්රගතිය සහ වාර පරීක්ෂණ ලකුණු නිරීක්ෂණය කරන්න. ගණිතය පහසුවෙන් ඉගෙන ගනිමින් ආත්ම විශ්වාසය ගොඩනඟා ඔබේ අරමුණු කරා ළඟා වන්න!
+              </p>
+            </div>
+          </div>
+
+          {/* Quick value highlight chips */}
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 pt-1 text-xs font-semibold text-blue-200">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#00223d]/70 border border-[#004575] backdrop-blur-xs">
+              <Video className="w-3.5 h-3.5 text-cyan-300" />
+              <span>Live Zoom & HD Recordings</span>
+            </div>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#00223d]/70 border border-[#004575] backdrop-blur-xs">
+              <Award className="w-3.5 h-3.5 text-amber-300" />
+              <span>Model Papers & Evaluation</span>
+            </div>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#00223d]/70 border border-[#004575] backdrop-blur-xs">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Grades 6–11 Theory & Revision</span>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+            <a
+              href="#user-portals"
+              onClick={(e) => {
+                e.preventDefault();
+                const el = document.getElementById('user-portals');
+                if (el) {
+                  el.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+              className="group flex items-center gap-2 px-7 py-3.5 rounded-none text-sm font-bold text-[#003153] bg-white hover:bg-[#e6f0f7] shadow-xl hover:shadow-cyan-500/20 transition-all hover:scale-[1.02] border border-white cursor-pointer"
             >
-              <span>Access Student Portal</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+              <span>Access Portal</span>
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            </a>
 
             <Link
               to="/register"
-              className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-white bg-[#00223d] hover:bg-[#00192e] border border-[#004575] transition-all hover:scale-105"
+              className="group flex items-center gap-2 px-7 py-3.5 rounded-none text-sm font-bold text-white bg-[#00223d] hover:bg-[#00192e] border border-cyan-400/40 shadow-xl transition-all hover:scale-[1.02]"
             >
-              <GraduationCap className="w-4 h-4 text-blue-200" />
+              <GraduationCap className="w-4 h-4 text-cyan-300" />
               <span>Student Registration</span>
             </Link>
           </div>
@@ -72,12 +92,8 @@ export const Home = () => {
       </section>
 
       {/* Registration Guidance Banner (Between Hero & User Portals) */}
-      <section className="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-[#003153] to-[#00223d] text-white shadow-lg border border-[#004575] flex flex-col md:flex-row items-center justify-between gap-6">
+      <section className="p-6 sm:p-8 rounded-none bg-gradient-to-r from-[#003153] to-[#00223d] text-white shadow-xl border border-[#004575] flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="space-y-2 text-center md:text-left">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-blue-200 text-xs font-bold border border-white/10">
-            <HelpCircle className="w-3.5 h-3.5" />
-            <span>Registration Assistance</span>
-          </div>
           <h2 className="text-xl sm:text-2xl font-bold">New to PLMS? Learn How to Register</h2>
           <p className="text-xs sm:text-sm text-blue-100 max-w-xl">
             Get step-by-step instructions on how students register for classes and how parents link their child's account to monitor academic progress.
@@ -86,7 +102,7 @@ export const Home = () => {
 
         <Link
           to="/how-to-register"
-          className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-[#003153] bg-white hover:bg-[#e6f0f7] shadow-lg transition-all hover:scale-105 whitespace-nowrap shrink-0"
+          className="flex items-center gap-2 px-6 py-3 rounded-none text-sm font-bold text-[#003153] bg-white hover:bg-[#e6f0f7] shadow-lg transition-all hover:scale-105 whitespace-nowrap shrink-0 border border-white"
         >
           <span>How to Register</span>
           <ArrowRight className="w-4 h-4" />
@@ -94,24 +110,24 @@ export const Home = () => {
       </section>
 
       {/* Official Class Poster Section */}
-      <section className="relative overflow-hidden rounded-3xl bg-white border border-[#c0d9ec] shadow-xl p-6 sm:p-8 space-y-6">
+      <section className="relative overflow-hidden rounded-none bg-white border border-[#c0d9ec] shadow-xl p-6 sm:p-8 space-y-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-[#c0d9ec]/60">
           <div className="flex items-center gap-3">
             <img
               src={logoImg}
               alt="PLMS Logo"
-              className="w-10 h-10 rounded-xl object-cover border border-[#c0d9ec] shadow-sm shrink-0"
+              className="w-10 h-10 rounded-none object-cover border border-[#c0d9ec] shadow-sm shrink-0"
             />
             <div>
               <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">
                 Official Class Announcement
               </h3>
               <p className="text-xs text-slate-600">
-                Mathematics classes for Grade 6 to 11 conducted by Sir Parakum Bandara
+                Mathematics classes for Grade 6 to 11 conducted by Mr Parakum Bandara
               </p>
             </div>
           </div>
-          <span className="px-3.5 py-1.5 rounded-full bg-[#e6f0f7] text-[#003153] text-xs font-bold border border-[#b0d1e8] shadow-xs">
+          <span className="text-xs sm:text-sm font-bold text-[#003153] tracking-wide">
             2026 Academic Session
           </span>
         </div>
@@ -121,20 +137,20 @@ export const Home = () => {
           {/* Left Column: Highlights & Quick Info */}
           <div className="lg:col-span-7 space-y-5">
             <div className="space-y-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#003153] bg-[#e6f0f7] px-3 py-1 rounded-md border border-[#b0d1e8]">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#003153] bg-[#e6f0f7] px-3 py-1 rounded-none border border-[#b0d1e8]">
                 Class Details
               </span>
               <h4 className="text-2xl font-extrabold text-slate-900 leading-snug">
                 Mathematics Classes for Grade 6 to 11
               </h4>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                Mathematics classes for Grade 6 to 11 conducted by Sir Parakum Bandara. Join live Zoom sessions, access recorded modules, and build strong problem solving skills.
+                Mathematics classes for Grade 6 to 11 conducted by Mr Parakum Bandara. Join live Zoom sessions, access recorded modules, and build strong problem solving skills.
               </p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="p-3.5 rounded-xl bg-[#f4f8fb] border border-[#c0d9ec] flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-[#003153] text-white flex items-center justify-center font-extrabold text-xs shrink-0 shadow-xs">
+              <div className="p-3.5 rounded-none bg-[#f4f8fb] border border-[#c0d9ec] flex items-center gap-3">
+                <div className="w-9 h-9 rounded-none bg-[#003153] text-white flex items-center justify-center font-extrabold text-xs shrink-0 shadow-xs">
                   6-11
                 </div>
                 <div>
@@ -143,8 +159,8 @@ export const Home = () => {
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-[#f4f8fb] border border-[#c0d9ec] flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-[#003153] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
+              <div className="p-3.5 rounded-none bg-[#f4f8fb] border border-[#c0d9ec] flex items-center gap-3">
+                <div className="w-9 h-9 rounded-none bg-[#003153] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
                   <Video className="w-4 h-4 text-blue-200" />
                 </div>
                 <div>
@@ -153,8 +169,8 @@ export const Home = () => {
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-[#f4f8fb] border border-[#c0d9ec] flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-[#003153] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
+              <div className="p-3.5 rounded-none bg-[#f4f8fb] border border-[#c0d9ec] flex items-center gap-3">
+                <div className="w-9 h-9 rounded-none bg-[#003153] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
                   <Award className="w-4 h-4 text-blue-200" />
                 </div>
                 <div>
@@ -165,189 +181,109 @@ export const Home = () => {
             </div>
           </div>
 
-          {/* Right Column: Beautiful Compact Poster Frame */}
+          {/* Right Column: Normal picture in a box, no click expand */}
           <div className="lg:col-span-5 flex justify-center">
-            <div className="relative group max-w-xs sm:max-w-sm w-full rounded-2xl bg-gradient-to-b from-[#003153] to-[#00192e] p-2.5 sm:p-3 shadow-xl border border-[#004575] transition-all hover:shadow-2xl">
-              <div className="relative overflow-hidden rounded-xl bg-slate-950 flex items-center justify-center max-h-[400px]">
+            <div className="w-full max-w-xs sm:max-w-sm rounded-none bg-[#00223d] p-2.5 sm:p-3 shadow-md border border-[#004575]">
+              <div className="overflow-hidden rounded-none bg-slate-950 flex items-center justify-center max-h-[400px]">
                 <img
                   src={posterImg}
-                  alt="Sir Parakum Bandara Mathematics Class Poster"
-                  className="w-full h-auto max-h-[380px] object-contain rounded-lg transition-transform duration-500 group-hover:scale-105 cursor-pointer"
-                  onClick={() => setIsPosterModalOpen(true)}
+                  alt="Mr Parakum Bandara Mathematics Class Poster"
+                  className="w-full h-auto max-h-[380px] object-contain rounded-none"
                 />
-
-                <div
-                  onClick={() => setIsPosterModalOpen(true)}
-                  className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2 text-white font-bold text-xs cursor-pointer backdrop-blur-[2px]"
-                >
-                  <ZoomIn className="w-5 h-5 text-blue-200" />
-                  <span>Click to Expand Poster</span>
-                </div>
               </div>
             </div>
           </div>
         </div>
-
-        {/* Modal for full size view */}
-        {isPosterModalOpen && (
-          <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setIsPosterModalOpen(false)}>
-            <div className="relative max-w-2xl w-full bg-white rounded-2xl p-4 shadow-2xl space-y-3" onClick={(e) => e.stopPropagation()}>
-              <div className="flex items-center justify-between pb-2 border-b border-slate-200">
-                <h4 className="text-sm font-bold text-slate-900">Official Class Announcement</h4>
-                <button onClick={() => setIsPosterModalOpen(false)} className="p-1.5 rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900">
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-              <div className="max-h-[75vh] overflow-auto rounded-xl bg-slate-900 flex items-center justify-center p-2">
-                <img src={posterImg} alt="Class Poster" className="max-w-full h-auto rounded-lg" />
-              </div>
-            </div>
-          </div>
-        )}
       </section>
 
       {/* User Portals Section */}
-      <section className="space-y-6">
+      <section id="user-portals" className="space-y-6 scroll-mt-10">
 
-        <div className="text-center max-w-xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
-            System User Portals
+        <div className="text-center max-w-xl mx-auto space-y-2">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            User Portals
           </h2>
+          <p className="text-xs sm:text-sm text-slate-600">
+            Select your account type to access class resources, reports, or management tools
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
           {/* Student Portal */}
-          <div className="p-6 rounded-2xl bg-white border border-[#c0d9ec] shadow-sm hover:border-[#003153] transition-all space-y-4">
-
-            <div className="w-12 h-12 rounded-xl bg-[#003153] text-white flex items-center justify-center font-bold shadow">
-              <GraduationCap className="w-6 h-6" />
+          <Link
+            to="/login"
+            className="group relative p-7 sm:p-8 rounded-none bg-[#003153] hover:bg-[#002845] text-white border border-[#00223d] hover:border-cyan-400/50 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-5 cursor-pointer text-left"
+          >
+            <div className="space-y-3">
+              <span className="inline-block text-[11px] font-bold uppercase tracking-wider text-cyan-300 bg-white/10 px-2.5 py-1 rounded-none border border-white/20">
+                Student Access
+              </span>
+              <h3 className="text-xl sm:text-2xl font-extrabold text-white group-hover:text-cyan-200 transition-colors">
+                Student Portal
+              </h3>
+              <p className="text-xs sm:text-sm text-blue-100/85 leading-relaxed">
+                Access live Zoom classes, recorded lesson video library, and term test marks.
+              </p>
             </div>
 
-            <h3 className="text-lg font-bold text-slate-900">
-              Student Portal
-            </h3>
-
-            <ul className="space-y-2 text-xs text-slate-600 font-medium">
-
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#003153]" />
-                Live Zoom class link access
-              </li>
-
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#003153]" />
-                Recorded video lesson library
-              </li>
-
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#003153]" />
-                Quizzes & O/L model test marks
-              </li>
-
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#003153]" />
-                Easy monthly fee slip upload
-              </li>
-
-            </ul>
-
-            <Link
-              to="/login"
-              className="inline-flex items-center text-xs font-bold text-[#003153] hover:underline gap-1 pt-2"
-            >
-              Login as Student &rarr;
-            </Link>
-
-          </div>
+            <div className="pt-2">
+              <div className="w-full py-2.5 px-4 bg-white group-hover:bg-[#e6f0f7] text-[#003153] text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-sm">
+                <span>Login to Student Portal</span>
+                <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+              </div>
+            </div>
+          </Link>
 
           {/* Parent Portal */}
-          <div className="p-6 rounded-2xl bg-white border border-[#c0d9ec] shadow-sm hover:border-[#003153] transition-all space-y-4">
-
-            <div className="w-12 h-12 rounded-xl bg-[#003153] text-white flex items-center justify-center font-bold shadow">
-              <Users className="w-6 h-6" />
+          <Link
+            to="/login"
+            className="group relative p-7 sm:p-8 rounded-none bg-[#003153] hover:bg-[#002845] text-white border border-[#00223d] hover:border-cyan-400/50 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-5 cursor-pointer text-left"
+          >
+            <div className="space-y-3">
+              <span className="inline-block text-[11px] font-bold uppercase tracking-wider text-cyan-300 bg-white/10 px-2.5 py-1 rounded-none border border-white/20">
+                Parent Access
+              </span>
+              <h3 className="text-xl sm:text-2xl font-extrabold text-white group-hover:text-cyan-200 transition-colors">
+                Parent Portal
+              </h3>
+              <p className="text-xs sm:text-sm text-blue-100/85 leading-relaxed">
+                Monitor student academic progress, attendance records, and term reports.
+              </p>
             </div>
 
-            <h3 className="text-lg font-bold text-slate-900">
-              Parent Portal
-            </h3>
+            <div className="pt-2">
+              <div className="w-full py-2.5 px-4 bg-white group-hover:bg-[#e6f0f7] text-[#003153] text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-sm">
+                <span>Login to Parent Portal</span>
+                <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+              </div>
+            </div>
+          </Link>
 
-            <ul className="space-y-2 text-xs text-slate-600 font-medium">
-
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#003153]" />
-                Monitor Grade 6-11 child progress
-              </li>
-
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#003153]" />
-                View test marks & Sir Parakum's notes
-              </li>
-
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#003153]" />
-                Class attendance records
-              </li>
-
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#003153]" />
-                Monthly fee payment receipts
-              </li>
-
-            </ul>
-
-            <Link
-              to="/login"
-              className="inline-flex items-center text-xs font-bold text-[#003153] hover:underline gap-1 pt-2"
-            >
-              Login as Parent &rarr;
-            </Link>
-
-          </div>
-
-          {/* Admin Portal */}
-          <div className="p-6 rounded-2xl bg-white border border-[#c0d9ec] shadow-sm hover:border-[#003153] transition-all space-y-4">
-
-            <div className="w-12 h-12 rounded-xl bg-[#003153] text-white flex items-center justify-center font-bold shadow">
-              <ShieldCheck className="w-6 h-6" />
+          {/* Admin */}
+          <Link
+            to="/login"
+            className="group relative p-7 sm:p-8 rounded-none bg-[#003153] hover:bg-[#002845] text-white border border-[#00223d] hover:border-cyan-400/50 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-5 cursor-pointer text-left"
+          >
+            <div className="space-y-3">
+              <span className="inline-block text-[11px] font-bold uppercase tracking-wider text-cyan-300 bg-white/10 px-2.5 py-1 rounded-none border border-white/20">
+                Teacher & Admin
+              </span>
+              <h3 className="text-xl sm:text-2xl font-extrabold text-white group-hover:text-cyan-200 transition-colors">
+                Admin
+              </h3>
+              <p className="text-xs sm:text-sm text-blue-100/85 leading-relaxed">
+                Manage Grade 6–11 classes, schedules, student rosters, and records.
+              </p>
             </div>
 
-            <h3 className="text-lg font-bold text-slate-900">
-              Sir Parakum Admin
-            </h3>
-
-            <ul className="space-y-2 text-xs text-slate-600 font-medium">
-
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#003153]" />
-                Schedule Zoom class sessions
-              </li>
-
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#003153]" />
-                Manage Grade 6-11 student rosters
-              </li>
-
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#003153]" />
-                Publish recorded video lessons
-              </li>
-
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#003153]" />
-                Assign test marks & teacher remarks
-              </li>
-
-            </ul>
-
-            <Link
-              to="/login"
-              className="inline-flex items-center text-xs font-bold text-[#003153] hover:underline gap-1 pt-2"
-            >
-              Login as Sir Admin &rarr;
-            </Link>
-
-          </div>
+            <div className="pt-2">
+              <div className="w-full py-2.5 px-4 bg-white group-hover:bg-[#e6f0f7] text-[#003153] text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-sm">
+                <span>Login to Admin Portal</span>
+                <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+              </div>
+            </div>
+          </Link>
 
         </div>
       </section>
