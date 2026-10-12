@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import {
-  Calendar as CalendarIcon,
   Clock,
   Video,
   User,
   ChevronLeft,
   ChevronRight,
-  Sparkles,
   ExternalLink,
   Lock,
   BookOpen
@@ -85,20 +83,10 @@ export const StudentCalendar = ({ classes = [], studentGrade = '' }) => {
     <div className="rounded-2xl bg-white border border-[#c0d9ec] shadow-sm p-4 sm:p-5 space-y-4">
       {/* Calendar Header */}
       <div className="flex items-center justify-between pb-3 border-b border-[#e6f0f7]">
-        <div className="flex items-center gap-2">
-          <div className="p-2 rounded-xl bg-[#e6f0f7] text-[#003153]">
-            <CalendarIcon className="w-4 h-4 text-[#003153]" />
-          </div>
-          <div>
-            <h2 className="text-sm sm:text-base font-extrabold text-[#003153] tracking-tight">
-              {monthName} {year}
-            </h2>
-            <p className="text-[10px] text-slate-500 font-semibold">
-              {classesThisMonth.length > 0
-                ? `${classesThisMonth.length} Mathematics ${classesThisMonth.length === 1 ? 'class' : 'classes'} scheduled`
-                : 'No classes scheduled this month'}
-            </p>
-          </div>
+        <div>
+          <h2 className="text-sm sm:text-base font-extrabold text-[#003153] tracking-tight">
+            {monthName} {year}
+          </h2>
         </div>
 
         {/* Navigation Buttons */}
