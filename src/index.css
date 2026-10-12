@@ -10,11 +10,13 @@
     --primary-blue-light: #e6f0f7;
     --primary-blue-border: #b0d1e8;
   }
-  
+
   body {
     font-family: var(--font-sans);
-    background-color: #f4f8fb; /* Soft Light Slate/Blue Page Background */
-    color: #003153;           /* #003153 Primary Dark Text */
+    background-color: #f4f8fb;
+    /* Soft Light Slate/Blue Page Background */
+    color: #003153;
+    /* #003153 Primary Dark Text */
     min-height: 100vh;
     overflow-x: hidden;
   }

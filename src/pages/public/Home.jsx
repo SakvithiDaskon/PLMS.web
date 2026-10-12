@@ -26,20 +26,22 @@ export const Home = () => {
         <div className="relative z-10 max-w-4xl mx-auto text-center space-y-6 sm:space-y-7">
 
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
-            Transform Your Mathematics Journey: Grade 6 to 11 with{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 via-sky-200 to-cyan-300">
-              Mr Parakum Bandara
-            </span>
+            Begin Your Mathematics Journey: Grade 6 to 11 with{' '}
+            <div>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 via-sky-200 to-cyan-300">
+                පැරකුම් බණ්ඩාර
+              </span>
+            </div>
           </h1>
 
           <div className="space-y-4 max-w-3xl mx-auto">
             <p className="text-blue-100/95 text-sm sm:text-base md:text-lg leading-relaxed">
-              Welcome to your personal Mathematics learning portal for Grade 6–11 students. Join live online classes, watch recorded lessons anytime, practice at your own pace, and track your learning progress and term marks all in one place. Make learning easier, build your confidence, and achieve your goals with us!
+              Welcome to your personal Mathematics learning portal for Grade 6 to 11 students. Join live online classes, watch recorded lessons anytime, practice at your own pace, and track your learning progress and term marks all in one place. Make learning easier, build your confidence, and achieve your goals with us!
             </p>
 
             <div className="space-y-2 pt-2">
               <h2 className="text-base sm:text-xl md:text-2xl font-bold tracking-wide text-amber-300">
-                ආත්ම විශ්වාසයෙන් ගණිතය ඉගෙන ගනිමු!
+                විශිෂ්ට ප්‍රතිඵලයක් ලබාගැනීම සඳහා Mathematics ඉගෙන ගන්න හොඳම තැන!
               </h2>
               <p className="text-blue-100/90 text-xs sm:text-sm md:text-base leading-relaxed">
                 6 සිට 11 ශ්රේණිය දක්වා සිසුන් සඳහාම වෙන් වූ අපගේ ගණිත ඉගෙනුම් අවකාශය වෙත සාදරයෙන් පිළිගනිමු. සජීවී මාර්ගගත පන්තිවලට සහභාගී වන්න, පටිගත කළ පාඩම් ඕනෑම වේලාවක නරඹන්න, ඔබට පහසු වේගයකින් පුහුණු වන්න, ඔබේ ඉගෙනුම් ප්රගතිය සහ වාර පරීක්ෂණ ලකුණු නිරීක්ෂණය කරන්න. ගණිතය පහසුවෙන් ඉගෙන ගනිමින් ආත්ම විශ්වාසය ගොඩනඟා ඔබේ අරමුණු කරා ළඟා වන්න!

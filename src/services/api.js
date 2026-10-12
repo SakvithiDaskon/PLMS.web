@@ -14,14 +14,10 @@ const STORAGE_KEYS = {
 
 
 const initialUsers = [
-<<<<<<< HEAD
-  { id: 'std-1', name: 'Kasun Perera', email: 'student@plms.com', password: 'password123', role: 'student', phone: '+94 77 123 4567', grade: 'Grade 11 (O/L Mathematics)', studentId: 'STU-2026', indexNo: 'STU-2026', parentId: 'prn-1', enrollmentStatus: 'Currently Enrolled', enrollmentDate: '2024-01-10', subject: 'Mathematics', paymentStatus: 'Paid', nextPaymentDue: '-' },
-=======
   { id: 'std-1', name: 'Kasun Perera', email: 'student@plms.com', password: 'password123', role: 'student', phone: '+94 77 123 4567', grade: 'Grade 11 (O/L Mathematics)', studentId: '0001', indexNo: '0001', parentId: 'prn-1', enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Paid', nextPaymentDue: '-' },
   { id: 'std-2', name: 'Nipuni Silva', email: 'nipuni@plms.com', password: 'password123', role: 'student', phone: '+94 71 987 6543', grade: 'Grade 10 Mathematics', studentId: 'STU-2027-902', indexNo: 'STU-2027-902', parentId: null, enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Pending', nextPaymentDue: '2026-10-15' },
   { id: 'std-3', name: 'Dilshan Fernando', email: 'dilshan@plms.com', password: 'password123', role: 'student', phone: '+94 76 555 4321', grade: 'Grade 9 Mathematics', studentId: 'STU-2028-104', indexNo: 'STU-2028-104', parentId: null, enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Unpaid', nextPaymentDue: '2026-10-10' },
   { id: 'std-4', name: 'Amali Fernando', email: 'amali@plms.com', password: 'password123', role: 'student', phone: '+94 77 888 9900', grade: 'Grade 11 (O/L Mathematics)', studentId: 'STU-7846', indexNo: 'STU-7846', parentId: null, enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Paid', nextPaymentDue: '-' },
->>>>>>> 75a5f88be4b4f293a6888c184b051f3443a7b47d
   { id: 'prn-1', name: 'Sunil Perera', email: 'parent@plms.com', password: 'password123', role: 'parent', phone: '+94 70 333 2211', occupation: 'Civil Engineer', linkedStudentIds: ['std-1'] },
   { id: 'adm-1', name: 'Sir Parakum Bandara (Admin)', email: 'admin@plms.com', password: 'password123', role: 'admin', phone: '+94 77 000 1122', designation: 'Head Educator & Admin' }
 ];
