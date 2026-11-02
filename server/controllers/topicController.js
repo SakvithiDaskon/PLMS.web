@@ -17,13 +17,27 @@ export async function getTopics(req, res, next) {
         topic_name AS name,
         description,
         lessons_count AS lessonsCount,
-        progress_pct AS progress
+        progress_pct AS progress,
+        modules
       FROM mathematics_topics
       WHERE grade LIKE ? OR ? = ''
       ORDER BY topic_id ASC;
     `, [pattern, grade]);
 
-    return res.status(200).json({ success: true, topics: rows });
+    const topics = rows.map(r => {
+      let parsedModules = [];
+      try {
+        parsedModules = typeof r.modules === 'string' ? JSON.parse(r.modules) : (r.modules || []);
+      } catch {
+        parsedModules = [];
+      }
+      return {
+        ...r,
+        modules: parsedModules
+      };
+    });
+
+    return res.status(200).json({ success: true, topics });
   } catch (err) {
     next(err);
   }

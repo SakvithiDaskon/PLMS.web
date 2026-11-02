@@ -72,8 +72,12 @@ export const Sidebar = ({ isOpen, onClose }) => {
         <div className="p-4 space-y-6">
           {/* User Role Card */}
           <div className="p-3.5 rounded-2xl bg-[#e6f0f7] border border-[#b0d1e8] flex items-center gap-3.5">
-            <div className="w-11 h-11 rounded-2xl bg-[#003153] text-white flex items-center justify-center font-bold shadow shrink-0">
-              <ShieldCheck className="w-6 h-6 text-white" />
+            <div className="w-11 h-11 rounded-2xl bg-[#003153] text-white flex items-center justify-center font-bold shadow shrink-0 overflow-hidden">
+              {user?.profilePicture ? (
+                <img src={user.profilePicture} alt={user.name} className="w-full h-full object-cover" />
+              ) : (
+                <ShieldCheck className="w-6 h-6 text-white" />
+              )}
             </div>
             <div className="overflow-hidden min-w-0">
               <p className="text-sm font-extrabold text-slate-900 truncate">{user?.name}</p>

@@ -61,8 +61,12 @@ export const Navbar = ({ toggleSidebar, isSidebarOpen, showSidebarButton = true 
                 onClick={() => setShowProfileMenu(!showProfileMenu)}
                 className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#00223d] hover:bg-[#00192e] border border-[#004575] text-white shadow-sm transition-all"
               >
-                <div className="w-6 h-6 rounded-full bg-white text-[#003153] flex items-center justify-center font-bold text-xs shrink-0">
-                  {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                <div className="w-6 h-6 rounded-full bg-white text-[#003153] flex items-center justify-center font-bold text-xs shrink-0 overflow-hidden">
+                  {user?.profilePicture ? (
+                    <img src={user.profilePicture} alt={user.name} className="w-full h-full object-cover" />
+                  ) : (
+                    user?.name ? user.name.charAt(0).toUpperCase() : 'U'
+                  )}
                 </div>
                 <span className="text-xs font-extrabold text-white tracking-wide">
                   {user?.name}

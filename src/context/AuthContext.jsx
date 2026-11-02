@@ -116,16 +116,21 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // ===== ADDED TODAY: Update Current Student Profile & Database Sync =====
+  // ===== Update Current Student Profile & Database Sync =====
   const updateProfile = async (formData) => {
     setLoading(true);
     try {
       if (!user?.id) return { success: false, message: 'No active session' };
       const res = await apiService.updateStudentProfile(user.id, formData);
       if (res.success) {
-        setUser(res.user);
-        localStorage.setItem('plms_auth_user', JSON.stringify(res.user));
-        return { success: true, user: res.user };
+        const updatedUser = {
+          ...user,
+          ...formData,
+          ...(res.user || {})
+        };
+        setUser(updatedUser);
+        localStorage.setItem('plms_auth_user', JSON.stringify(updatedUser));
+        return { success: true, user: updatedUser };
       }
       return { success: false, message: res.message || 'Update failed' };
     } catch (err) {

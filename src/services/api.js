@@ -217,6 +217,198 @@ const initialTopics = [
     lessonsCount: 5,
     progress: 50
   }
+,
+
+  // Grade 6 Topics (Unit 1 Syllabus Covered - 100% Progress)
+  {
+    id: 'top-g6-1',
+    grade: 'Grade 6',
+    subject: 'Mathematics',
+    name: '01. වෘත්ත',
+    description: 'වෘත්තාකාර හැඩ හඳුනාගැනීම, වෘත්ත ඇඳීම, වෘත්තයේ පිහිටීම් හඳුනාගැනීම සහ වෘත්ත භාවිතයෙන් රටා නිර්මාණය කිරීම.',
+    lessonsCount: 8,
+    progress: 100,
+    modules: [
+      'වෘත්තාකාර හැඩ ඇති ද්රව්ය හඳුනාගැනීම',
+      'ද්රව්ය භාවිතයෙන් වෘත්ත ඇඳීම',
+      'වෘත්තයේ ප්රමාණය සහ වෘත්තාකාර ආස්තරය',
+      'වෘත්තය තුළ, මත සහ පිටත පිහිටීම් හඳුනාගැනීම',
+      'වෘත්ත ආශ්රිත රටා ඇඳීම',
+      'වෘත්ත ආශ්රිත රටා නිර්මාණය කිරීම',
+      'වෘත්ත ආශ්රිත විවිධ ක්රියාකාරකම්',
+      'අභ්යාස හා ගැටලු විසඳීම'
+    ]
+  },
+  {
+    id: 'top-g6-2',
+    grade: 'Grade 6',
+    subject: 'Mathematics',
+    name: '02. ස්ථානීය අගය',
+    description: 'සංඛ්යාවක ඉලක්කම් පිහිටන ස්ථානය අනුව ඒවායේ අගය හඳුනාගැනීම සහ විශාල සංඛ්යා කියවීම හා ලිවීම.',
+    lessonsCount: 6,
+    progress: 100,
+    modules: [
+      'ස්ථානීය අගය හඳුනාගැනීම',
+      'ඒකක හා දශක ස්ථාන',
+      'සියක, දහස් හා ඉහළ ස්ථාන',
+      'ඉලක්කමකින් නිරූපණය වන අගය',
+      'සංඛ්යා කලාප හඳුනාගැනීම',
+      'විශාල සංඛ්යා කියවීම හා ලිවීම'
+    ]
+  },
+  {
+    id: 'top-g6-3',
+    grade: 'Grade 6',
+    subject: 'Mathematics',
+    name: '03. පූර්ණ සංඛ්යා මත ගණිත කර්ම',
+    description: 'පූර්ණ සංඛ්යා භාවිතයෙන් එකතු කිරීම, අඩු කිරීම, ගුණ කිරීම හා බෙදීම සිදු කිරීම.',
+    lessonsCount: 7,
+    progress: 100,
+    modules: [
+      'පූර්ණ සංඛ්යා එකතු කිරීම',
+      'එකතු කිරීමේ ක්රම හා ගැටලු',
+      'පූර්ණ සංඛ්යා අඩු කිරීම',
+      'අඩු කිරීමේ ක්රම හා ගැටලු',
+      'පූර්ණ සංඛ්යා ගුණ කිරීම',
+      'පූර්ණ සංඛ්යා බෙදීම',
+      'මිශ්ර ගණිත ගැටලු විසඳීම'
+    ]
+  },
+  {
+    id: 'top-g6-4',
+    grade: 'Grade 6',
+    subject: 'Mathematics',
+    name: '04. කාලය',
+    description: 'ඔරලෝසුව භාවිතයෙන් වේලාව කියවීම, කාල ඒකක හඳුනාගැනීම සහ කාලය සම්බන්ධ ගණනය කිරීම් සිදු කිරීම.',
+    lessonsCount: 7,
+    progress: 100,
+    modules: [
+      'පැය, මිනිත්තු හා තත්පර හඳුනාගැනීම',
+      'පැය 12 ඔරලෝසුවෙන් වේලාව කියවීම',
+      'පැය 24 ඔරලෝසුවෙන් වේලාව කියවීම',
+      'කාල ඒකක අතර සම්බන්ධතා',
+      'කාලය එකතු කිරීම',
+      'කාලය අඩු කිරීම',
+      'කාලය සම්බන්ධ ගැටලු විසඳීම'
+    ]
+  },
+  {
+    id: 'top-g6-5',
+    grade: 'Grade 6',
+    subject: 'Mathematics',
+    name: '05. සංඛ්යා රේඛාව',
+    description: 'සංඛ්යා රේඛාව හඳුනාගැනීම, සංඛ්යා පිහිටුවීම සහ ධන, ඍණ හා පූර්ණ සංඛ්යා අතර සම්බන්ධතා හඳුනාගැනීම.',
+    lessonsCount: 5,
+    progress: 100,
+    modules: [
+      'සංඛ්යා රේඛාව හඳුනාගැනීම',
+      'සංඛ්යා රේඛාවේ පූර්ණ සංඛ්යා සලකුණු කිරීම',
+      'ඍණ සංඛ්යා හඳුනාගැනීම',
+      'නිඛිල හඳුනාගැනීම හා සංසන්දනය',
+      'සංඛ්යා රේඛාව ආශ්රිත ගැටලු'
+    ]
+  },
+  {
+    id: 'top-g6-6',
+    grade: 'Grade 6',
+    subject: 'Mathematics',
+    name: '06. නිමානය හා වටයීම',
+    description: 'නිමානයේ වැදගත්කම හඳුනාගැනීම සහ සංඛ්යා ආසන්න අගයන්ට වටයීම.',
+    lessonsCount: 5,
+    progress: 100,
+    modules: [
+      'නිමානය හඳුනාගැනීම',
+      'නිමාන කිරීමේ ක්රම',
+      'ආසන්න දහයට වටයීම',
+      'සංඛ්යා ආසන්න අගයන්ට වටයීම',
+      'නිමානය හා වටයීම ආශ්රිත ගැටලු'
+    ]
+  },
+  {
+    id: 'top-g6-7',
+    grade: 'Grade 6',
+    subject: 'Mathematics',
+    name: '07. කෝණ',
+    description: 'කෝණ හඳුනාගැනීම, කෝණයක කොටස් සහ විවිධ කෝණ වර්ග හඳුනාගැනීම.',
+    lessonsCount: 6,
+    progress: 100,
+    modules: [
+      'කෝණ හඳුනාගැනීම',
+      'කෝණයක ශීර්ෂය හා බාහු',
+      'සෘජු කෝණය හඳුනාගැනීම',
+      'සුළු කෝණ හා මහා කෝණ',
+      'සරල කෝණ හා පරාවර්ත කෝණ',
+      'කෝණ ආශ්රිත ක්රියාකාරකම් හා ගැටලු'
+    ]
+  },
+  {
+    id: 'top-g6-8',
+    grade: 'Grade 6',
+    subject: 'Mathematics',
+    name: '08. දිශා',
+    description: 'ප්රධාන දිශා හඳුනාගැනීම, දිශා සටහන් භාවිත කිරීම සහ ස්ථාන අතර දිශා සම්බන්ධතා හඳුනාගැනීම.',
+    lessonsCount: 5,
+    progress: 100,
+    modules: [
+      'ප්රධාන දිශා හඳුනාගැනීම',
+      'උප දිශා හඳුනාගැනීම',
+      'දිශා සටහනක් හඳුනාගැනීම',
+      'මාලිමාව භාවිතයෙන් දිශා සෙවීම',
+      'දිශා ආශ්රිත ගැටලු විසඳීම'
+    ]
+  },
+  {
+    id: 'top-g6-9',
+    grade: 'Grade 6',
+    subject: 'Mathematics',
+    name: '09. භාග',
+    description: 'භාග හඳුනාගැනීම, භාගවල කොටස්, සමාන භාග සහ භාග එකතු කිරීම හා අඩු කිරීම.',
+    lessonsCount: 7,
+    progress: 100,
+    modules: [
+      'භාග හඳුනාගැනීම',
+      'ඒකක භාග හා ඒවා නිරූපණය',
+      'ලවය හා හරය හඳුනාගැනීම',
+      'සමාන භාග හඳුනාගැනීම',
+      'භාග සංසන්දනය කිරීම',
+      'භාග එකතු කිරීම හා අඩු කිරීම',
+      'භාග ආශ්රිත ගැටලු විසඳීම'
+    ]
+  },
+  {
+    id: 'top-g6-10',
+    grade: 'Grade 6',
+    subject: 'Mathematics',
+    name: '10. තේරීම',
+    description: 'පොදු ලක්ෂණ අනුව ද්රව්ය හා සංඛ්යා කාණ්ඩවලට වෙන් කිරීම සහ ඒවා නම් කිරීම.',
+    lessonsCount: 5,
+    progress: 100,
+    modules: [
+      'පොදු ලක්ෂණ හඳුනාගැනීම',
+      'ලක්ෂණ අනුව කාණ්ඩවලට වෙන් කිරීම',
+      'කාණ්ඩවලට නම් යෙදීම',
+      'සංඛ්යා හා ද්රව්ය වර්ගීකරණය',
+      'තේරීම ආශ්රිත ක්රියාකාරකම් හා ගැටලු'
+    ]
+  },
+  {
+    id: 'top-g6-11',
+    grade: 'Grade 6',
+    subject: 'Mathematics',
+    name: '11. සාධක හා ගුණාකාර',
+    description: 'පූර්ණ සංඛ්යාවල සාධක හා ගුණාකාර හඳුනාගැනීම සහ ඒවා භාවිතයෙන් ගණිත ගැටලු විසඳීම.',
+    lessonsCount: 7,
+    progress: 100,
+    modules: [
+      'සාධක හඳුනාගැනීම',
+      'ගුණාකාර හඳුනාගැනීම',
+      'ගුණන වගුව භාවිතයෙන් සාධක සෙවීම',
+      'සංඛ්යාවක සාධක සෙවීම',
+      'සංඛ්යාවක ගුණාකාර සෙවීම',
+      '2, 5 හා 10 න් බෙදිය හැකි බව පරීක්ෂා කිරීම',
+      'සාධක හා ගුණාකාර ආශ්රිත ගැටලු'
+    ]
+  }
 ];
 
 const initialRecordings = [
@@ -322,7 +514,8 @@ const initMockDB = () => {
 
   // Ensure topics are initialized and refreshed
   const storedTopics = getStorageItem(STORAGE_KEYS.TOPICS, null);
-  if (!storedTopics || storedTopics.length === 0 || storedTopics[0]?.lessonsCount !== 10) {
+  const hasGrade6WithModules = storedTopics?.some(t => t.grade === 'Grade 6' && Array.isArray(t.modules) && t.modules.length > 0);
+  if (!storedTopics || storedTopics.length === 0 || storedTopics[0]?.lessonsCount !== 10 || !hasGrade6WithModules) {
     setStorageItem(STORAGE_KEYS.TOPICS, initialTopics);
   }
 
@@ -564,7 +757,8 @@ export const apiService = {
       lastName,
       phone: data.phone !== undefined ? data.phone : current.phone,
       grade: data.grade !== undefined ? data.grade : current.grade,
-      subject: data.subject !== undefined ? data.subject : (current.subject || 'Mathematics')
+      subject: data.subject !== undefined ? data.subject : (current.subject || 'Mathematics'),
+      profilePicture: data.profilePicture !== undefined ? data.profilePicture : (current.profilePicture || null)
     };
 
     users[index] = updatedUser;
