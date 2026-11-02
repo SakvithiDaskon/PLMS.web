@@ -12,6 +12,7 @@ export async function getAllStudents(req, res, next) {
         sd.phone_number AS phone,
         sd.grade,
         sd.student_id AS studentId,
+        sd.profile_picture AS profilePicture,
         'Currently Enrolled' AS enrollmentStatus,
         'Paid' AS paymentStatus
       FROM student_details sd

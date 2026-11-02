@@ -19,6 +19,7 @@ export async function getStudentById(req, res, next) {
         sd.grade,
         sd.student_id AS studentId,
         sd.enrolled_at AS enrollmentDate,
+        sd.profile_picture AS profilePicture,
         u.email
       FROM student_details sd
       INNER JOIN users u ON sd.user_id = u.user_id
@@ -45,6 +46,7 @@ export async function getStudentById(req, res, next) {
       grade: s.grade,
       studentId: s.studentId,
       indexNo: s.studentId,
+      profilePicture: s.profilePicture || null,
       enrollmentStatus: 'Currently Enrolled',
       enrollmentDate: s.enrollmentDate ? new Date(s.enrollmentDate).toISOString().split('T')[0] : '2024-01-10',
       subject: 'Mathematics',
@@ -69,14 +71,33 @@ export async function updateStudentProfile(req, res, next) {
     const pool = getPool();
     const cleanId = String(id).replace(/^std-/, '');
 
-    await pool.query(`
-      UPDATE student_details 
-      SET 
-        full_name = COALESCE(?, full_name),
-        phone_number = COALESCE(?, phone_number),
-        grade = COALESCE(?, grade)
-      WHERE id = ? OR user_id = ? OR student_id = ?;
-    `, [data.name || null, data.phone || null, data.grade || null, cleanId, cleanId, id]);
+    const updateFields = [];
+    const queryParams = [];
+
+    if (data.name !== undefined) {
+      updateFields.push('full_name = ?');
+      queryParams.push(data.name);
+    }
+    if (data.phone !== undefined) {
+      updateFields.push('phone_number = ?');
+      queryParams.push(data.phone);
+    }
+    if (data.grade !== undefined) {
+      updateFields.push('grade = ?');
+      queryParams.push(data.grade);
+    }
+    if (data.profilePicture !== undefined) {
+      updateFields.push('profile_picture = ?');
+      queryParams.push(data.profilePicture || null);
+    }
+
+    if (updateFields.length > 0) {
+      queryParams.push(cleanId, cleanId, id);
+      await pool.query(
+        `UPDATE student_details SET ${updateFields.join(', ')} WHERE id = ? OR user_id = ? OR student_id = ?;`,
+        queryParams
+      );
+    }
 
     return res.status(200).json({ success: true, message: 'Profile updated successfully' });
   } catch (err) {

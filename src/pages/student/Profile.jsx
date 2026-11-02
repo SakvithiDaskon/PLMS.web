@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { apiService } from '../../services/api';
 import {
@@ -18,11 +18,15 @@ import {
   ChevronRight,
   Bell,
   Camera,
+  Crop,
   X,
   Lock,
-  AlertCircle
+  AlertCircle,
+  Trash2
 } from 'lucide-react';
 import gradCapTransparent from '../../assets/grad_cap_transparent.png';
+import { ImageCropModal } from '../../components/student/ImageCropModal';
+import { DeletePhotoConfirmModal } from '../../components/student/DeletePhotoConfirmModal';
 
 // ============================================================
 // Student Profile
@@ -39,7 +43,13 @@ export const Profile = () => {
   const [error, setError] = useState(null);
   const [successMsg, setSuccessMsg] = useState('');
 
-  // Edit profile modal state
+  // Photo crop, delete, and actions states & refs
+  const fileInputRef = useRef(null);
+  const [openMenuId, setOpenMenuId] = useState(null); // 'banner' | 'details' | null
+  const [isCropModalOpen, setIsCropModalOpen] = useState(false);
+  const [cropImageSrc, setCropImageSrc] = useState(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isDeletingPhoto, setIsDeletingPhoto] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [editFormData, setEditFormData] = useState({
@@ -115,6 +125,118 @@ export const Profile = () => {
     setIsEditModalOpen(true);
   };
 
+  // Open device file picker directly
+  const handleOpenDevicePicker = (e) => {
+    if (e) e.stopPropagation();
+    fileInputRef.current?.click();
+  };
+
+  // When user selects an image from their device, read and open Crop Modal
+  const handleImageFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Reset input value so same file can be chosen again
+    e.target.value = '';
+
+    if (!file.type.startsWith('image/')) {
+      setError('Please select a valid image file (PNG, JPG, JPEG, WEBP).');
+      return;
+    }
+
+    if (file.size > 15 * 1024 * 1024) {
+      setError('Selected image is too large. Please select an image under 15MB.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (loadEvent) => {
+      const dataUrl = loadEvent.target?.result;
+      if (typeof dataUrl === 'string') {
+        setCropImageSrc(dataUrl);
+        setIsCropModalOpen(true);
+      }
+    };
+    reader.onerror = () => {
+      setError('Failed to read image file from your device.');
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // Open Crop Modal with existing profile picture
+  const handleOpenCropCurrent = (e) => {
+    if (e) e.stopPropagation();
+    if (activeProfilePicture) {
+      setCropImageSrc(activeProfilePicture);
+      setIsCropModalOpen(true);
+    } else {
+      fileInputRef.current?.click();
+    }
+  };
+
+  // Save the cropped image from ImageCropModal to database and state
+  const handleSaveCroppedPhoto = async (croppedDataUrl) => {
+    setError(null);
+    try {
+      // Optimistically update UI
+      setStudent((prev) => ({
+        ...prev,
+        profilePicture: croppedDataUrl
+      }));
+
+      const res = await updateProfile({
+        profilePicture: croppedDataUrl
+      });
+
+      if (res.success) {
+        setIsCropModalOpen(false);
+        setSuccessMsg('Profile picture updated and saved successfully!');
+        setTimeout(() => setSuccessMsg(''), 4000);
+      } else {
+        setError(res.message || 'Failed to update profile picture in database.');
+      }
+    } catch (err) {
+      console.error('Error saving cropped profile picture:', err);
+      setError(err.message || 'Failed to save cropped picture.');
+    }
+  };
+
+  // Open Delete confirmation modal
+  const handleOpenDeleteConfirm = (e) => {
+    if (e) e.stopPropagation();
+    setIsDeleteModalOpen(true);
+  };
+
+  // Confirm delete profile picture
+  const handleConfirmDeletePhoto = async () => {
+    setIsDeletingPhoto(true);
+    setError(null);
+
+    try {
+      setStudent((prev) => ({
+        ...prev,
+        profilePicture: null
+      }));
+
+      const res = await updateProfile({
+        profilePicture: ''
+      });
+
+      if (res.success) {
+        setIsDeleteModalOpen(false);
+        setIsCropModalOpen(false);
+        setSuccessMsg('Profile picture deleted. Avatar reset to initials.');
+        setTimeout(() => setSuccessMsg(''), 4000);
+      } else {
+        setError(res.message || 'Failed to delete profile picture.');
+      }
+    } catch (err) {
+      setError('Failed to delete profile picture.');
+    } finally {
+      setIsDeletingPhoto(false);
+    }
+  };
+
   // Save profile changes to database
   const handleSaveProfile = async (e) => {
     e.preventDefault();
@@ -174,6 +296,7 @@ export const Profile = () => {
   const activeSubject = student?.subject || 'Mathematics';
   const activeEnrollmentDate = student?.enrollmentDate || '2024-01-10';
   const activeEnrollmentStatus = student?.enrollmentStatus || 'Active';
+  const activeProfilePicture = student?.profilePicture || user?.profilePicture || null;
 
   // Grade display
   const gradeMatch = activeGrade.match(/Grade\s*(\d+)/i);
@@ -209,6 +332,16 @@ export const Profile = () => {
 
   return (
     <div className="space-y-6 pb-8">
+      {/* Hidden File Input for Device Photo Selection */}
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleImageFileChange}
+        accept="image/png,image/jpeg,image/jpg,image/webp,image/gif"
+        className="hidden"
+        aria-hidden="true"
+      />
+
       {/* Success Notification Alert */}
       {successMsg && (
         <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs sm:text-sm font-semibold flex items-center justify-between gap-3 shadow-xs transition-all">
@@ -336,19 +469,96 @@ export const Profile = () => {
 
         {/* Banner Content (Left side: Avatar, Heading, Subtitle) */}
         <div className="relative z-10 flex items-center gap-5 sm:gap-6 px-6 sm:px-10 py-6 w-full max-w-xl">
-          {/* Circular Avatar with Initial and Camera Badge */}
+          {/* Circular Avatar with Small Edit Icon & Click-to-Show Actions */}
           <div className="relative shrink-0">
-            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#2563eb] border-4 border-white shadow-xl flex items-center justify-center font-extrabold text-white text-3xl sm:text-4xl select-none">
-              {nameInitial}
+            <div
+              onClick={() => {
+                if (activeProfilePicture) {
+                  setOpenMenuId((prev) => (prev === 'banner' ? null : 'banner'));
+                } else {
+                  handleOpenDevicePicker();
+                }
+              }}
+              title={activeProfilePicture ? "Click profile to edit photo" : "Click to upload profile picture"}
+              className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-[#2563eb] border-4 border-white shadow-xl flex items-center justify-center font-extrabold text-white text-3xl sm:text-4xl select-none overflow-hidden relative cursor-pointer hover:opacity-95 transition-all"
+            >
+              {activeProfilePicture ? (
+                <img
+                  src={activeProfilePicture}
+                  alt={activeName}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <span>{nameInitial}</span>
+              )}
             </div>
+
+            {/* Small edit icon badge on profile photo */}
             <button
               type="button"
-              onClick={handleOpenEdit}
-              title="Edit Profile"
-              className="absolute -bottom-1 -right-1 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white text-[#003153] shadow-md border border-slate-200 flex items-center justify-center hover:bg-slate-50 transition-transform active:scale-90"
+              onClick={(e) => {
+                e.stopPropagation();
+                if (activeProfilePicture) {
+                  setOpenMenuId((prev) => (prev === 'banner' ? null : 'banner'));
+                } else {
+                  handleOpenDevicePicker();
+                }
+              }}
+              title="Edit profile photo"
+              aria-label="Edit profile photo"
+              className="absolute -bottom-1 -right-1 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white text-[#003153] shadow-md border border-slate-200 flex items-center justify-center hover:bg-slate-50 hover:scale-110 active:scale-95 transition-all cursor-pointer z-10"
             >
-              <Camera className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#003153]" />
+              <Pencil className="w-3.5 h-3.5 text-[#003153]" />
             </button>
+
+            {/* Action pill showing Crop, Camera, and Trash AFTER user clicks */}
+            {openMenuId === 'banner' && activeProfilePicture && (
+              <>
+                {/* Backdrop to dismiss when clicking outside */}
+                <div
+                  className="fixed inset-0 z-20"
+                  onClick={() => setOpenMenuId(null)}
+                />
+                <div className="absolute -bottom-11 left-1/2 -translate-x-1/2 flex items-center gap-1.5 bg-white/98 backdrop-blur-md px-2 py-1.5 rounded-full shadow-2xl border border-slate-200/90 z-30 animate-in fade-in zoom-in-95 duration-150">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setOpenMenuId(null);
+                      handleOpenCropCurrent();
+                    }}
+                    title="Crop & Adjust Picture"
+                    aria-label="Crop & Adjust Picture"
+                    className="w-8 h-8 rounded-full bg-blue-50 hover:bg-blue-100 text-blue-700 flex items-center justify-center transition-colors cursor-pointer hover:scale-105"
+                  >
+                    <Crop className="w-4 h-4 text-blue-700" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setOpenMenuId(null);
+                      handleOpenDevicePicker();
+                    }}
+                    title="Upload New Photo from Device"
+                    aria-label="Upload New Photo from Device"
+                    className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-[#003153] flex items-center justify-center transition-colors cursor-pointer hover:scale-105"
+                  >
+                    <Camera className="w-4 h-4 text-[#003153]" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setOpenMenuId(null);
+                      handleOpenDeleteConfirm();
+                    }}
+                    title="Delete Profile Picture"
+                    aria-label="Delete Profile Picture"
+                    className="w-8 h-8 rounded-full bg-rose-50 hover:bg-rose-100 text-rose-600 flex items-center justify-center transition-colors cursor-pointer hover:scale-105"
+                  >
+                    <Trash2 className="w-4 h-4 text-rose-600" />
+                  </button>
+                </div>
+              </>
+            )}
           </div>
 
           {/* Heading & Subtitle */}
@@ -439,17 +649,94 @@ export const Profile = () => {
           {/* Header Row with Avatar & Name */}
           <div className="flex items-center gap-4 pb-6 border-b border-slate-100">
             <div className="relative shrink-0">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#2563eb] text-white text-2xl sm:text-3xl font-extrabold flex items-center justify-center shadow-md border-4 border-blue-50">
-                {nameInitial}
+              <div
+                onClick={() => {
+                  if (activeProfilePicture) {
+                    setOpenMenuId((prev) => (prev === 'details' ? null : 'details'));
+                  } else {
+                    handleOpenDevicePicker();
+                  }
+                }}
+                title={activeProfilePicture ? "Click profile to edit photo" : "Click to upload profile picture"}
+                className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#2563eb] text-white text-2xl sm:text-3xl font-extrabold flex items-center justify-center shadow-md border-4 border-blue-50 overflow-hidden relative cursor-pointer hover:opacity-95 transition-all"
+              >
+                {activeProfilePicture ? (
+                  <img
+                    src={activeProfilePicture}
+                    alt={activeName}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <span>{nameInitial}</span>
+                )}
               </div>
+
+              {/* Small edit icon badge on profile photo */}
               <button
                 type="button"
-                onClick={handleOpenEdit}
-                title="Edit Profile"
-                className="absolute -bottom-1 -right-1 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-white text-[#003153] shadow border border-slate-200 flex items-center justify-center hover:bg-slate-50 transition-transform active:scale-90"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (activeProfilePicture) {
+                    setOpenMenuId((prev) => (prev === 'details' ? null : 'details'));
+                  } else {
+                    handleOpenDevicePicker();
+                  }
+                }}
+                title="Edit profile photo"
+                aria-label="Edit profile photo"
+                className="absolute -bottom-1 -right-1 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-white text-[#003153] shadow border border-slate-200 flex items-center justify-center hover:bg-slate-50 hover:scale-110 active:scale-95 transition-all cursor-pointer z-10"
               >
-                <Camera className="w-3.5 h-3.5 text-[#003153]" />
+                <Pencil className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#003153]" />
               </button>
+
+              {/* Action pill showing Crop, Camera, and Trash AFTER user clicks */}
+              {openMenuId === 'details' && activeProfilePicture && (
+                <>
+                  {/* Backdrop to dismiss when clicking outside */}
+                  <div
+                    className="fixed inset-0 z-20"
+                    onClick={() => setOpenMenuId(null)}
+                  />
+                  <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-1.5 bg-white/98 backdrop-blur-md px-2 py-1.5 rounded-full shadow-2xl border border-slate-200/90 z-30 animate-in fade-in zoom-in-95 duration-150">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setOpenMenuId(null);
+                        handleOpenCropCurrent();
+                      }}
+                      title="Crop & Adjust Picture"
+                      aria-label="Crop & Adjust Picture"
+                      className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-blue-50 hover:bg-blue-100 text-blue-700 flex items-center justify-center transition-colors cursor-pointer hover:scale-105"
+                    >
+                      <Crop className="w-3.5 h-3.5 text-blue-700" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setOpenMenuId(null);
+                        handleOpenDevicePicker();
+                      }}
+                      title="Upload New Photo from Device"
+                      aria-label="Upload New Photo from Device"
+                      className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-[#003153] flex items-center justify-center transition-colors cursor-pointer hover:scale-105"
+                    >
+                      <Camera className="w-3.5 h-3.5 text-[#003153]" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setOpenMenuId(null);
+                        handleOpenDeleteConfirm();
+                      }}
+                      title="Delete Profile Picture"
+                      aria-label="Delete Profile Picture"
+                      className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-rose-50 hover:bg-rose-100 text-rose-600 flex items-center justify-center transition-colors cursor-pointer hover:scale-105"
+                    >
+                      <Trash2 className="w-3.5 h-3.5 text-rose-600" />
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
 
             <div className="space-y-1">
@@ -797,6 +1084,61 @@ export const Profile = () => {
 
             {/* Modal Form */}
             <form onSubmit={handleSaveProfile} className="p-6 space-y-4">
+              {/* Profile Photo Section inside Modal with Crop & Delete */}
+              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="relative w-14 h-14 rounded-full bg-[#2563eb] text-white font-extrabold text-xl flex items-center justify-center overflow-hidden border-2 border-white shadow-sm shrink-0">
+                    {activeProfilePicture ? (
+                      <img
+                        src={activeProfilePicture}
+                        alt={activeName}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span>{nameInitial}</span>
+                    )}
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-slate-800">Profile Picture</p>
+                    <p className="text-[11px] text-slate-500">
+                      {activeProfilePicture
+                        ? 'Crop, change or delete your picture'
+                        : 'Upload and crop an image from your device'}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 shrink-0">
+                  {activeProfilePicture && (
+                    <button
+                      type="button"
+                      onClick={handleOpenCropCurrent}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-blue-700 bg-blue-50 border border-blue-200 hover:bg-blue-100 transition-colors cursor-pointer"
+                    >
+                      <Crop className="w-3.5 h-3.5 text-blue-700" />
+                      <span>Crop</span>
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    onClick={handleOpenDevicePicker}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-[#003153] bg-white border border-slate-300 hover:bg-slate-50 shadow-2xs transition-colors cursor-pointer"
+                  >
+                    <Camera className="w-3.5 h-3.5 text-[#003153]" />
+                    <span>{activeProfilePicture ? 'Change' : 'Upload'}</span>
+                  </button>
+                  {activeProfilePicture && (
+                    <button
+                      type="button"
+                      onClick={handleOpenDeleteConfirm}
+                      title="Delete profile picture"
+                      className="p-1.5 rounded-xl text-rose-600 hover:bg-rose-50 border border-transparent hover:border-rose-200 transition-colors cursor-pointer"
+                    >
+                      <Trash2 className="w-4 h-4 text-rose-600" />
+                    </button>
+                  )}
+                </div>
+              </div>
               {/* Full Name */}
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">
@@ -910,6 +1252,24 @@ export const Profile = () => {
           </div>
         </div>
       )}
+      {/* Crop & Adjust Profile Picture Modal */}
+      <ImageCropModal
+        isOpen={isCropModalOpen}
+        imageUrl={cropImageSrc}
+        onClose={() => setIsCropModalOpen(false)}
+        onSave={handleSaveCroppedPhoto}
+        onDelete={handleOpenDeleteConfirm}
+        onChooseDifferent={handleOpenDevicePicker}
+        hasExistingPhoto={!!activeProfilePicture}
+      />
+
+      {/* Delete Photo Confirmation Modal */}
+      <DeletePhotoConfirmModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={handleConfirmDeletePhoto}
+        isDeleting={isDeletingPhoto}
+      />
     </div>
   );
 };
