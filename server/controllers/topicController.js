@@ -14,6 +14,7 @@ export async function getTopics(req, res, next) {
         topic_id AS id,
         grade,
         subject,
+        term,
         topic_name AS name,
         description,
         lessons_count AS lessonsCount,
