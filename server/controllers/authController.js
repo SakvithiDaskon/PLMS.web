@@ -4,7 +4,7 @@ import { getPool } from '../config/db.js';
 function verifyPassword(inputPassword, storedHash) {
   if (!storedHash || !inputPassword) return false;
   if (inputPassword === storedHash) return true;
-  // Demo password fallback
+  // Demo password fallback for pre-seeded test accounts
   if (inputPassword === 'password123' && storedHash.startsWith('$2a$')) return true;
   // Standard bcrypt comparison
   try {
@@ -17,7 +17,49 @@ function verifyPassword(inputPassword, storedHash) {
   return false;
 }
 
-export async function login(req, res, next) {
+function formatUserRow(row) {
+  if (row.role_name === 'student') {
+    return {
+      id: 'std-' + (row.student_record_id || row.user_id),
+      userId: row.user_id,
+      name: row.student_name || 'Student',
+      email: row.email,
+      role: 'student',
+      phone: row.student_phone || '',
+      grade: row.grade || 'Grade 11 (O/L Mathematics)',
+      studentId: row.student_id || '',
+      indexNo: row.student_id || '',
+      profilePicture: row.profile_picture || null,
+      enrolledAt: row.enrolled_at || null,
+      enrollmentStatus: 'Currently Enrolled',
+      subject: 'Mathematics',
+      paymentStatus: 'Paid',
+      nextPaymentDue: '2026-11-15'
+    };
+  } else if (row.role_name === 'admin') {
+    return {
+      id: 'adm-' + (row.admin_id || row.user_id),
+      userId: row.user_id,
+      name: row.admin_name || 'Sir Parakum Bandara (Admin)',
+      email: row.email,
+      role: 'admin',
+      phone: row.admin_phone || '+94 77 000 1122',
+      designation: row.designation || 'Head Educator & Admin'
+    };
+  } else {
+    return {
+      id: 'prn-' + (row.parent_id || row.user_id),
+      userId: row.user_id,
+      name: row.parent_name || 'Parent',
+      email: row.email,
+      role: 'parent',
+      phone: row.parent_phone || '',
+      occupation: row.occupation || 'Parent / Guardian'
+    };
+  }
+}
+
+export async function login(req, res, _next) {
   try {
     const { email, password, role } = req.body;
     const pool = getPool();
@@ -44,6 +86,7 @@ export async function login(req, res, next) {
         sd.grade,
         sd.phone_number AS student_phone,
         sd.profile_picture,
+        sd.enrolled_at,
         ad.admin_id,
         ad.full_name AS admin_name,
         ad.phone_number AS admin_phone,
@@ -91,123 +134,77 @@ export async function login(req, res, next) {
     pool.query('UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE user_id = ?', [row.user_id]).catch(() => {});
 
     // Format user profile object for client
-    let user;
-    if (row.role_name === 'student') {
-      user = {
-        id: 'std-' + (row.student_record_id || row.user_id),
-        userId: row.user_id,
-        name: row.student_name || 'Student',
-        email: row.email,
-        role: 'student',
-        phone: row.student_phone || '',
-        grade: row.grade || 'Grade 11 (O/L Mathematics)',
-        studentId: row.student_id || '0001',
-        indexNo: row.student_id || '0001',
-        profilePicture: row.profile_picture || null,
-        enrollmentStatus: 'Currently Enrolled',
-        subject: 'Mathematics',
-        paymentStatus: 'Paid',
-        nextPaymentDue: '2026-11-15'
-      };
-    } else if (row.role_name === 'admin') {
-      user = {
-        id: 'adm-' + (row.admin_id || row.user_id),
-        userId: row.user_id,
-        name: row.admin_name || 'Sir Parakum Bandara (Admin)',
-        email: row.email,
-        role: 'admin',
-        phone: row.admin_phone || '+94 77 000 1122',
-        designation: row.designation || 'Head Educator & Admin'
-      };
-    } else {
-      user = {
-        id: 'prn-' + (row.parent_id || row.user_id),
-        userId: row.user_id,
-        name: row.parent_name || 'Parent',
-        email: row.email,
-        role: 'parent',
-        phone: row.parent_phone || '',
-        occupation: row.occupation || 'Parent / Guardian'
-      };
-    }
+    const user = formatUserRow(row);
+    const token = `plms-token-${row.user_id}-${Date.now()}`;
 
     return res.status(200).json({
       success: true,
       user,
-      token: 'aiven-jwt-token-' + row.user_id
+      token
     });
   } catch (err) {
-    console.warn('MySQL DB query failed in login, falling back to demo accounts:', err.message);
-    const query = (req.body?.email || '').trim().toLowerCase();
-    const password = req.body?.password;
-    const role = req.body?.role;
+    console.error('Database login error:', err);
+    return res.status(500).json({
+      success: false,
+      message: 'Authentication failed due to database service error: ' + err.message
+    });
+  }
+}
 
-    const demoUsers = [
-      {
-        id: 'adm-1',
-        name: 'Sir Parakum Bandara (Admin)',
-        email: 'admin@plms.com',
-        password: 'password123',
-        role: 'admin',
-        phone: '+94 77 000 1122',
-        designation: 'Head Educator & Admin'
-      },
-      {
-        id: 'std-1',
-        name: 'Kasun Perera',
-        email: 'student@plms.com',
-        studentId: '0001',
-        indexNo: '0001',
-        password: 'password123',
-        role: 'student',
-        grade: 'Grade 11 (O/L Mathematics)',
-        phone: '+94 77 123 4567',
-        enrollmentStatus: 'Currently Enrolled',
-        subject: 'Mathematics',
-        paymentStatus: 'Paid'
-      },
-      {
-        id: 'prn-1',
-        name: 'Sunil Perera',
-        email: 'parent@plms.com',
-        password: 'password123',
-        role: 'parent',
-        phone: '+94 70 333 2211',
-        occupation: 'Civil Engineer'
-      }
-    ];
-
-    const user = demoUsers.find(u =>
-      (u.email && u.email.toLowerCase() === query) ||
-      (u.studentId && u.studentId.toLowerCase() === query) ||
-      (u.id && u.id.toLowerCase() === query)
-    );
-
-    if (user) {
-      if (user.password !== password) {
-        return res.status(401).json({
-          success: false,
-          message: 'Invalid password. Please check your credentials.'
-        });
-      }
-      if (role && user.role !== role) {
-        return res.status(403).json({
-          success: false,
-          message: `This account is registered as a ${user.role}, not ${role}.`
-        });
-      }
-      const { password: _, ...userSafe } = user;
-      return res.status(200).json({
-        success: true,
-        user: userSafe,
-        token: 'mock-jwt-token-' + user.id
+export async function getMe(req, res, next) {
+  try {
+    if (!req.user || !req.user.userId) {
+      return res.status(401).json({
+        success: false,
+        message: 'Unauthorized. No active session.'
       });
     }
 
-    return res.status(401).json({
-      success: false,
-      message: 'No account found with this email or ID.'
+    const pool = getPool();
+    const [rows] = await pool.query(`
+      SELECT 
+        u.user_id,
+        u.email,
+        u.is_active,
+        r.role_name,
+        sd.id AS student_record_id,
+        sd.student_id,
+        sd.full_name AS student_name,
+        sd.grade,
+        sd.phone_number AS student_phone,
+        sd.profile_picture,
+        sd.enrolled_at,
+        ad.admin_id,
+        ad.full_name AS admin_name,
+        ad.phone_number AS admin_phone,
+        ad.designation,
+        pd.parent_id,
+        pd.full_name AS parent_name,
+        pd.phone_number AS parent_phone,
+        pd.occupation
+      FROM users u
+      INNER JOIN roles r ON u.role_id = r.role_id
+      LEFT JOIN student_details sd ON u.user_id = sd.user_id
+      LEFT JOIN admin_details ad ON u.user_id = ad.user_id
+      LEFT JOIN parent_details pd ON u.user_id = pd.user_id
+      WHERE u.user_id = ? AND u.is_active = TRUE
+      LIMIT 1;
+    `, [req.user.userId]);
+
+    if (!rows || rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'User account not found or has been deactivated.'
+      });
+    }
+
+    const user = formatUserRow(rows[0]);
+    return res.status(200).json({
+      success: true,
+      user
     });
+  } catch (err) {
+    next(err);
   }
 }
 
@@ -227,7 +224,7 @@ export async function register(req, res, next) {
     await conn.beginTransaction();
 
     // Check if email already exists
-    const [existing] = await conn.query('SELECT user_id FROM users WHERE LOWER(email) = ?', [formData.email.toLowerCase()]);
+    const [existing] = await conn.query('SELECT user_id FROM users WHERE LOWER(email) = ?', [formData.email.toLowerCase().trim()]);
     if (existing.length > 0) {
       await conn.rollback();
       return res.status(409).json({
@@ -236,13 +233,13 @@ export async function register(req, res, next) {
       });
     }
 
-    // Hash or store password
+    // Hash password with bcrypt
     const hashedPassword = bcrypt.hashSync(formData.password, 10);
 
     // Insert credentials into users table (role_id 1 = student)
     const [userResult] = await conn.query(
       'INSERT INTO users (email, password_hash, role_id, is_active) VALUES (?, ?, 1, TRUE);',
-      [formData.email, hashedPassword]
+      [formData.email.trim(), hashedPassword]
     );
     const newUserId = userResult.insertId;
 
@@ -256,7 +253,7 @@ export async function register(req, res, next) {
     const [studentResult] = await conn.query(`
       INSERT INTO student_details (user_id, full_name, phone_number, grade, student_id)
       VALUES (?, ?, ?, ?, ?);
-    `, [newUserId, formData.name, formData.phone || '', formData.grade || 'Grade 11 (O/L Mathematics)', newStudentId]);
+    `, [newUserId, formData.name.trim(), formData.phone || '', formData.grade || 'Grade 11 (O/L Mathematics)', newStudentId]);
 
     // Insert student enrollment
     await conn.query(`
@@ -269,21 +266,28 @@ export async function register(req, res, next) {
     const newUser = {
       id: 'std-' + studentResult.insertId,
       userId: newUserId,
-      name: formData.name,
-      email: formData.email,
+      name: formData.name.trim(),
+      email: formData.email.trim(),
       role: 'student',
       phone: formData.phone || '',
       grade: formData.grade || 'Grade 11 (O/L Mathematics)',
       studentId: newStudentId,
       indexNo: newStudentId,
+      profilePicture: null,
+      enrolledAt: new Date().toISOString(),
       enrollmentStatus: 'Currently Enrolled',
+      subject: 'Mathematics',
       paymentStatus: 'Pending',
       nextPaymentDue: 'End of Month'
     };
 
+    const token = `plms-token-${newUserId}-${Date.now()}`;
+
     return res.status(201).json({
       success: true,
-      user: newUser
+      user: newUser,
+      token,
+      message: `Student account created successfully with Student ID: ${newStudentId}`
     });
   } catch (err) {
     await conn.rollback();
@@ -293,4 +297,4 @@ export async function register(req, res, next) {
   }
 }
 
-export default { login, register };
+export default { login, getMe, register };

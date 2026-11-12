@@ -2,14 +2,10 @@ import { getPool } from '../config/db.js';
 
 export async function getClasses(req, res, next) {
   try {
-    const grade = req.query.grade || '';
+    const rawGrade = req.query.grade || (req.user && req.user.role === 'student' ? req.user.grade : '') || '';
     const pool = getPool();
 
-    const match = grade.match(/Grade\s*(\d+)/i) || grade.match(/(\d+)/);
-    const gradeNum = match ? match[1] : null;
-    const pattern = gradeNum ? `%Grade ${gradeNum}%` : `%${grade}%`;
-
-    const [rows] = await pool.query(`
+    let query = `
       SELECT 
         class_id AS id,
         grade,
@@ -24,10 +20,20 @@ export async function getClasses(req, res, next) {
         passcode,
         is_live AS isLive
       FROM class_schedules
-      WHERE grade LIKE ? OR title LIKE ? OR ? = ''
-      ORDER BY class_date ASC;
-    `, [pattern, pattern, grade]);
+    `;
+    const params = [];
 
+    if (rawGrade) {
+      const match = rawGrade.match(/Grade\s*(\d+)/i) || rawGrade.match(/(\d+)/);
+      const gradeNum = match ? match[1] : null;
+      const pattern = gradeNum ? `%Grade ${gradeNum}%` : `%${rawGrade}%`;
+      query += ` WHERE grade LIKE ? OR title LIKE ?`;
+      params.push(pattern, pattern);
+    }
+
+    query += ` ORDER BY class_date ASC;`;
+
+    const [rows] = await pool.query(query, params);
     return res.status(200).json({ success: true, classes: rows });
   } catch (err) {
     next(err);
@@ -36,8 +42,10 @@ export async function getClasses(req, res, next) {
 
 export async function getZoomLinks(req, res, next) {
   try {
+    const rawGrade = req.query.grade || (req.user && req.user.role === 'student' ? req.user.grade : '') || '';
     const pool = getPool();
-    const [rows] = await pool.query(`
+
+    let query = `
       SELECT 
         class_id AS id,
         grade,
@@ -52,9 +60,20 @@ export async function getZoomLinks(req, res, next) {
         passcode,
         is_live AS isLive
       FROM class_schedules
-      ORDER BY class_date ASC;
-    `);
+    `;
+    const params = [];
 
+    if (rawGrade) {
+      const match = rawGrade.match(/Grade\s*(\d+)/i) || rawGrade.match(/(\d+)/);
+      const gradeNum = match ? match[1] : null;
+      const pattern = gradeNum ? `%Grade ${gradeNum}%` : `%${rawGrade}%`;
+      query += ` WHERE grade LIKE ? OR title LIKE ?`;
+      params.push(pattern, pattern);
+    }
+
+    query += ` ORDER BY class_date ASC;`;
+
+    const [rows] = await pool.query(query, params);
     return res.status(200).json({ success: true, links: rows });
   } catch (err) {
     next(err);

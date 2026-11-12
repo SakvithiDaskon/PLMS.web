@@ -14,11 +14,9 @@ const STORAGE_KEYS = {
 
 
 const initialUsers = [
-  { id: 'std-1', name: 'Kasun Perera', email: 'student@plms.com', password: 'password123', role: 'student', phone: '+94 77 123 4567', grade: 'Grade 11 (O/L Mathematics)', studentId: '0001', indexNo: '0001', parentId: 'prn-1', enrollmentStatus: 'Currently Enrolled', enrollmentDate: '2024-01-10', subject: 'Mathematics', paymentStatus: 'Paid', nextPaymentDue: '-' },
-  { id: 'std-2', name: 'Nipuni Silva', email: 'nipuni@plms.com', password: 'password123', role: 'student', phone: '+94 71 987 6543', grade: 'Grade 10 Mathematics', studentId: 'STU-2027-902', indexNo: 'STU-2027-902', parentId: null, enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Pending', nextPaymentDue: '2026-10-15' },
-  { id: 'std-3', name: 'Dilshan Fernando', email: 'dilshan@plms.com', password: 'password123', role: 'student', phone: '+94 76 555 4321', grade: 'Grade 9 Mathematics', studentId: 'STU-2028-104', indexNo: 'STU-2028-104', parentId: null, enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Unpaid', nextPaymentDue: '2026-10-10' },
-  { id: 'std-4', name: 'Amali Fernando', email: 'amali@plms.com', password: 'password123', role: 'student', phone: '+94 77 888 9900', grade: 'Grade 11 (O/L Mathematics)', studentId: 'STU-7846', indexNo: 'STU-7846', parentId: null, enrollmentStatus: 'Currently Enrolled', paymentStatus: 'Paid', nextPaymentDue: '-' },
-  { id: 'prn-1', name: 'Sunil Perera', email: 'parent@plms.com', password: 'password123', role: 'parent', phone: '+94 70 333 2211', occupation: 'Civil Engineer', linkedStudentIds: ['std-1'] },
+  { id: 'adm-1', name: 'Sir Parakum Bandara (Admin)', email: 'admin@plms.com', password: 'password123', role: 'admin', phone: '+94 77 000 1122', designation: 'Head Educator & Admin' }
+];
+const deprecatedMockUsers = [
   { id: 'adm-1', name: 'Sir Parakum Bandara (Admin)', email: 'admin@plms.com', password: 'password123', role: 'admin', phone: '+94 77 000 1122', designation: 'Head Educator & Admin' }
 ];
 
@@ -696,6 +694,394 @@ const initialTopics = [
       'වාර්ෂික විභාග ආදර්ශ ප්‍රශ්න පත්‍රය 1',
       'වාර්ෂික විභාග ආදර්ශ ප්‍රශ්න පත්‍රය 2'
     ]
+  },
+
+  // ==========================================
+  // Grade 7 Topics (Terms 1, 2, and 3 - 29 Chapters + 3 Revision Exercises)
+  // ==========================================
+  {
+    id: 'top-g7-1',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 1',
+    name: "01. සමමිතිය (Symmetry)",
+    description: "තල රූපවල සමමිතික අක්ෂ හඳුනාගැනීම, ද්විපාර්ශ්වික සමමිතිය සහ සමමිතික රටා නිර්මාණය.",
+    lessonsCount: 6,
+    progress: 100,
+    completedModules: [0,1,2,3,4,5],
+    modules: ["01. සමමිතිය හැඳින්වීම සහ සමමිතික රූප","02. සමමිතික අක්ෂ හඳුනාගැනීම","03. තල රූපවල සමමිතික අක්ෂ ඇඳීම","04. ද්විපාර්ශ්වික සමමිතිය","05. ආදර්ශ ගැටලු හා පියවරෙන් පියවර විසඳුම්","06. අභ්‍යාස හා කෙටි ප්‍රශ්නාවලිය"]
+  },
+  {
+    id: 'top-g7-2',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 1',
+    name: "02. කුලක (Sets)",
+    description: "කුලක සංකල්පය, කුලකයක අවයව, සර්වත්‍ර කුලකය, උපකුලක සහ වෙන් රූප සටහන් මගින් නිරූපණය.",
+    lessonsCount: 6,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. කුලක පිළිබඳ මූලික හැඳින්වීම","02. කුලකයක අවයව හා නිරූපණය","03. සර්වත්‍ර කුලකය සහ උපකුලක","04. වෙන් රූප සටහන් මගින් කුලක දැක්වීම","05. ආදර්ශ ගැටලු විසඳීම","06. කුලක ආශ්‍රිත අභ්‍යාස හා කෙටි පරීක්ෂණය"]
+  },
+  {
+    id: 'top-g7-3',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 1',
+    name: "03. පූර්ණ සංඛ්‍යා මත ගණිත කර්ම (Operations on Whole Numbers)",
+    description: "පූර්ණ සංඛ්‍යා එකතු කිරීම, අඩු කිරීම, ගුණ කිරීම, බෙදීම සහ BODMAS ගණිත කර්ම නීති.",
+    lessonsCount: 6,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. පූර්ණ සංඛ්‍යා එකතු කිරීම හා අඩු කිරීම","02. පූර්ණ සංඛ්‍යා ගුණ කිරීම හා බෙදීම","03. ගණිත කර්මවල ක්‍රම රීතිය - BODMAS","04. ආශ්‍රන, පරිවර්ත්‍ය හා බෙදුම් නීති","05. සංකීර්ණ ආදර්ශ ගැටලු විසඳීම","06. මිශ්‍ර අභ්‍යාස හා ඇගයීම් පරීක්ෂණය"]
+  },
+  {
+    id: 'top-g7-4',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 1',
+    name: "04. සාධක හා ගුණාකාර (Factors and Multiples)",
+    description: "ප්‍රථමක සාධක, බෙදීමේ නීති, කුඩාම පොදු ගුණාකාරය (කු.පො.ගු.) සහ විශාලතම පොදු සාධකය (වි.පො.සා.).",
+    lessonsCount: 6,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. සංඛ්‍යාවක සාධක සහ ප්‍රථමක සාධක","02. ගුණාකාර සහ ප්‍රථමක සංඛ්‍යා","03. බෙදීමේ නීති (2, 3, 4, 5, 6, 9, 10)","04. කුඩාම පොදු ගුණාකාරය (කු.පො.ගු.) සෙවීම","05. විශාලතම පොදු සාධකය (වි.පො.සා.) සෙවීම","06. ගැටලු විසඳීම හා ඇගයීම"]
+  },
+  {
+    id: 'top-g7-5',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 1',
+    name: "05. දර්ශක (Indices)",
+    description: "දර්ශක හා පාදය, බලයක් ලෙස ලිවීම, අගය සෙවීම සහ 10 හි බල භාවිතය.",
+    lessonsCount: 6,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. දර්ශක හා පාදය පිළිබඳ මූලික සංකල්ප","02. සංඛ්‍යාවක් බලයක් ලෙස ලිවීම","03. දර්ශක සහිත සංඛ්‍යාවල අගය සෙවීම","04. 10 හි බල හා විද්‍යාත්මක ආකාරය","05. ආදර්ශ ගැටලු විවරණය","06. පාඩම් අභ්‍යාස හා කෙටි ප්‍රශ්නාවලිය"]
+  },
+  {
+    id: 'top-g7-6',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 1',
+    name: "06. කාලය (Time)",
+    description: "පැය 12 හා පැය 24 ඔරලෝසු වේලාව, කාල පරාස ගණනය, කාල මිනුම් එකතු කිරීම හා අඩු කිරීම.",
+    lessonsCount: 6,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. වේලාව කියවීම හා සම්මත ඒකක","02. පැය 12 හා පැය 24 ඔරලෝසු අතර පරිවර්තනය","03. කාල පරාස ගණනය කිරීම","04. කාල මිනුම් එකතු කිරීම හා අඩු කිරීම","05. කාලය ආශ්‍රිත ප්‍රායෝගික ගැටලු","06. පුනරීක්ෂණ අභ්‍යාස හා ඇගයීම"]
+  },
+  {
+    id: 'top-g7-7',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 1',
+    name: "07. සමාන්තර සරල රේඛා (Parallel Straight Lines)",
+    description: "සමාන්තර රේඛා සහ තිරස්ක් ඡේදකයකින් සෑදෙන ඒකාන්තර, අනුරූප හා මිත්‍ර කෝණ.",
+    lessonsCount: 6,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. සමාන්තර සරල රේඛා හඳුනාගැනීම","02. තිරස්ක් ඡේදකයක් මගින් සෑදෙන කෝණ","03. ඒකාන්තර කෝණ හඳුනාගැනීම හා ගණනය","04. අනුරූප කෝණ හඳුනාගැනීම හා ගණනය","05. මිත්‍ර කෝණ සහ ඒවායේ සම්බන්ධතා","06. ජ්‍යාමිතික ගැටලු විසඳීම හා පරීක්ෂණය"]
+  },
+  {
+    id: 'top-g7-8',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 1',
+    name: "08. දිශානුගත සංඛ්‍යා (Directed Numbers)",
+    description: "ධන හා ඍණ සංඛ්‍යා, සංඛ්‍යා රේඛාවේ නිරූපණය, සංසන්දනය සහ එකතු කිරීම හා අඩු කිරීම.",
+    lessonsCount: 6,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. ධන හා ඍණ සංඛ්‍යා පිළිබඳ හැඳින්වීම","02. සංඛ්‍යා රේඛාව මත දිශානුගත සංඛ්‍යා නිරූපණය","03. දිශානුගත සංඛ්‍යා සංසන්දනය","04. දිශානුගත සංඛ්‍යා එකතු කිරීම","05. දිශානුගත සංඛ්‍යා අඩු කිරීම","06. ගැටලු විසඳීම හා කෙටි ප්‍රශ්නාවලිය"]
+  },
+  {
+    id: 'top-g7-9',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 1',
+    name: "09. කෝණ (Angles)",
+    description: "කෝණ මැනීම, සරල රේඛාවක් මත බද්ධ කෝණ, ලක්ෂ්‍යයක් වටා කෝණ සහ ප්‍රතිමුඛ කෝණ.",
+    lessonsCount: 6,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. කෝණ වර්ග සහ ඒවායේ ලක්ෂණ","02. කෝණමානය භාවිතයෙන් කෝණ මැනීම","03. සරල රේඛාවක් මත පිහිටි බද්ධ කෝණ","04. ලක්ෂ්‍යයක් වටා කෝණ","05. ප්‍රතිමුඛ කෝණ","06. කෝණ ආශ්‍රිත ගණනය කිරීම් හා ඇගයීම"]
+  },
+  {
+    id: 'top-g7-10',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 1',
+    name: "පුනරීක්ෂණ අභ්‍යාසය 01 (Revision Exercise 01)",
+    description: "පළමු වාරයේ 01 සිට 09 දක්වා සියලු පාඩම් ආවරණය වන පුනරීක්ෂණ අභ්‍යාස හා ආදර්ශ ප්‍රශ්න පත්‍රය.",
+    lessonsCount: 4,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. 1-3 පාඩම් පුනරීක්ෂණය","02. 4-6 පාඩම් පුනරීක්ෂණය","03. 7-9 පාඩම් පුනරීක්ෂණය","04. පළමු වාර විභාග ආදර්ශ ප්‍රශ්න පත්‍රය"]
+  },
+  {
+    id: 'top-g7-11',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 2',
+    name: "10. භාග (Fractions)",
+    description: "විෂම භාග, මිශ්‍ර සංඛ්‍යා, තුල්‍ය භාග, සංසන්දනය සහ භාග ගණිත කර්ම.",
+    lessonsCount: 6,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. විෂම භාග හා මිශ්‍ර සංඛ්‍යා","02. තුල්‍ය භාග හා සරල කිරීම","03. භාග සංසන්දනය හා පෙළගැස්වීම","04. භාග එකතු කිරීම හා අඩු කිරීම","05. භාග ගුණ කිරීම හා බෙදීම","06. ප්‍රායෝගික භාග ගැටලු විසඳීම"]
+  },
+  {
+    id: 'top-g7-12',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 2',
+    name: "11. දශම (Decimals)",
+    description: "දශමවල ස්ථානීය අගය, භාග-දශම පරිවර්තනය, සංසන්දනය සහ ගුණ කිරීම හා බෙදීම.",
+    lessonsCount: 6,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. දශම සංඛ්‍යාවල ස්ථානීය අගය","02. භාග සහ දශම අතර පරිවර්තනය","03. දශම සංඛ්‍යා සංසන්දනය","04. දශම සංඛ්‍යා එකතු කිරීම හා අඩු කිරීම","05. 10, 100, 1000 න් දශම ගුණ කිරීම හා බෙදීම","06. දශම ආශ්‍රිත ගණිත ගැටලු හා ඇගයීම"]
+  },
+  {
+    id: 'top-g7-13',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 2',
+    name: "12. වීජීය ප්‍රකාශන (Algebraic Expressions)",
+    description: "වීජීය සංකේත, සරල වීජීය ප්‍රකාශන ගොඩනැගීම, සජාතීය පද සහ අගයන් ආදේශය.",
+    lessonsCount: 6,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. වීජීය සංකේත හා විචල්‍ය හැඳින්වීම","02. සරල වීජීය ප්‍රකාශන ගොඩනැගීම","03. වීජීය ප්‍රකාශනයක පද හා සංගුණක","04. සජාතීය පද එකතු කිරීම හා අඩු කිරීම","05. වීජීය ප්‍රකාශනවලට අගයන් ආදේශය","06. අභ්‍යාස හා ඇගයීම් ප්‍රශ්නාවලිය"]
+  },
+  {
+    id: 'top-g7-14',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 2',
+    name: "13. ස්කන්ධය (Mass)",
+    description: "ග්‍රෑම් (g), කිලෝග්‍රෑම් (kg), මෙට්‍රික් ටොන් (t) ඒකක, පරිවර්තනය සහ ස්කන්ධ ගණනය කිරීම්.",
+    lessonsCount: 6,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. ස්කන්ධය මැනීමේ සම්මත ඒකක - g, kg","02. මෙට්‍රික් ටොන් (t) හැඳින්වීම","03. ස්කන්ධ ඒකක අතර සම්බන්ධතා හා පරිවර්තනය","04. ස්කන්ධ මිනුම් එකතු කිරීම හා අඩු කිරීම","05. ස්කන්ධය සම්බන්ධ ව්‍යවහාරික ගැටලු","06. කෙටි පරීක්ෂණය හා ඇගයීම"]
+  },
+  {
+    id: 'top-g7-15',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 2',
+    name: "14. සරල රේඛීය තල රූප (Rectilinear Plane Figures)",
+    description: "ත්‍රිකෝණ හා චතුරස්‍ර වර්ගීකරණය, ඒවායේ ලක්ෂණ සහ බහුඅස්‍ර හැඳින්වීම.",
+    lessonsCount: 6,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. සරල රේඛීය තල රූප වර්ගීකරණය","02. ත්‍රිකෝණ වර්ග සහ ඒවායේ ලක්ෂණ","03. චතුරස්‍ර වර්ග සහ ලක්ෂණ","04. බහුඅස්‍ර පිළිබඳ මූලික හැඳින්වීම","05. ආදර්ශ ජ්‍යාමිතික ගැටලු","06. පාඩම් අභ්‍යාස හා ඇගයීම් ප්‍රශ්නාවලිය"]
+  },
+  {
+    id: 'top-g7-16',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 2',
+    name: "15. සමීකරණ සහ සූත්‍ර (Equations and Formulae)",
+    description: "තනි විචල්‍යයක් සහිත සරල සමීකරණ විසඳීම, සමීකරණ ගොඩනැගීම සහ සූත්‍රවලට ආදේශය.",
+    lessonsCount: 6,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. සරල සමීකරණ පිළිබඳ මූලික හැඳින්වීම","02. තනි විචල්‍යයක් සහිත සරල සමීකරණ විසඳීම","03. පියවර දෙකකින් සමීකරණ විසඳීම","04. ගණිත ගැටලුවකින් සමීකරණ ගොඩනැගීම","05. සරල සූත්‍ර හැඳින්වීම සහ ආදේශය","06. සමීකරණ අභ්‍යාස හා පරීක්ෂණය"]
+  },
+  {
+    id: 'top-g7-17',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 2',
+    name: "16. දිග (Length)",
+    description: "දිග මැනීමේ සම්මත ඒකක (mm, cm, m, km), පරිවර්තනය සහ සරල රේඛීය තල රූපවල පරිමිතිය.",
+    lessonsCount: 6,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. දිග මැනීමේ සම්මත ඒකක","02. දිග ඒකක අතර පරිවර්තනය","03. පරිමිතිය පිළිබඳ මූලික සංකල්පය","04. සරල රේඛීය තල රූපවල පරිමිතිය සෙවීම","05. ප්‍රායෝගික දිග හා පරිමිති ගැටලු","06. ඇගයීම් අභ්‍යාස හා කෙටි ප්‍රශ්නාවලිය"]
+  },
+  {
+    id: 'top-g7-18',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 2',
+    name: "17. වර්ගඵලය (Area)",
+    description: "වර්ගඵලය සංකල්පය, සම්මත ඒකක (cm², m²), සමචතුරස්‍ර හා සෘජුකෝණාස්‍රවල වර්ගඵලය.",
+    lessonsCount: 6,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. වර්ගඵලය පිළිබඳ මූලික සංකල්පය","02. සම්මත වර්ගඵල ඒකක (cm², m²)","03. සමචතුරස්‍රයක වර්ගඵලය සෙවීම","04. සෘජුකෝණාස්‍රයක වර්ගඵලය සෙවීම","05. සංයුක්ත තල රූපවල වර්ගඵලය","06. වර්ගඵලය ආශ්‍රිත ප්‍රායෝගික ගැටලු"]
+  },
+  {
+    id: 'top-g7-19',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 2',
+    name: "18. වෘත්ත (Circles)",
+    description: "කේන්ද්‍රය, අරය, විෂ්කම්භය, ජ්‍යාය, චාපය, කවකටුව භාවිතයෙන් වෘත්ත ඇඳීම සහ කේන්ද්‍රික ඛණ්ඩ.",
+    lessonsCount: 6,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. වෘත්තයක මූලික අංග (කේන්ද්‍රය, අරය, විෂ්කම්භය)","02. ජ්‍යාය සහ චාපය හඳුනාගැනීම","03. කවකටුව භාවිතයෙන් වෘත්ත ඇඳීම","04. වෘත්ත කේන්ද්‍රික ඛණ්ඩ හා වෘත්ත ඛණ්ඩ","05. වෘත්ත ආශ්‍රිත රටා සහ නිර්මාණ","06. අභ්‍යාස හා කෙටි ප්‍රශ්නාවලිය"]
+  },
+  {
+    id: 'top-g7-20',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 2',
+    name: "19. පරිමාව (Volume)",
+    description: "පරිමාව පිළිබඳ සංකල්පය, සම්මත ඒකක (cm³, m³), ඝනකයක හා ඝනකාභයක පරිමාව සෙවීම.",
+    lessonsCount: 6,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. පරිමාව පිළිබඳ මූලික හැඳින්වීම","02. පරිමාව මැනීමේ සම්මත ඒකක (cm³, m³)","03. ඝනකයක පරිමාව සෙවීම","04. ඝනකාභයක පරිමාව සෙවීම","05. පරිමාව ආශ්‍රිත ආදර්ශ ගැටලු","06. පාඩම් අභ්‍යාස හා ඇගයීම"]
+  },
+  {
+    id: 'top-g7-21',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 2',
+    name: "20. ද්‍රව මිනුම් (Liquid Measurements)",
+    description: "මිලිලීටර (ml) හා ලීටර (l), cm³ සහ ml අතර සම්බන්ධය සහ භාජනවල ධාරිතාව ගණනය.",
+    lessonsCount: 6,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. ධාරිතාව හා ද්‍රව මිනුම් ඒකක (ml, l)","02. cm³ සහ ml අතර සම්බන්ධතාව","03. ද්‍රව මිනුම් එකතු කිරීම හා අඩු කිරීම","04. භාජනයක ධාරිතාව ගණනය කිරීම","05. ද්‍රව මිනුම් ආශ්‍රිත ව්‍යවහාරික ගැටලු","06. පුනරීක්ෂණ අභ්‍යාස හා කෙටි පරීක්ෂණය"]
+  },
+  {
+    id: 'top-g7-22',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 2',
+    name: "පුනරීක්ෂණ අභ්‍යාසය 02 (Revision Exercise 02)",
+    description: "දෙවන වාරයේ 10 සිට 20 දක්වා සියලු පාඩම් ආවරණය වන පුනරීක්ෂණ අභ්‍යාස හා ආදර්ශ ප්‍රශ්න පත්‍රය.",
+    lessonsCount: 4,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. 10-13 පාඩම් පුනරීක්ෂණය","02. 14-17 පාඩම් පුනරීක්ෂණය","03. 18-20 පාඩම් පුනරීක්ෂණය","04. දෙවන වාර විභාග ආදර්ශ ප්‍රශ්න පත්‍රය"]
+  },
+  {
+    id: 'top-g7-23',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 3',
+    name: "21. අනුපාත (Ratios)",
+    description: "අනුපාතය සංකල්පය, තුල්‍ය අනුපාත, ප්‍රමාණයක් දී ඇති අනුපාතයකට බෙදීම සහ ත්‍රෛරාශික ගැටලු.",
+    lessonsCount: 6,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. අනුපාතය පිළිබඳ මූලික හැඳින්වීම","02. තුල්‍ය අනුපාත හා සරලතම ආකාරය","03. ප්‍රමාණයක් දී ඇති අනුපාතයකට බෙදීම","04. අනුපාත තුනක් සංසන්දනය කිරීම","05. අනුපාත ආශ්‍රිත ප්‍රායෝගික ගැටලු","06. අභ්‍යාස හා ඇගයීම් පරීක්ෂණය"]
+  },
+  {
+    id: 'top-g7-24',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 3',
+    name: "22. ප්‍රතිශත (Percentages)",
+    description: "ප්‍රතිශත සංකල්පය, භාග-දශම-ප්‍රතිශත පරිවර්තනය සහ ප්‍රමාණයක ප්‍රතිශතය සෙවීම.",
+    lessonsCount: 6,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. ප්‍රතිශත පිළිබඳ මූලික සංකල්පය","02. භාග සහ දශම ප්‍රතිශත බවට හැරවීම","03. ප්‍රතිශත භාග බවට හැරවීම","04. ප්‍රමාණයක ප්‍රතිශතය සෙවීම","05. ප්‍රතිශත ආශ්‍රිත ප්‍රායෝගික ගැටලු","06. කෙටි ප්‍රශ්නාවලිය හා ඇගයීම"]
+  },
+  {
+    id: 'top-g7-25',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 3',
+    name: "23. කාටීසීය තලය (Cartesian Plane)",
+    description: "ඛණ්ඩාංක අක්ෂ, පළමු පාදයේ ලක්ෂ්‍ය ලකුණු කිරීම, ඛණ්ඩාංක කියවීම සහ තලයේ රූප ඇඳීම.",
+    lessonsCount: 6,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. කාටීසීය තලය සහ ඛණ්ඩාංක අක්ෂ","02. පළමු පාදයේ ලක්ෂ්‍ය ලකුණු කිරීම","03. ලක්ෂ්‍යයක ඛණ්ඩාංක කියවීම","04. කාටීසීය තලයේ රූප ඇඳීම","05. ආදර්ශ ගැටලු පියවරෙන් පියවර","06. අභ්‍යාස හා ඇගයීම් පරීක්ෂණය"]
+  },
+  {
+    id: 'top-g7-26',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 3',
+    name: "24. සරල රේඛීය තල රූප නිර්මාණය (Construction of Rectilinear Plane Figures)",
+    description: "ජ්‍යාමිතික උපකරණ භාවිතය, රේඛා ඛණ්ඩ, කෝණ, ත්‍රිකෝණ, සෘජුකෝණාස්‍ර හා සමචතුරස්‍ර නිර්මාණය.",
+    lessonsCount: 6,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. ජ්‍යාමිතික උපකරණ නිවැරදිව භාවිතය","02. දී ඇති දිගකින් යුත් සරල රේඛා ඛණ්ඩ නිර්මාණය","03. කෝණමානය හා කවකටුවෙන් කෝණ නිර්මාණය","04. ත්‍රිකෝණ නිර්මාණය කිරීම","05. සෘජුකෝණාස්‍ර හා සමචතුරස්‍ර නිර්මාණය","06. ජ්‍යාමිතික නිර්මාණ අභ්‍යාස හා ඇගයීම"]
+  },
+  {
+    id: 'top-g7-27',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 3',
+    name: "25. ඝන වස්තු (Solids)",
+    description: "ඝන වස්තුවල මුහුණත්, දාර, ශීර්ෂ, ප්ලේටෝනික ඝන වස්තු සහ ඝනක, ඝනකාභ, ප්‍රිස්ම, පිරමිඩවල දැල.",
+    lessonsCount: 6,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. ඝන වස්තු හඳුනාගැනීම හා වර්ගීකරණය","02. ඝන වස්තුවල මුහුණත්, දාර හා ශීර්ෂ","03. ප්ලේටෝනික ඝන වස්තු හැඳින්වීම","04. ඝනක හා ඝනකාභවල දැල","05. ප්‍රිස්ම සහ පිරමිඩවල දැල","06. පාඩම් අභ්‍යාස හා කෙටි පරීක්ෂණය"]
+  },
+  {
+    id: 'top-g7-28',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 3',
+    name: "26. දත්ත නිරූපණය හා අර්ථකථනය (Data Representation and Interpretation)",
+    description: "ප්‍රවාරණ සටහන්, සංඛ්‍යාත වගු, චිත්‍ර ප්‍රස්ථාර, තීරු ප්‍රස්ථාර නිර්මාණය සහ නිගමන ලබාගැනීම.",
+    lessonsCount: 6,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. දත්ත රැස් කිරීම සහ වර්ගීකරණය","02. ප්‍රවාරණ සටහන් සහ සංඛ්‍යාත වගු","03. චිත්‍ර ප්‍රස්ථාර නිර්මාණය හා කියවීම","04. තීරු ප්‍රස්ථාර නිර්මාණය","05. ප්‍රස්ථාරවලින් නිගමනවලට එළඹීම","06. දත්ත ආශ්‍රිත ප්‍රායෝගික අභ්‍යාස හා ඇගයීම"]
+  },
+  {
+    id: 'top-g7-29',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 3',
+    name: "27. පරිමාණ රූප (Scale Diagrams)",
+    description: "පරිමාණ රූප සංකල්පය, පරිමාණය තේරුම් ගැනීම, සැබෑ දිග සෙවීම සහ පරිමාණ රූප ඇඳීම.",
+    lessonsCount: 6,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. පරිමාණ රූප පිළිබඳ මූලික සංකල්පය","02. පරිමාණය තේරුම් ගැනීම හා ලිවීම","03. පරිමාණ රූපයක සැබෑ දිග සෙවීම","04. සැබෑ දිග පරිමාණ රූපයකට ඇඳීම","05. පරිමාණ රූප ආශ්‍රිත ප්‍රායෝගික ගැටලු","06. පාඩම් අභ්‍යාස හා කෙටි පරීක්ෂණය"]
+  },
+  {
+    id: 'top-g7-30',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 3',
+    name: "28. ටෙසලාකරණය (Tessellation)",
+    description: "ටෙසලාකරණය සංකල්පය, සුෂම බහුඅස්‍ර මගින් ටෙසලාකරණය සහ රටා නිර්මාණය.",
+    lessonsCount: 6,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. ටෙසලාකරණය පිළිබඳ මූලික හැඳින්වීම","02. සුෂම බහුඅස්‍ර මගින් ටෙසලාකරණය","03. විවිධ තල රූප භාවිතයෙන් ටෙසලාකරණ රටා","04. ස්වභාවධර්මයේ හා නිර්මාණවල ටෙසලාකරණය","05. ටෙසලාකරණ රටා නිර්මාණය කිරීම","06. අභ්‍යාස හා කෙටි ප්‍රශ්නාවලිය"]
+  },
+  {
+    id: 'top-g7-31',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 3',
+    name: "29. සිදුවීමක් සිදුවීමේ විය හැකියාව (Likelihood of an Event Occurring)",
+    description: "නිසැක, විය නොහැකි හා විය හැකි සිදුවීම්, සම සම්භාවිත සිදුවීම් සහ විය හැකියාව ඇගයීම.",
+    lessonsCount: 6,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. විය හැකියාව පිළිබඳ මූලික සංකල්ප","02. නිසැක, විය නොහැකි සහ විය හැකි සිදුවීම්","03. සම සම්භාවිත සිදුවීම්","04. සරල අත්හදා බැලීම් හා ප්‍රතිඵල","05. සංඛ්‍යාත්මකව විය හැකියාව ඇගයීම","06. ආදර්ශ ගැටලු, අභ්‍යාස හා ඇගයීම"]
+  },
+  {
+    id: 'top-g7-32',
+    grade: 'Grade 7',
+    subject: 'Mathematics',
+    term: 'Term 3',
+    name: "පුනරීක්ෂණ අභ්‍යාසය 03 (Revision Exercise 03)",
+    description: "තුන්වන වාරයේ 21 සිට 29 දක්වා සියලු පාඩම් ආවරණය වන පුනරීක්ෂණ අභ්‍යාස හා වාර්ෂික විභාග ආදර්ශ ප්‍රශ්න පත්‍රය.",
+    lessonsCount: 4,
+    progress: 0,
+    completedModules: [],
+    modules: ["01. 21-24 පාඩම් පුනරීක්ෂණය","02. 25-27 පාඩම් පුනරීක්ෂණය","03. 28-29 පාඩම් පුනරීක්ෂණය","04. වාර්ෂික විභාග ආදර්ශ ප්‍රශ්න පත්‍රය"]
   }
 ];
 
@@ -816,7 +1202,32 @@ initMockDB();
 
 const delay = (ms = 200) => new Promise(res => setTimeout(res, ms));
 
+
+const getAuthHeaders = () => {
+  const token = typeof localStorage !== 'undefined' ? localStorage.getItem('plms_auth_token') : null;
+  const headers = { 'Content-Type': 'application/json' };
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  return headers;
+};
+
 export const apiService = {
+  async getMe() {
+    try {
+      const response = await fetch('/api/me', {
+        headers: getAuthHeaders()
+      });
+      const data = await response.json();
+      if (response.ok && data && data.success && data.user) {
+        return data;
+      }
+      return { success: false, message: data?.message || 'Authentication session expired' };
+    } catch (e) {
+      console.warn('API getMe error:', e.message);
+      return { success: false, message: e.message };
+    }
+  },
   async login({ email, password, role }) {
     try {
       const response = await fetch('/api/login', {
@@ -826,37 +1237,20 @@ export const apiService = {
       });
       const data = await response.json();
       if (response.ok && data && data.success) {
+        if (data.token && typeof localStorage !== 'undefined') {
+          localStorage.setItem('plms_auth_token', data.token);
+          localStorage.setItem('plms_auth_user', JSON.stringify(data.user));
+        }
         return data;
       }
-      // If server responded with a normal user validation error (e.g. wrong password), return it
-      if (data && data.message && !data.message.includes('Access denied') && !data.message.includes('connect') && response.status !== 500) {
-        return data;
+      if (data && data.message) {
+        return { success: false, message: data.message };
       }
+      return { success: false, message: 'Invalid credentials. Please try again.' };
     } catch (e) {
-      console.warn('Direct Aiven API login fallback:', e.message);
+      console.error('API login failed:', e.message);
+      return { success: false, message: 'Failed to connect to authentication server. Please check your network.' };
     }
-
-    await delay();
-    const query = (email || '').trim().toLowerCase();
-    const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
-    const user = users.find(u =>
-      (u.email && u.email.toLowerCase() === query) ||
-      (u.studentId && u.studentId.toLowerCase() === query) ||
-      (u.indexNo && u.indexNo.toLowerCase() === query) ||
-      (u.id && u.id.toLowerCase() === query)
-    );
-
-    if (user) {
-      if (user.password && user.password !== password) {
-        return { success: false, message: 'Invalid password. Please check your credentials.' };
-      }
-      if (role && user.role !== role) {
-        return { success: false, message: `This account is registered as a ${user.role}, not ${role}.` };
-      }
-      return { success: true, user, token: 'mock-jwt-token-' + user.id };
-    }
-
-    return { success: false, message: 'No account found with these credentials. Please check your Student ID or email.' };
   },
 
   // ===== UPDATED TODAY: Student Registration with Dynamic ID & Payment Status =====
@@ -868,65 +1262,21 @@ export const apiService = {
         body: JSON.stringify(formData)
       });
       const data = await response.json();
-      if (data && data.success) {
-        // Also sync into localStorage so offline/cached components stay aligned
-        const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
-        users.push(data.user);
-        setStorageItem(STORAGE_KEYS.USERS, users);
-        return data;
-      } else if (data && !data.success) {
+      if (response.ok && data && data.success) {
+        if (data.token && typeof localStorage !== 'undefined') {
+          localStorage.setItem('plms_auth_token', data.token);
+          localStorage.setItem('plms_auth_user', JSON.stringify(data.user));
+        }
         return data;
       }
+      if (data && data.message) {
+        return { success: false, message: data.message };
+      }
+      return { success: false, message: 'Registration failed. Please try again.' };
     } catch (e) {
-      console.warn('Direct Aiven API register fallback:', e.message);
+      console.error('API register error:', e.message);
+      return { success: false, message: 'Failed to connect to registration server. Please try again.' };
     }
-
-    await delay();
-    const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
-    const existing = users.find(u => u.email.toLowerCase() === formData.email.toLowerCase());
-    if (existing) {
-      return { success: false, message: 'An account with this email address already exists. Please log in.' };
-    }
-    const newStudentId = String(users.filter(u => u.role === 'student').length + 1).padStart(4, '0');
-    const nameParts = (formData.name || '').trim().split(' ');
-    const firstName = nameParts[0] || '';
-    const lastName = nameParts.slice(1).join(' ') || '';
-    const newUser = {
-      id: 'std-' + Date.now(),
-      name: formData.name,
-      firstName,
-      lastName,
-      email: formData.email,
-      password: formData.password,
-      role: 'student',
-      phone: formData.phone || '',
-      grade: formData.grade || 'Grade 11 (O/L Mathematics)',
-      studentId: newStudentId,
-      indexNo: newStudentId,
-      parentId: null,
-      enrollmentStatus: 'Currently Enrolled',
-      paymentStatus: 'Pending',
-      nextPaymentDue: 'End of Month'
-    };
-    users.push(newUser);
-    setStorageItem(STORAGE_KEYS.USERS, users);
-
-    const payments = getStorageItem(STORAGE_KEYS.PAYMENTS, initialPayments);
-    payments.unshift({
-      id: 'pay-' + Date.now(),
-      studentId: newUser.id,
-      studentName: newUser.name,
-      month: 'October 2026',
-      amount: 3500,
-      status: 'Pending',
-      nextDue: 'End of Month',
-      slipUrl: null,
-      submittedAt: new Date().toLocaleDateString(),
-      notes: 'Initial registration fee verification'
-    });
-    setStorageItem(STORAGE_KEYS.PAYMENTS, payments);
-
-    return { success: true, user: newUser };
   },
 
   async resetPassword(email) {
@@ -963,40 +1313,26 @@ export const apiService = {
   async getStudentById(id) {
     if (!id) return null;
     try {
-      const response = await fetch(`/api/student/${encodeURIComponent(id)}`);
+      const response = await fetch(`/api/student/${encodeURIComponent(id)}`, {
+        headers: getAuthHeaders()
+      });
       const data = await response.json();
-      if (data && data.success && data.student) {
+      if (response.ok && data && data.success && data.student) {
         return data.student;
       }
     } catch (e) {
-      console.warn('Direct Aiven API getStudentById fallback:', e.message);
+      console.warn('API getStudentById error:', e.message);
     }
-
-    await delay();
-    const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
-    const payments = getStorageItem(STORAGE_KEYS.PAYMENTS, initialPayments);
-    const student = users.find(u => u.id === id || u.studentId === id || (u.email && u.email.toLowerCase() === String(id).toLowerCase()));
-    if (student) {
-      const nameParts = (student.name || '').trim().split(' ');
-      const firstName = student.firstName || nameParts[0] || '';
-      const lastName = student.lastName || nameParts.slice(1).join(' ') || '';
-      const fullName = student.name || `${firstName} ${lastName}`.trim();
-
-      const studentPayment = payments.find(p => p.studentId === student.id || p.studentId === student.studentId || p.studentName === student.name);
-      const paymentStatus = studentPayment?.status || student.paymentStatus || 'Paid';
-      const nextPaymentDue = studentPayment?.nextDue || student.nextPaymentDue || '-';
-
-      return {
-        ...student,
-        firstName,
-        lastName,
-        fullName,
-        enrollmentStatus: student.enrollmentStatus || 'Currently Enrolled',
-        enrollmentDate: student.enrollmentDate || '2024-01-10',
-        subject: student.subject || 'Mathematics',
-        paymentStatus,
-        nextPaymentDue
-      };
+    if (typeof localStorage !== 'undefined') {
+      const authUser = localStorage.getItem('plms_auth_user');
+      if (authUser) {
+        try {
+          const parsed = JSON.parse(authUser);
+          if (parsed && (parsed.id === id || parsed.userId === id || parsed.studentId === id || id === 'me')) {
+            return parsed;
+          }
+        } catch (_) {}
+      }
     }
     return null;
   },
@@ -1008,66 +1344,28 @@ export const apiService = {
     try {
       const response = await fetch(`/api/student/${encodeURIComponent(id)}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders(),
         body: JSON.stringify(data)
       });
       const resData = await response.json();
-      if (resData && resData.success) {
-        const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
-        const idx = users.findIndex(u => u.id === id || u.studentId === id || (u.email && u.email.toLowerCase() === String(id).toLowerCase()));
-        if (idx !== -1) {
-          users[idx] = { ...users[idx], ...data };
-          setStorageItem(STORAGE_KEYS.USERS, users);
+      if (response.ok && resData && resData.success) {
+        if (typeof localStorage !== 'undefined' && resData.student) {
+          const authUser = localStorage.getItem('plms_auth_user');
+          if (authUser) {
+            try {
+              const parsed = JSON.parse(authUser);
+              const merged = { ...parsed, ...resData.student };
+              localStorage.setItem('plms_auth_user', JSON.stringify(merged));
+            } catch (_) {}
+          }
         }
         return resData;
       }
+      return { success: false, message: resData?.message || 'Could not update profile' };
     } catch (e) {
-      console.warn('Direct Aiven API updateStudentProfile fallback:', e.message);
+      console.error('API updateStudentProfile error:', e.message);
+      return { success: false, message: 'Failed to connect to server.' };
     }
-
-    await delay();
-    const users = getStorageItem(STORAGE_KEYS.USERS, initialUsers);
-    const index = users.findIndex(u => u.id === id || u.studentId === id || (u.email && u.email.toLowerCase() === String(id).toLowerCase()));
-    if (index === -1) {
-      return { success: false, message: 'Student record not found in database' };
-    }
-
-    const current = users[index];
-    const newName = (data.name !== undefined ? data.name : current.name) || current.name;
-    const nameParts = newName.trim().split(' ');
-    const firstName = nameParts[0] || '';
-    const lastName = nameParts.slice(1).join(' ') || '';
-
-    const updatedUser = {
-      ...current,
-      name: newName,
-      firstName,
-      lastName,
-      phone: data.phone !== undefined ? data.phone : current.phone,
-      grade: data.grade !== undefined ? data.grade : current.grade,
-      subject: data.subject !== undefined ? data.subject : (current.subject || 'Mathematics'),
-      profilePicture: data.profilePicture !== undefined ? data.profilePicture : (current.profilePicture || null)
-    };
-
-    users[index] = updatedUser;
-    setStorageItem(STORAGE_KEYS.USERS, users);
-
-    // Also update studentName in payments if name changed
-    if (data.name && data.name !== current.name) {
-      const payments = getStorageItem(STORAGE_KEYS.PAYMENTS, initialPayments);
-      let payUpdated = false;
-      payments.forEach(p => {
-        if (p.studentId === current.id || p.studentId === current.studentId || p.studentName === current.name) {
-          p.studentName = data.name;
-          payUpdated = true;
-        }
-      });
-      if (payUpdated) {
-        setStorageItem(STORAGE_KEYS.PAYMENTS, payments);
-      }
-    }
-
-    return { success: true, user: updatedUser };
   },
 
   // Payment status
@@ -1142,50 +1440,32 @@ export const apiService = {
   // Get scheduled Mathematics classes for student's grade
   async getStudentClasses(studentId, grade) {
     try {
-      const response = await fetch(`/api/classes?grade=${encodeURIComponent(grade || '')}`);
+      const response = await fetch(`/api/classes?grade=${encodeURIComponent(grade || '')}`, {
+        headers: getAuthHeaders()
+      });
       const data = await response.json();
-      if (data && data.success && Array.isArray(data.classes) && data.classes.length > 0) {
+      if (response.ok && data && data.success && Array.isArray(data.classes)) {
         return data.classes;
       }
     } catch (e) {
-      console.warn('Direct Aiven API classes fallback:', e.message);
+      console.warn('API classes error:', e.message);
     }
-
-    await delay();
-    const zoomLinks = getStorageItem(STORAGE_KEYS.ZOOM, initialZoomLinks);
-    if (!grade) return zoomLinks;
-
-    // Filter classes matching student grade
-    const match = grade.match(/Grade\s*(\d+)/i) || grade.match(/(\d+)/);
-    const gradeNum = match ? match[1] : null;
-
-    if (gradeNum) {
-      return zoomLinks.filter(c => {
-        const classGradeMatch = (c.grade || '').match(/Grade\s*(\d+)/i) || (c.title || '').match(/Grade\s*(\d+)/i);
-        if (classGradeMatch) {
-          return classGradeMatch[1] === gradeNum;
-        }
-        return (c.grade || '').toLowerCase().includes(`grade ${gradeNum}`) ||
-          (c.title || '').toLowerCase().includes(`grade ${gradeNum}`);
-      });
-    }
-
-    return zoomLinks.filter(c => (c.grade || '').toLowerCase().includes(grade.toLowerCase()));
+    return [];
   },
 
-  async getZoomLinks() {
+  async getZoomLinks(grade = '') {
     try {
-      const response = await fetch('/api/zoom');
+      const response = await fetch(`/api/zoom?grade=${encodeURIComponent(grade || '')}`, {
+        headers: getAuthHeaders()
+      });
       const data = await response.json();
-      if (data && data.success && Array.isArray(data.links) && data.links.length > 0) {
+      if (response.ok && data && data.success && Array.isArray(data.links)) {
         return data.links;
       }
     } catch (e) {
-      console.warn('Direct Aiven API zoom links fallback:', e.message);
+      console.warn('API zoom links error:', e.message);
     }
-
-    await delay();
-    return getStorageItem(STORAGE_KEYS.ZOOM, initialZoomLinks);
+    return [];
   },
 
   async getClassRecordings() {
