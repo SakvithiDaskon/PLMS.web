@@ -500,18 +500,6 @@ export const StudentDashboard = () => {
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold text-sky-100">
-            <span className="px-2.5 py-0.5 rounded-lg bg-black/20 border border-white/10">
-              ID: <span className="font-mono font-bold text-white">{displayStudentId}</span>
-            </span>
-            <span className="px-2.5 py-0.5 rounded-lg bg-black/20 border border-white/10">
-              User ID: <span className="font-mono font-bold text-white">#{displayUserId}</span>
-            </span>
-            <span className="hidden sm:inline-flex px-2.5 py-0.5 rounded-lg bg-black/20 border border-white/10 truncate max-w-[200px]">
-              {displayEmail}
-            </span>
-          </div>
-
           <p className="text-xs text-sky-100/90 font-medium leading-relaxed max-w-md hidden sm:block">
             Track your lessons, explore Mathematics curriculum, and master every chapter with Sir Parakum Bandara.
           </p>
@@ -575,12 +563,7 @@ export const StudentDashboard = () => {
                 </p>
                 <p className="text-xs text-slate-500 font-medium">
                   <span className="font-bold text-[#003153]">{displayGrade}</span> • Student ID:{' '}
-                  <span className="font-mono font-bold text-slate-700">{displayStudentId}</span> (User ID:{' '}
-                  <span className="font-mono font-bold text-slate-700">#{displayUserId}</span>)
-                </p>
-                <p className="text-[11px] text-slate-400 font-medium">
-                  Registered on: <span className="font-semibold text-slate-600">{displayEnrollmentDate}</span> • Email:{' '}
-                  <span className="font-semibold text-slate-600">{displayEmail}</span>
+                  <span className="font-mono font-bold text-slate-700">{displayStudentId}</span>
                 </p>
               </div>
             </div>

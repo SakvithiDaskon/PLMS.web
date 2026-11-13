@@ -214,10 +214,6 @@ export const ZoomLinks = () => {
             <span className="font-mono font-bold text-slate-800">
               {student?.studentId || user?.studentId || student?.indexNo || 'N/A'}
             </span>
-            {' '}• User ID:{' '}
-            <span className="font-mono font-bold text-slate-800">
-              #{student?.userId || user?.userId || 'N/A'}
-            </span>
             )
           </span>
         </div>
