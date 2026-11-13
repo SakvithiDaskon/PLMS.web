@@ -232,7 +232,7 @@ export const Profile = () => {
       } else {
         setError(res.message || 'Failed to delete profile picture.');
       }
-    } catch (err) {
+    } catch {
       setError('Failed to delete profile picture.');
     } finally {
       setIsDeletingPhoto(false);
@@ -652,7 +652,7 @@ export const Profile = () => {
             <p className="text-xs font-semibold text-slate-500">Enrollment Status</p>
             <div className="mt-0.5">
               <span className="px-2.5 py-0.5 text-xs font-bold rounded-full bg-emerald-100 text-emerald-700 inline-block">
-                Active
+                {activeEnrollmentStatus}
               </span>
             </div>
             <p className="text-xs font-medium text-slate-400 mt-0.5 truncate">
