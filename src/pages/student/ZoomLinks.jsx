@@ -114,13 +114,14 @@ export const ZoomLinks = () => {
       try {
         setLoading(true);
 
-        if (!user?.id) {
+        if (!user?.id && !user?.userId) {
           setLoading(false);
           return;
         }
 
         // 1. Get student data from database
-        const studentRecord = await apiService.getStudentById(user.id);
+        const activeId = user?.userId || user?.id || 'me';
+        const studentRecord = await apiService.getStudentById(activeId);
         const activeStudent = studentRecord || user;
 
         if (isMounted) {
@@ -128,8 +129,8 @@ export const ZoomLinks = () => {
         }
 
         // 2. Load classes for the student's grade
-        const studentGrade = activeStudent?.grade || 'Grade 10 Mathematics';
-        const classes = await apiService.getStudentClasses(activeStudent?.id, studentGrade);
+        const studentGrade = activeStudent?.grade || user?.grade || 'Grade 10 Mathematics';
+        const classes = await apiService.getStudentClasses(activeStudent?.studentId || activeStudent?.id, studentGrade);
 
         if (isMounted) {
           setZoomLinks(classes);
@@ -209,9 +210,13 @@ export const ZoomLinks = () => {
           <UserCheck className="w-4 h-4 text-[#003153] shrink-0" />
           <span>
             Enrolled Student:{' '}
-            <strong className="font-bold text-slate-900">{student?.name || 'Student'}</strong> (ID:{' '}
+            <strong className="font-bold text-slate-900">{student?.name || user?.name || 'Student'}</strong> (Student ID:{' '}
             <span className="font-mono font-bold text-slate-800">
-              {student?.studentId || student?.indexNo || 'N/A'}
+              {student?.studentId || user?.studentId || student?.indexNo || 'N/A'}
+            </span>
+            {' '}• User ID:{' '}
+            <span className="font-mono font-bold text-slate-800">
+              #{student?.userId || user?.userId || 'N/A'}
             </span>
             )
           </span>

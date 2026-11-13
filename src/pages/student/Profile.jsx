@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { apiService } from '../../services/api';
 import {
+  ShieldCheck,
   GraduationCap,
   CreditCard,
   Phone,
@@ -68,13 +69,14 @@ export const Profile = () => {
         setLoading(true);
         setError(null);
 
-        if (!user?.id) {
+        if (!user?.id && !user?.userId) {
           setLoading(false);
           return;
         }
 
         // 1. Get student data from database
-        const studentRecord = await apiService.getStudentById(user.id);
+        const activeId = user?.userId || user?.id || 'me';
+        const studentRecord = await apiService.getStudentById(activeId);
         const activeStudent = studentRecord || user;
 
         // 2. Payment status
@@ -252,7 +254,8 @@ export const Profile = () => {
 
       if (res.success) {
         // Re-fetch updated student record from database
-        const freshStudent = await apiService.getStudentById(user.id);
+        const activeId = user?.userId || user?.id || 'me';
+        const freshStudent = await apiService.getStudentById(activeId);
         const updatedStudent = freshStudent || res.user;
         setStudent(updatedStudent);
 
@@ -289,7 +292,8 @@ export const Profile = () => {
   // Profile data from database
   const activeName = student?.name || 'Student';
   const nameInitial = activeName.charAt(0).toUpperCase();
-  const activeStudentId = student?.studentId || student?.indexNo || 'N/A';
+  const activeStudentId = student?.studentId || user?.studentId || student?.indexNo || 'N/A';
+  const activeUserId = student?.userId || user?.userId || 'N/A';
   const activeGrade = student?.grade || 'Grade 11 (O/L Mathematics)';
   const activePhone = student?.phone || 'Not provided';
   const activeEmail = student?.email || 'N/A';
@@ -574,7 +578,7 @@ export const Profile = () => {
       </div>
 
       {/* 4 Highlight Cards: Grade, Student ID, WhatsApp, Enrollment */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-5">
         {/* Grade */}
         <div className="bg-white rounded-2xl border border-slate-200/90 p-4 sm:p-5 shadow-xs flex items-center gap-4 transition-all hover:shadow-sm hover:border-blue-200">
           <div className="w-12 h-12 rounded-2xl bg-[#2563eb] text-white flex items-center justify-center shrink-0 shadow-sm">
@@ -602,7 +606,23 @@ export const Profile = () => {
               {activeStudentId}
             </p>
             <p className="text-xs font-medium text-slate-400 truncate">
-              Unique Student Identifier
+              Student Identifier
+            </p>
+          </div>
+        </div>
+
+        {/* Database User ID */}
+        <div className="bg-white rounded-2xl border border-slate-200/90 p-4 sm:p-5 shadow-xs flex items-center gap-4 transition-all hover:shadow-sm hover:border-blue-200">
+          <div className="w-12 h-12 rounded-2xl bg-[#6366f1] text-white flex items-center justify-center shrink-0 shadow-sm">
+            <ShieldCheck className="w-6 h-6" />
+          </div>
+          <div className="min-w-0">
+            <p className="text-xs font-semibold text-slate-500">Database User ID</p>
+            <p className="text-base sm:text-lg font-extrabold text-slate-900 font-mono tracking-tight truncate">
+              #{activeUserId}
+            </p>
+            <p className="text-xs font-medium text-slate-400 truncate">
+              Account Primary Key
             </p>
           </div>
         </div>
@@ -782,6 +802,21 @@ export const Profile = () => {
                 </span>
                 <span className="text-xs sm:text-sm font-bold text-slate-800 font-mono truncate block mt-0.5">
                   {activeStudentId}
+                </span>
+              </div>
+            </div>
+
+            {/* Database User ID */}
+            <div className="p-3.5 sm:p-4 rounded-xl bg-slate-50/80 border border-slate-100 flex items-center gap-3.5 transition-colors hover:bg-blue-50/40">
+              <div className="w-10 h-10 rounded-xl bg-indigo-100/70 text-indigo-600 flex items-center justify-center shrink-0">
+                <ShieldCheck className="w-5 h-5" />
+              </div>
+              <div className="min-w-0">
+                <span className="text-[11px] font-semibold text-slate-400 block uppercase tracking-wider">
+                  Database User ID
+                </span>
+                <span className="text-xs sm:text-sm font-bold text-slate-800 font-mono truncate block mt-0.5">
+                  #{activeUserId}
                 </span>
               </div>
             </div>

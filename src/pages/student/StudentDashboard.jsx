@@ -278,7 +278,7 @@ export const StudentDashboard = () => {
   // Determine active lesson completion status
   const isCurrentLessonCompleted = activeLesson
     ? (activeLesson.topic?.progress === 100 ||
-       (Array.isArray(activeLesson.topic?.completedModules) && activeLesson.topic.completedModules.includes(activeLesson.moduleIndex)))
+      (Array.isArray(activeLesson.topic?.completedModules) && activeLesson.topic.completedModules.includes(activeLesson.moduleIndex)))
     : false;
 
   return (
