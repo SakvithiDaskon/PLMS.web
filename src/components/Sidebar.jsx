@@ -16,7 +16,8 @@ import {
   FilePlus,
   Home,
   ShieldCheck,
-  ChevronRight
+  ChevronRight,
+  MessageSquare
 } from 'lucide-react';
 
 export const Sidebar = ({ isOpen, onClose }) => {
@@ -30,8 +31,10 @@ export const Sidebar = ({ isOpen, onClose }) => {
 
   const studentNav = [
     { label: 'Dashboard', path: '/student', icon: LayoutDashboard },
-    { label: 'My Profile', path: '/student/profile', icon: User },
-    { label: 'Zoom Classes', path: '/student/zoom', icon: Video }
+    { label: 'Tutorials & Recordings', path: '/student/tutorials', icon: BookOpen },
+    { label: 'Ask Your Teacher', path: '/student/messages', icon: MessageSquare },
+    { label: 'Zoom Classes', path: '/student/zoom', icon: Video },
+    { label: 'My Profile', path: '/student/profile', icon: User }
   ];
 
   // Parent Navigation Items
@@ -48,7 +51,9 @@ export const Sidebar = ({ isOpen, onClose }) => {
     { label: 'Admin Dashboard', path: '/admin', icon: LayoutDashboard },
     { label: 'Zoom Schedules', path: '/admin/zoom', icon: Video },
     { label: 'Student Management', path: '/admin/students', icon: Users },
-    { label: 'Grade Manager', path: '/admin/grades', icon: Award }
+    { label: 'Grade Manager', path: '/admin/grades', icon: Award },
+    { label: 'Learning Content', path: '/admin/learning', icon: BookOpen },
+    { label: 'Messages', path: '/admin/messages', icon: MessageSquare },
   ];
 
   const navItems = role === 'admin' ? adminNav : (role === 'parent' ? parentNav : studentNav);

@@ -5,6 +5,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
+    if (typeof localStorage === 'undefined') return null;
     const saved = localStorage.getItem('plms_auth_user');
     if (saved) {
       try { return JSON.parse(saved); } catch (e) {}
@@ -12,18 +13,16 @@ export const AuthProvider = ({ children }) => {
     return null;
   });
 
-  const [token, setToken] = useState(() => localStorage.getItem('plms_auth_token') || null);
+  const [token, setToken] = useState(() => {
+    if (typeof localStorage === 'undefined') return null;
+    return localStorage.getItem('plms_auth_token') || null;
+  });
+
   const [loading, setLoading] = useState(false);
 
+  // Sync token into localStorage
   useEffect(() => {
-    if (user) {
-      localStorage.setItem('plms_auth_user', JSON.stringify(user));
-    } else {
-      localStorage.removeItem('plms_auth_user');
-    }
-  }, [user]);
-
-  useEffect(() => {
+    if (typeof localStorage === 'undefined') return;
     if (token) {
       localStorage.setItem('plms_auth_token', token);
     } else {
@@ -31,16 +30,61 @@ export const AuthProvider = ({ children }) => {
     }
   }, [token]);
 
+  // Sync user into localStorage
+  useEffect(() => {
+    if (typeof localStorage === 'undefined') return;
+    if (user) {
+      localStorage.setItem('plms_auth_user', JSON.stringify(user));
+    } else {
+      localStorage.removeItem('plms_auth_user');
+    }
+  }, [user]);
+
+  // Real-Time Database Synchronization on Mount / Page Refresh
+  useEffect(() => {
+    let isMounted = true;
+    const syncCurrentUser = async () => {
+      const storedToken = typeof localStorage !== 'undefined' ? localStorage.getItem('plms_auth_token') : null;
+      if (!storedToken) return;
+
+      try {
+        const res = await apiService.getMe();
+        if (isMounted && res && res.success && res.user) {
+          setUser(res.user);
+          localStorage.setItem('plms_auth_user', JSON.stringify(res.user));
+        } else if (isMounted && res && !res.success && res.message?.includes('expired')) {
+          // If token expired or account removed
+          setUser(null);
+          setToken(null);
+          localStorage.removeItem('plms_auth_user');
+          localStorage.removeItem('plms_auth_token');
+        }
+      } catch (err) {
+        console.warn('Initial session sync failed, using cached session:', err.message);
+      }
+    };
+
+    syncCurrentUser();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const login = async (email, password, role = 'student') => {
     setLoading(true);
     try {
       const res = await apiService.login({ email, password, role });
-      if (res.success) {
+      if (res && res.success) {
         setUser(res.user);
         setToken(res.token);
-        return { success: true, user: res.user };
+        if (typeof localStorage !== 'undefined') {
+          localStorage.setItem('plms_auth_token', res.token);
+          localStorage.setItem('plms_auth_user', JSON.stringify(res.user));
+        }
+        return { success: true, user: res.user, token: res.token };
       }
-      return { success: false, message: res.message || 'Invalid credentials' };
+      return { success: false, message: res?.message || 'Invalid credentials' };
     } catch (err) {
       return { success: false, message: err.message };
     } finally {
@@ -52,12 +96,18 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     try {
       const res = await apiService.registerStudent(formData);
-      if (res.success) {
+      if (res && res.success) {
         setUser(res.user);
-        setToken('mock-jwt-register-token');
-        return { success: true, user: res.user };
+        if (res.token) {
+          setToken(res.token);
+          if (typeof localStorage !== 'undefined') {
+            localStorage.setItem('plms_auth_token', res.token);
+            localStorage.setItem('plms_auth_user', JSON.stringify(res.user));
+          }
+        }
+        return { success: true, user: res.user, token: res.token };
       }
-      return { success: false, message: 'Registration failed' };
+      return { success: false, message: res?.message || 'Registration failed' };
     } catch (err) {
       return { success: false, message: err.message };
     } finally {
@@ -66,11 +116,12 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Switch role logic
-  const switchRole = (newRole, extraId) => {
+  const switchRole = (newRole, _extraId) => {
     let mockUser;
     if (newRole === 'admin') {
       mockUser = {
         id: 'adm-1',
+        userId: 1,
         name: 'Sir Parakum Bandara (Admin)',
         email: 'admin@plms.com',
         role: 'admin',
@@ -80,6 +131,7 @@ export const AuthProvider = ({ children }) => {
     } else if (newRole === 'parent') {
       mockUser = {
         id: 'prn-1',
+        userId: 2,
         name: 'Sunil Perera',
         email: 'parent@plms.com',
         role: 'parent',
@@ -88,18 +140,18 @@ export const AuthProvider = ({ children }) => {
         linkedStudentIds: ['std-1']
       };
     } else {
-      const users = JSON.parse(localStorage.getItem('plms_mock_users') || '[]');
-      const targetId = typeof extraId === 'string' ? extraId : 'std-1';
-      const found = users.find(u => u.id === targetId || u.studentId === targetId);
-      mockUser = found || {
-        id: 'std-1',
-        name: 'Kasun Perera',
-        email: 'student@plms.com',
+      mockUser = {
+        id: 'std-23',
+        userId: 26,
+        name: 'Ann',
+        email: 'ann@gmail.com',
         role: 'student',
         phone: '+94 77 123 4567',
-        grade: 'Grade 11 (O/L Mathematics)',
-        studentId: '0001',
-        indexNo: '0001'
+        grade: 'Grade 6 Mathematics',
+        studentId: '0005',
+        indexNo: '0005',
+        enrollmentStatus: 'Currently Enrolled',
+        subject: 'Mathematics'
       };
     }
     setUser(mockUser);
@@ -108,31 +160,36 @@ export const AuthProvider = ({ children }) => {
 
   // Switch active student
   const switchStudent = (studentId) => {
-    const users = JSON.parse(localStorage.getItem('plms_mock_users') || '[]');
-    const found = users.find(u => u.id === studentId || u.studentId === studentId);
-    if (found) {
-      setUser(found);
-      setToken(`demo-token-student-${found.id}`);
+    if (user && user.role === 'student' && (user.id === studentId || user.studentId === studentId)) {
+      return;
     }
+    apiService.getStudentById(studentId).then((found) => {
+      if (found) {
+        setUser(found);
+        setToken(`plms-token-${found.userId || found.id}-${Date.now()}`);
+      }
+    });
   };
 
-  // ===== Update Current Student Profile & Database Sync =====
+  // Real-time Update Current Student Profile & Database Sync
   const updateProfile = async (formData) => {
     setLoading(true);
     try {
-      if (!user?.id) return { success: false, message: 'No active session' };
-      const res = await apiService.updateStudentProfile(user.id, formData);
-      if (res.success) {
+      const activeId = user?.userId || user?.id || 'me';
+      const res = await apiService.updateStudentProfile(activeId, formData);
+      if (res && res.success) {
         const updatedUser = {
           ...user,
           ...formData,
-          ...(res.user || {})
+          ...(res.student || res.user || {})
         };
         setUser(updatedUser);
-        localStorage.setItem('plms_auth_user', JSON.stringify(updatedUser));
+        if (typeof localStorage !== 'undefined') {
+          localStorage.setItem('plms_auth_user', JSON.stringify(updatedUser));
+        }
         return { success: true, user: updatedUser };
       }
-      return { success: false, message: res.message || 'Update failed' };
+      return { success: false, message: res?.message || 'Update failed' };
     } catch (err) {
       return { success: false, message: err.message };
     } finally {
@@ -143,6 +200,10 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     setToken(null);
+    if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem('plms_auth_user');
+      localStorage.removeItem('plms_auth_token');
+    }
   };
 
   return (
