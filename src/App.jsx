@@ -30,6 +30,8 @@ import StudentManagement from './pages/admin/StudentManagement';
 import ZoomManagement from './pages/admin/ZoomManagement';
 import GradeManagement from './pages/admin/GradeManagement';
 import GradeView from './pages/admin/GradeView';
+import LearningContentManager from './pages/admin/LearningContentManager';
+import AdminMessages from './pages/admin/AdminMessages';
 
 export const AppContent = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -60,10 +62,12 @@ export const AppContent = () => {
 
             {/* ============================================================ */}
             {/* UPDATED TODAY - STUDENT PROTECTED ROUTES                      */}
-            {/* Streamlined routes for Student Portal (Dashboard, Profile, Zoom) */}
+            {/* Streamlined routes for Student Portal                         */}
             {/* ============================================================ */}
             <Route element={<ProtectedRoute allowedRoles={['student', 'admin']} />}>
               <Route path="/student" element={<StudentDashboard />} />
+              <Route path="/student/tutorials" element={<StudentDashboard />} />
+              <Route path="/student/messages" element={<StudentDashboard />} />
               <Route path="/student/profile" element={<Profile />} />
               <Route path="/student/zoom" element={<ZoomLinks />} />
             </Route>
@@ -84,6 +88,8 @@ export const AppContent = () => {
               <Route path="/admin/students" element={<StudentManagement />} />
               <Route path="/admin/grades" element={<GradeManagement />} />
               <Route path="/admin/grade/:gradeId" element={<GradeView />} />
+              <Route path="/admin/learning" element={<LearningContentManager />} />
+              <Route path="/admin/messages" element={<AdminMessages />} />
             </Route>
 
             <Route path="*" element={<Home />} />

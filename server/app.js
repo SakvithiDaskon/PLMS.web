@@ -8,6 +8,12 @@ import topicRoutes from './routes/topicRoutes.js';
 import classRoutes from './routes/classRoutes.js';
 import zoomRoutes from './routes/zoomRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import learningRoutes from './routes/learningRoutes.js';
+import messageRoutes from './routes/messageRoutes.js';
+import { createLearningTables } from './scripts/create_learning_tables.js';
+
+// Auto-create learning tables on startup
+createLearningTables().catch(err => console.error('Learning tables init error:', err));
 
 const app = express();
 
@@ -44,6 +50,8 @@ app.use('/api/topics', topicRoutes);
 app.use('/api/classes', classRoutes);
 app.use('/api/zoom', zoomRoutes);
 app.use('/api', adminRoutes);
+app.use('/api/lessons', learningRoutes);
+app.use('/api/messages', messageRoutes);
 
 // 404 handler for unhandled /api calls
 app.use('/api', (req, res) => {

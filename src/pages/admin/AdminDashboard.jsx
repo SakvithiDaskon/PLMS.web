@@ -6,7 +6,9 @@ import {
   Video,
   ArrowRight,
   ChevronDown,
-  GraduationCap
+  GraduationCap,
+  BookOpen,
+  MessageSquare
 } from 'lucide-react';
 
 export const AdminDashboard = () => {
@@ -191,6 +193,40 @@ export const AdminDashboard = () => {
             <div>
               <h3 className="text-sm font-bold text-slate-900">Grade Manager</h3>
               <p className="text-xs text-slate-600 mt-1">Assign student test marks, term grades & teacher remarks.</p>
+            </div>
+          </Link>
+
+          {/* Learning Content Manager */}
+          <Link
+            to="/admin/learning"
+            className="p-5 rounded-2xl bg-[#f4f8fb] hover:bg-[#e6f0f7] border border-[#c0d9ec] transition-all space-y-3 group shadow-xs hover:shadow-md"
+          >
+            <div className="flex items-center justify-between">
+              <div className="p-2.5 rounded-xl bg-[#003153] text-white shadow-sm">
+                <BookOpen className="w-5 h-5 text-blue-200" />
+              </div>
+              <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-[#003153] transition-colors" />
+            </div>
+            <div>
+              <h3 className="text-sm font-bold text-slate-900">Learning Content Manager</h3>
+              <p className="text-xs text-slate-600 mt-1">Add recordings, tutorials, notes, YouTube recs & quizzes.</p>
+            </div>
+          </Link>
+
+          {/* Student Messages */}
+          <Link
+            to="/admin/messages"
+            className="p-5 rounded-2xl bg-[#f4f8fb] hover:bg-[#e6f0f7] border border-[#c0d9ec] transition-all space-y-3 group shadow-xs hover:shadow-md"
+          >
+            <div className="flex items-center justify-between">
+              <div className="p-2.5 rounded-xl bg-[#003153] text-white shadow-sm">
+                <MessageSquare className="w-5 h-5 text-blue-200" />
+              </div>
+              <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-[#003153] transition-colors" />
+            </div>
+            <div>
+              <h3 className="text-sm font-bold text-slate-900">Student Messages</h3>
+              <p className="text-xs text-slate-600 mt-1">View & reply to questions from students across all grades.</p>
             </div>
           </Link>
         </div>

@@ -398,12 +398,12 @@ export const MathematicsTopics = ({
                       : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
                   }`}
                 >
-                  {termKey === 'Unit 1' ? 'Unit I (1 වාරය)' :
-                   termKey === 'Unit 2' ? 'Unit II (2 වාරය)' :
-                   termKey === 'Unit 3' ? 'Unit III (3 වාරය)' :
-                   termKey === 'Term 1' ? 'Term 1 (1 වාරය)' :
-                   termKey === 'Term 2' ? 'Term 2 (2 වාරය)' :
-                   termKey === 'Term 3' ? 'Term 3 (3 වාරය)' :
+                  {termKey === 'Unit 1' ? 'Unit I (1 වන වාරය)' :
+                   termKey === 'Unit 2' ? 'Unit II (2 වන වාරය)' :
+                   termKey === 'Unit 3' ? 'Unit III (3 වන වාරය)' :
+                   termKey === 'Term 1' ? 'Term 1 (1 වන වාරය)' :
+                   termKey === 'Term 2' ? 'Term 2 (2 වන වාරය)' :
+                   termKey === 'Term 3' ? 'Term 3 (3 වන වාරය)' :
                    termKey}
                 </button>
               ))}
@@ -450,11 +450,11 @@ export const MathematicsTopics = ({
                   </div>
 
                   <div>
-                    <h3 className="text-base font-extrabold text-slate-900 group-hover:text-[#003153] transition-colors leading-snug">
+                    <h3 className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-[#003153] transition-colors leading-snug">
                       {topic.name}
                     </h3>
                     {topic.description ? (
-                      <p className="text-xs text-slate-600 mt-1.5 line-clamp-2 leading-relaxed">
+                      <p className="text-xs sm:text-sm text-slate-600 mt-2 line-clamp-2 leading-relaxed">
                         {topic.description}
                       </p>
                     ) : null}
@@ -514,7 +514,7 @@ export const MathematicsTopics = ({
                   <span className="px-2.5 py-0.5 rounded-md text-[10px] font-extrabold uppercase bg-[#e6f0f7] text-[#003153] border border-[#b0d1e8]">
                     {activeTopic.grade} - {getTopicTerm(activeTopic)}
                   </span>
-                  <h3 className="text-lg font-extrabold text-slate-900 mt-1">
+                  <h3 className="text-lg sm:text-xl font-bold text-slate-900 mt-1">
                     {activeTopic.name}
                   </h3>
                 </div>
@@ -529,7 +529,7 @@ export const MathematicsTopics = ({
               </div>
 
               {activeTopic.description ? (
-                <p className="text-xs text-slate-600 leading-relaxed shrink-0">
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed shrink-0">
                   {activeTopic.description}
                 </p>
               ) : null}
@@ -577,7 +577,7 @@ export const MathematicsTopics = ({
                             <span className="w-6 h-6 rounded-lg bg-[#e6f0f7] text-[#003153] text-[10px] font-mono font-bold flex items-center justify-center shrink-0">
                               {String(i + 1).padStart(2, '0')}
                             </span>
-                            <span className="font-semibold text-slate-800 leading-snug">
+                            <span className="font-semibold text-slate-800 leading-snug text-xs sm:text-sm">
                               {moduleTitle}
                             </span>
                           </div>

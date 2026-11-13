@@ -1661,5 +1661,274 @@ export const apiService = {
     grades.unshift(newGrade);
     setStorageItem(STORAGE_KEYS.GRADES, grades);
     return { success: true, grade: newGrade };
+  },
+
+  // ============================================================
+  // LESSON RESOURCES & CURRICULUM (Connected directly to MySQL backend)
+  // ============================================================
+  async getCurriculum(grade) {
+    try {
+      const token = typeof localStorage !== 'undefined' ? localStorage.getItem('plms_auth_token') : null;
+      const url = grade ? `/api/lessons/curriculum?grade=${encodeURIComponent(grade)}` : '/api/lessons/curriculum';
+      const res = await fetch(url, {
+        headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+      });
+      const data = await res.json();
+      if (data && data.success) return data;
+    } catch (e) {
+      console.warn('getCurriculum error:', e.message);
+    }
+    return { success: false, topics: [] };
+  },
+
+  async getLessonResources(topicId, lessonIndex = 0) {
+    try {
+      const token = typeof localStorage !== 'undefined' ? localStorage.getItem('plms_auth_token') : null;
+      const res = await fetch(`/api/lessons/resources/${encodeURIComponent(topicId)}/${encodeURIComponent(lessonIndex)}`, {
+        headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+      });
+      const data = await res.json();
+      if (data && data.success) return data;
+    } catch (e) {
+      console.warn('getLessonResources error:', e.message);
+    }
+    return { success: false, recordings: [], tutorials: [], notes: [], youtube: [], quizzes: [] };
+  },
+
+  async submitQuizAttempt(quizId, answers) {
+    try {
+      const token = typeof localStorage !== 'undefined' ? localStorage.getItem('plms_auth_token') : null;
+      const res = await fetch(`/api/lessons/quiz/${encodeURIComponent(quizId)}/submit`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        },
+        body: JSON.stringify({ answers })
+      });
+      return await res.json();
+    } catch (e) {
+      return { success: false, message: e.message };
+    }
+  },
+
+  async createLessonRecording(data) {
+    try {
+      const token = typeof localStorage !== 'undefined' ? localStorage.getItem('plms_auth_token') : null;
+      const res = await fetch('/api/lessons/recordings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        },
+        body: JSON.stringify(data)
+      });
+      return await res.json();
+    } catch (e) {
+      return { success: false, message: e.message };
+    }
+  },
+
+  async deleteLessonRecording(id) {
+    try {
+      const token = typeof localStorage !== 'undefined' ? localStorage.getItem('plms_auth_token') : null;
+      const res = await fetch(`/api/lessons/recordings/${encodeURIComponent(id)}`, {
+        method: 'DELETE',
+        headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+      });
+      return await res.json();
+    } catch (e) {
+      return { success: false, message: e.message };
+    }
+  },
+
+  async createLessonTutorial(data) {
+    try {
+      const token = typeof localStorage !== 'undefined' ? localStorage.getItem('plms_auth_token') : null;
+      const res = await fetch('/api/lessons/tutorials', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        },
+        body: JSON.stringify(data)
+      });
+      return await res.json();
+    } catch (e) {
+      return { success: false, message: e.message };
+    }
+  },
+
+  async deleteLessonTutorial(id) {
+    try {
+      const token = typeof localStorage !== 'undefined' ? localStorage.getItem('plms_auth_token') : null;
+      const res = await fetch(`/api/lessons/tutorials/${encodeURIComponent(id)}`, {
+        method: 'DELETE',
+        headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+      });
+      return await res.json();
+    } catch (e) {
+      return { success: false, message: e.message };
+    }
+  },
+
+  async createLessonNote(data) {
+    try {
+      const token = typeof localStorage !== 'undefined' ? localStorage.getItem('plms_auth_token') : null;
+      const res = await fetch('/api/lessons/notes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        },
+        body: JSON.stringify(data)
+      });
+      return await res.json();
+    } catch (e) {
+      return { success: false, message: e.message };
+    }
+  },
+
+  async deleteLessonNote(id) {
+    try {
+      const token = typeof localStorage !== 'undefined' ? localStorage.getItem('plms_auth_token') : null;
+      const res = await fetch(`/api/lessons/notes/${encodeURIComponent(id)}`, {
+        method: 'DELETE',
+        headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+      });
+      return await res.json();
+    } catch (e) {
+      return { success: false, message: e.message };
+    }
+  },
+
+  async createYouTubeRec(data) {
+    try {
+      const token = typeof localStorage !== 'undefined' ? localStorage.getItem('plms_auth_token') : null;
+      const res = await fetch('/api/lessons/youtube', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        },
+        body: JSON.stringify(data)
+      });
+      return await res.json();
+    } catch (e) {
+      return { success: false, message: e.message };
+    }
+  },
+
+  async deleteYouTubeRec(id) {
+    try {
+      const token = typeof localStorage !== 'undefined' ? localStorage.getItem('plms_auth_token') : null;
+      const res = await fetch(`/api/lessons/youtube/${encodeURIComponent(id)}`, {
+        method: 'DELETE',
+        headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+      });
+      return await res.json();
+    } catch (e) {
+      return { success: false, message: e.message };
+    }
+  },
+
+  async createLessonQuiz(data) {
+    try {
+      const token = typeof localStorage !== 'undefined' ? localStorage.getItem('plms_auth_token') : null;
+      const res = await fetch('/api/lessons/quizzes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        },
+        body: JSON.stringify(data)
+      });
+      return await res.json();
+    } catch (e) {
+      return { success: false, message: e.message };
+    }
+  },
+
+  async deleteLessonQuiz(id) {
+    try {
+      const token = typeof localStorage !== 'undefined' ? localStorage.getItem('plms_auth_token') : null;
+      const res = await fetch(`/api/lessons/quizzes/${encodeURIComponent(id)}`, {
+        method: 'DELETE',
+        headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+      });
+      return await res.json();
+    } catch (e) {
+      return { success: false, message: e.message };
+    }
+  },
+
+  // ============================================================
+  // STUDENT-TEACHER MESSAGING ("Ask Your Teacher")
+  // ============================================================
+  async getStudentMessages(params = {}) {
+    try {
+      const token = typeof localStorage !== 'undefined' ? localStorage.getItem('plms_auth_token') : null;
+      const queryParts = [];
+      if (params.grade) queryParts.push(`grade=${encodeURIComponent(params.grade)}`);
+      if (params.status) queryParts.push(`status=${encodeURIComponent(params.status)}`);
+      if (params.topicId) queryParts.push(`topicId=${encodeURIComponent(params.topicId)}`);
+      const queryStr = queryParts.length > 0 ? `?${queryParts.join('&')}` : '';
+
+      const res = await fetch(`/api/messages${queryStr}`, {
+        headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+      });
+      const data = await res.json();
+      if (data && data.success) return data;
+    } catch (e) {
+      console.warn('getStudentMessages error:', e.message);
+    }
+    return { success: false, messages: [], unreadCount: 0, pendingCount: 0 };
+  },
+
+  async sendStudentMessage(data) {
+    try {
+      const token = typeof localStorage !== 'undefined' ? localStorage.getItem('plms_auth_token') : null;
+      const res = await fetch('/api/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        },
+        body: JSON.stringify(data)
+      });
+      return await res.json();
+    } catch (e) {
+      return { success: false, message: e.message };
+    }
+  },
+
+  async replyToMessage(messageId, replyText) {
+    try {
+      const token = typeof localStorage !== 'undefined' ? localStorage.getItem('plms_auth_token') : null;
+      const res = await fetch(`/api/messages/${encodeURIComponent(messageId)}/reply`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        },
+        body: JSON.stringify({ replyText })
+      });
+      return await res.json();
+    } catch (e) {
+      return { success: false, message: e.message };
+    }
+  },
+
+  async markMessageRead(messageId) {
+    try {
+      const token = typeof localStorage !== 'undefined' ? localStorage.getItem('plms_auth_token') : null;
+      const res = await fetch(`/api/messages/${encodeURIComponent(messageId)}/read`, {
+        method: 'PUT',
+        headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+      });
+      return await res.json();
+    } catch (e) {
+      return { success: false, message: e.message };
+    }
   }
 };
